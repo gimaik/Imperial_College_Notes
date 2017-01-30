@@ -437,10 +437,18 @@ P^\prime(c_k) = \alpha \lambda(c_k) \pi(c_k)
 \item Building networks from data:
 \begin{enumerate}
 \item \textbf{Expert knowledge}: We can obtained the network structure would be known or readily obtainable from an expert. This approach is highly subjective and reliant on the expert advice.
-\item \textbf{Spanning tree algorithms}: 
+\item \textbf{Spanning tree algorithms}: Main idea is to start with a set of nodes to which we add arcs until a complete network is created.
+\begin{enumerate}
+\item The nodes that are joined by arcs are depedent and those not are at least conditionally independent. Hence the strategy is to add arcs that connect variables that are most dependent.
+\item For every pair of variables calculate the dependency. Then join the nodes in dependency order, provided the resulting structure has no loops
+\end{enumerate}
 \end{enumerate}
 
-
+\item \textbf{Adding Causal Directions:}
+\begin{enumerate}
+\item If a node is considered a root node, we will point all arrows from it. 
+\item On the whole, cause is a semantic entity that needs human intervention to determine.
+\end{enumerate}
 
 
 \item \textbf{Measures of dependencies}
