@@ -55,6 +55,14 @@ The Gaussian mixture distribution can be written as a linear superposition of Ga
 p(\vec{x}) &= \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)
 \end{align*}
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 0.4\hsize]{./figures/GMM.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+\caption{Gaussian Mixture Model.} % caption of the figure
+\label{fig:GMM} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}
+
 
 \subsubsection{Formulation of the Gaussian Mixture Models}
 Let $\vec{z}$ be a $K$-dimensional binary random variable with 1-of-$K$ representation.
@@ -231,12 +239,24 @@ By substituting $q(\vec{Z}) = p(\vec{Z}\vert\vec{X}, \vec{\theta}^{old})$, we ge
 \end{align*}
 
 
+\newpage
+
 \section{Probabilistic PCA}
+
 \begin{align*}
 \vec{x} &= \vec{Wy} + \vec{\mu} + \vec{e}\\
 \vec{e} & \sim \mathcal{N}(\vec{e}\vert \vec{0}, \sigma^2\vec{I})\\
 \vec{y} & \sim \mathcal{N}(\vec{y}\vert \vec{0}, \vec{I})
 \end{align*}
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 0.4\hsize]{./figures/PPCA.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+\caption{Gaussian Mixture Model.} % caption of the figure
+\label{fig:PPCA} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}
 
 \subsection{Maximum Likelihood}
 \begin{enumerate}
@@ -282,7 +302,7 @@ p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 
 \subsection{EM PPCA}
 \begin{enumerate}
-\item Write out the log likelihood of the joint distribution of the observed variable and the latent variable
+\item Write the log likelihood of the joint distribution of the observed and latent variables
 \begin{align*}
 p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x_i \vert y_i, \theta})p(\vec{y_i})\\
 \ln p(\vec{X,Y} \vert \vec{\theta}) &= \sum_{i=1}^N \left(\ln p(\vec{x_i \vert y_i, \theta})+ \ln p(\vec{y_i})\right)\\
@@ -290,15 +310,41 @@ p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x_i \vert y_i, \theta})p
 \ln p(\vec{y_i})&= -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi
 \end{align*}
 
-\item Take the expectation on the log likelihood on the joint distribution:
+\item \textbf{E-Step:} Take the expectation on the log likelihood on the joint distribution:
 \begin{align*}
-\ln p(\vec{X,Y} \vert \vec{\theta}) 
-&=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}\vec{(x_i-Wy_i-\mu)^\top (x_i-Wy_i-\mu)} -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi\right]\\
+\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}\vec{(x_i-Wy_i-\mu)^\top (x_i-Wy_i-\mu)} -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi\right]
+\end{align*}
+
+Expanding the above and use the identities $\text{tr}\left[\vec{y_i^\top WW^\top y_i}\right]=\text{tr}\left[\vec{y_iy_i^\top WW^\top }\right]$
+\begin{align*}
 \mathbb{E}_{p(\vec{Y\vert X})} [\ln p(\vec{X,Y} \vert \vec{\theta})]
-&=
+&=-\frac{NF}{2}\ln 2\pi\sigma^2 -\frac{ND}{2}\ln 2\pi\\
+& -\sum_{i=1}^N\left\lbrace\frac{1}{2\sigma^2}\left[\vec{(x_i-\mu)^\top (x_i-\mu)} -2 (\vec{x_i}-\vec{\mu})^\top \vec{W} \mathbb{E}[\vec{y_i}] \right.\right.\\
+&+\left.\left.\text{tr}\left[\mathbb{E}(\vec{y_i y_i^\top})\vec{W^\top W}\right]\right]+\frac{1}{2}\text{tr}\left[\mathbb{E}(\vec{y_i^\top y_i})\right]\right\rbrace
+\end{align*}
+
+We can obtain the moments of $\vec{y_i}$ from the earlier derivation of the PPCA
+\begin{align*}
+p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y_i} \vert \vec{M}^{-1}\vec{W}^\top(\vec{x_i}-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
+\vec{M}&=\sigma^2\vec{I} + \vec{W^\top W}\\
+\mathbb{E}_{p(\vec{Y\vert X})}[\vec{y_i}]&=\vec{M}^{-1}\vec{W}^\top(\vec{x_i}-\vec{\mu})\\
+\mathbb{E}_{p(\vec{Y\vert X})}[\vec{y_i y_i^\top}]&=\sigma^2\vec{M}^{-1} +\mathbb{E}[\vec{y_i}]\mathbb{E}[\vec{y_i}]^\top
+\end{align*}
+
+\item \textbf{M-Step:} Maximize the log likelihood
+\begin{align*}
+\vec{\mu}&= \frac{1}{N}\sum_{i=1}^N(\vec{x_i} - \vec{W}\mathbb{E}[\vec{y_i}])\\
+\vec{W}&=\left[\sum_{i=1}^N (\vec{x_i} - \vec{\mu})\mathbb{E}[\vec{y_i}]^\top]\right]\left[\sum_{i=1}^N \mathbb{E}[\vec{y_iy_i}^\top]\right]^{-1}\\
+\sigma^2&=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y_i}]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y_iy_i^\top}]\vec{W^\top W})\right\rbrace
 \end{align*}
 
 
+\item Advantages of EM PPCA:
+\begin{itemize}
+\item A complexity of $O(NFD)$ can be significantly smaller than $O(NF^2)$ (from the computation of the covariance)
+\item The EM procedure can be extended to factor analysis model
+\item EM allows us to deal with missing values
+\end{itemize}
 
 \end{enumerate}
 
