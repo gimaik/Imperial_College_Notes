@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  27 JAN 2017 11:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  31 JAN 2017 18:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1363,7 +1363,7 @@ LaTeX Info: Redefining \nameref on input line 15.
 \openout6 = `"Notes 495.out"'.
 
  (./titlepage.tex
-<./figures/imperial.pdf, id=55, 362.35374pt x 96.36pt>
+<./figures/imperial.pdf, id=63, 362.35374pt x 96.36pt>
 File: ./figures/imperial.pdf Graphic file (type pdf)
 
 <use ./figures/imperial.pdf>
@@ -1432,43 +1432,51 @@ Underfull \hbox (badness 10000) in paragraph at lines 225--226
 
  []
 
+[7]
+Overfull \hbox (53.84435pt too wide) in paragraph at lines 299--299
+[] 
+ []
+
+[8]
 \tf@thm=\write7
 \openout7 = `"Notes 495.thm"'.
 
-[7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 241.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 241.
+ [9]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 309.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 309.
  (./Notes 495.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 241.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 241.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 309.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 309.
 Package rerunfilecheck Info: File `"Notes 495".out' has not changed.
-(rerunfilecheck)             Checksum: CC6EBEC472C187B04264247B4F8F2C15;948.
+(rerunfilecheck)             Checksum: B706F514D4322D94962DBDBE2192D654;1074.
  ) 
 Here is how much of TeX's memory you used:
- 23056 strings out of 493014
- 423037 string characters out of 6133351
- 494714 words of memory out of 5000000
- 26054 multiletter control sequences out of 15000+600000
- 55529 words of font info for 109 fonts, out of 8000000 for 9000
+ 23136 strings out of 493014
+ 424122 string characters out of 6133351
+ 496714 words of memory out of 5000000
+ 26117 multiletter control sequences out of 15000+600000
+ 78960 words of font info for 169 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 64i,15n,73p,922b,429s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 64i,20n,73p,922b,431s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texl
 ive/2016/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive
 /2016/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/20
 16/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2016
-/texmf-dist/fonts/type1/public/kpfonts/jkpbmi.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/kpfonts/jkpbmia.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/kpfonts/jkpbn8a.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/kpfonts/jkpex.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
-ype1/public/kpfonts/jkpmi.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
-ublic/kpfonts/jkpmn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
-c/kpfonts/jkpsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfo
-nts/jkpsyb.pfb>
-Output written on "Notes 495.pdf" (7 pages, 127152 bytes).
+/texmf-dist/fonts/type1/public/kpfonts/jkpbex.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/public/kpfonts/jkpbmi.pfb></usr/local/texlive/2016/texmf-dis
+t/fonts/type1/public/kpfonts/jkpbmia.pfb></usr/local/texlive/2016/texmf-dist/fo
+nts/type1/public/kpfonts/jkpbn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/
+type1/public/kpfonts/jkpbsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/public/kpfonts/jkpex.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
+c/kpfonts/jkpmi.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfo
+nts/jkpmn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/
+jkpsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/jkpsyb
+.pfb>
+Output written on "Notes 495.pdf" (9 pages, 150652 bytes).
 PDF statistics:
- 190 PDF objects out of 1000 (max. 8388607)
- 154 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 114 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 225 PDF objects out of 1000 (max. 8388607)
+ 185 compressed objects within 2 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 130 words of extra memory for PDF output out of 10000 (max. 10000000)
 

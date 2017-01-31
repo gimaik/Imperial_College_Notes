@@ -231,8 +231,76 @@ By substituting $q(\vec{Z}) = p(\vec{Z}\vert\vec{X}, \vec{\theta}^{old})$, we ge
 \end{align*}
 
 
-\section{Maximum Likelihood PCA}
+\section{Probabilistic PCA}
+\begin{align*}
+\vec{x} &= \vec{Wy} + \vec{\mu} + \vec{e}\\
+\vec{e} & \sim \mathcal{N}(\vec{e}\vert \vec{0}, \sigma^2\vec{I})\\
+\vec{y} & \sim \mathcal{N}(\vec{y}\vert \vec{0}, \vec{I})
+\end{align*}
 
+\subsection{Maximum Likelihood}
+\begin{enumerate}
+\item We are interested in the distribution of $\vec{x}$ and the parameters $\vec{\theta}$. The marginal distribution of $\vec{x}$ can be obtained by integrating $\vec{y}$ out of the joint distribution.
+\begin{align*}
+p(\vec{x}_1,\dots, \vec{x}_N \vert \vec{\theta})
+&=\int_{\vec{y_i}}p(\vec{x}_1,\dots, \vec{x}_N, \vec{y}_1,\dots, \vec{y}_N \vert \vec{\theta}) d\vec{y}_1\dots d\vec{y}_N\\
+&= \int_{\vec{y_i}}\prod_{i=1}^N p(\vec{x}_i \vert \vec{y}_i,\vec{W}, \vec{\mu}, \sigma)p(\vec{y}_i)d\vec{y}_1\dots d\vec{y}_N\\
+&= \prod_{i=1}^N\int_{\vec{y_i}} p(\vec{x}_i \vert \vec{y}_i,\vec{W}, \vec{\mu}, \sigma)p(\vec{y}_i)d\vec{y}_i
+\end{align*}
+
+\item The joint distribution can be obtained by applying Bayes' Rule.
+\begin{align*}
+p(\vec{x}_1,\dots, \vec{x}_N, \vec{y}_1,\dots, \vec{y}_N \vert \vec{\theta})
+& = \prod_{i=1}^N p(\vec{x}_i \vert \vec{y}_i,\vec{W}, \vec{\mu}, \sigma)p(\vec{y}_i)\\
+p(\vec{x}_i \vert \vec{y}_i,\vec{W}, \vec{\mu}, \sigma)p(\vec{y}_i) 
+&= \left[(2\pi\sigma^2)^{-\frac{F}{2}} e^{-\frac{1}{2\sigma^2}(\vec{x_i}-\vec{\mu}-\vec{Wy_i})^\top(\vec{x_i}-\vec{\mu}-\vec{Wy_i})}\right]\left[(2\pi)^{-\frac{d}{2}}e^{-\frac{1}{2}\vec{y_i}^\top\vec{y_i}}\right]
+\end{align*}
+
+\item By collecting the $\vec{y}$ in the exponents, completing the squares and then applying the Woodbury identity (more details please refer to notes in 496):
+\begin{align*}
+p(\vec{x_i}\vert \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{x_i}\vert \vec{\mu}, \vec{D} )\\
+\vec{D}&=\vec{WW}^\top +\sigma^2\vec{I}\\
+p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y_i} \vert \vec{M}^{-1}\vec{W}^\top(\vec{x_i}-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
+\vec{M}&=\sigma^2\vec{I} + \vec{W^\top W}
+\end{align*}
+
+\item  Maximizing the likelihood and solve for the parameters
+\begin{align*}
+\vec{S_t} & = \vec{U\Lambda U}^\top \text{ ($\vec{S_t}$ is the covariance matrix)}\\
+\sigma^2 & = \frac{1}{F-d} \sum_{j= d+1}^F \lambda_j\\
+\vec{W_d}&= \vec{U_d}(\vec{\Lambda} - \sigma^2\vec{I})^{\frac{1}{2}}\vec{V}^\top
+\end{align*}
+
+\item Hence we no longer have a projection but:
+\begin{align*}
+\mathbb{E}_{\vec{p(\vec{y_i}\vert \vec{x_i})}} [\vec{y_i}] & = \vec{M^{-1}W^\top (x_i - \mu)}\\
+\vec{\widehat{x_i}}&= \vec{W}\mathbb{E}_{\vec{p(\vec{y_i}\vert \vec{x_i})}} [\vec{y_i}]  + \vec{\mu}
+\end{align*}
+
+\end{enumerate}
+
+
+\subsection{EM PPCA}
+\begin{enumerate}
+\item Write out the log likelihood of the joint distribution of the observed variable and the latent variable
+\begin{align*}
+p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x_i \vert y_i, \theta})p(\vec{y_i})\\
+\ln p(\vec{X,Y} \vert \vec{\theta}) &= \sum_{i=1}^N \left(\ln p(\vec{x_i \vert y_i, \theta})+ \ln p(\vec{y_i})\right)\\
+\ln p(\vec{x_i} \vert \vec{y_i}, \vec{\theta}) &= -\frac{F}{2}\ln (2\pi\sigma^2) - \frac{1}{2\sigma^2}\vec{(x_i-Wy_i-\mu)^\top (x_i-Wy_i-\mu)}\\
+\ln p(\vec{y_i})&= -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi
+\end{align*}
+
+\item Take the expectation on the log likelihood on the joint distribution:
+\begin{align*}
+\ln p(\vec{X,Y} \vert \vec{\theta}) 
+&=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}\vec{(x_i-Wy_i-\mu)^\top (x_i-Wy_i-\mu)} -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi\right]\\
+\mathbb{E}_{p(\vec{Y\vert X})} [\ln p(\vec{X,Y} \vert \vec{\theta})]
+&=
+\end{align*}
+
+
+
+\end{enumerate}
 
 
 
