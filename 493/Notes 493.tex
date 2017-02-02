@@ -504,23 +504,45 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 
 
 \section{Model Accuracy}
-\begin{itemize}
+\begin{enumerate}
     \item The model may be evaluated using  \textbf{maximum likelihood estimation}.
+		\begin{align*}
+			P(Ds|Bn) 	&= \prod_{data} P(Bn)\\
+							&= \prod_{i} P(x_i)P(y_i\vert x_i) \text{ (case of two variables)}
+		\end{align*}		    
+    
         \begin{itemize}
-            \item $P(Ds|Bn) = \prod_{data} P(Bn)$
-            \item Above is the general formulation, but to avoid underflow errors, one may take the log likelihood:
-            \item $\log(P(Ds|Bn)) = \sum_{data} log(P(Bn))$
+            \item Above is the general formulation, but to avoid underflow errors, one may take the log likelihood. If the log we take is base 2, then the log likelihood is known as the information measure since 
+            			$\log_2$ N bits are required to represent integers up to $N$.
+				\begin{align*}
+					\log(P(Ds|Bn)) = \sum_{data} log(P(Bn))
+				\end{align*}            
+
             \item $Ds$ is a given dataset, $Bn$ is a our BayesNet model, and $\prod_{data}P(Bn)$ is the joint probability of the model multiplied over all values in the dataset.
             \item Larger models get higher scores, so size becomes a confounding variable.
         \end{itemize}
-    \item Minimum Description Length Score (MDLScore) penalises larger models to provide a fair comparison for smaller models.
+        
+    \item \textbf{Minimum Description Length Score} (MDLScore, also known as Bayesian Information Criterion) penalises larger models to provide a fair comparison for smaller models. The size of the model is characterized by the number of parameters.
+			\begin{align*}
+				MDLScore = \frac{\vert B_n \vert}{2}\log_2 N -\log_2 P(D_s\vert B_n)
+			\end{align*}			    
+    
         \begin{itemize}
-            \item Measure size of the model via the number of parameters needed, while noting that a probability distribution of $m$ values can be represented using $m-1$ parameters as we know the distribution must sum to 1.
-            \item Marginal probabilities require $m-1$, conditional probabilities require $(n-1)\times m$
-            \item To convert the number of parameters to average number of bits required to store the values, we multiply the number of parameters $|Bn|$ by $\log_2(N)/2$ where $N$ is the number of datapoints in the dataset.
+        	\item A gentle reminder of principle of parsimony or Occam's Razor: A simple model is preferred to a complex model. 
+        	\item The first part of the above equation is the average number of bits required to store the values. 
             \item \textbf{Example}. If a network has a parent and a child, and we have 4 datapoints ($N=4$, each node takes 2 values), the parent has a prior probability of 2 parameters, and the conditional table has $2\times2 =4 $. Therefore, $Size(Bn|Ds) = |Bn|log_2(4)/2 = [(2-1) + (2-1)\times2]log_2(4)/2  = 3 \times 2/2 = 3$.
+            \item MDL Score is not an absolute measure. It can only be used to compare two models of the same data set.
         \end{itemize}
-\end{itemize}
+        
+	\item \textbf{Measuring Predictive Accuracy}: Split the data into training data and test data, then use the test data to measure the network accuracy. It can be used to minimize the number of variables in a spanning tree.
+		\begin{itemize}
+			\item Build a spanning tree and obtain an ordering of the nodes starting at the root.
+			\item Remove all the arcs.
+			\item Add arcs in the order of their dependency.
+			\item If the predictive accuracy is good enough, stop. Else, go back to 3rd step.
+		\end{itemize}			
+	
+\end{enumerate}
 
 \section{Approximate Inference}
 
