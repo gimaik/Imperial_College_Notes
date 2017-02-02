@@ -500,7 +500,80 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 
 \section{Cause and Independence}
 
-(d-separation) Let $\mathbb{G}=(V,E)$ be a DAG, $A\subseteq V$ and $X$ and $Y$ be distinct nodes in $V-A$. $X$ and $Y$ are d-separated by $A$ in $\mathbb{G}$ if every chain between $X$ and $Y$ is blocked by $A$.
+
+
+\begin{enumerate}
+\item Independence: In a network, if there is no path between two variables, they are independent. 
+\begin{itemize}
+\item Two variables can be connected by a path in a network and still be independent as the conditional probability can express no dependency.
+\item In theory, the absence of an arc is more significant than the presence of an arc. However, in theory we avoid arcs with very low dependency in networks.
+\item The spanning tree algorithm can be terminated when the dependecy becomes too low to be significant.
+\end{itemize}
+
+\item (d-separation) Let $\mathbb{G}=(V,E)$ be a DAG, $A\subseteq V$ and $X$ and $Y$ be distinct nodes in $V-A$. $X$ and $Y$ are d-separated by $A$ in $\mathbb{G}$ if every chain between $X$ and $Y$ is blocked by $A$.
+
+\item Possible configurations of connected triplets:
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 0.4\hsize]{./figures/TripletConfig.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+\caption{Possible configurations of connected triplets.} % caption of the figure
+\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}
+
+\begin{enumerate}
+\item \textbf{Non-colliders}: If $C$ is instantiated, no messages pass from $A$ to $B$.
+\item \textbf{Colliders:} The nodes $A$ and $B$ are independent if there is no information on C. 
+	\begin{itemize}
+		\item Marginal Independence: We can measure the dependence between A and B using all the data. If this is low, the configuration may be multiple parent.
+		\item Conditional Independence: We can partition data according to states of C and compute the dependency between A and B. If this is high, the configuration may be multiple parent.
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[width = 0.8\hsize]{./figures/MultParent.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+				\caption{Practical computation.} % caption of the figure
+				\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+			\end{center}
+		\end{figure}			
+	\end{itemize}
+\end{enumerate}
+
+\item  \textbf{Determining Causal Directions:} 
+	\begin{enumerate}
+		\item Compute the maximally weighted spanning tree
+		\item For each connected triplet in the spanning tree
+		\begin{itemize}
+			\item Compute the joint probability of the triplet
+			\item Compute the marginal dependence and condition dependence
+			\item If marginal dependence is low and the conditional dependence is high, put in causal directions corresponding to a collider			
+		\end{itemize}
+		\item Propagate the causal arrows as far as possible
+	\end{enumerate}
+
+\item Structure and Parameter Learning
+	\begin{itemize}
+		\item Bayesian networks 
+			\begin{itemize}
+				\item Combined both structure and parameter learning. 
+				\item We can express our knowledge by choosing the structure or we can learn it through data.
+				\item Incorporate known causal relations but have the potential to learn cause from data.
+			\end{itemize}
+		\item Neural networks
+			\begin{itemize}		
+		 		\item Offers only parameter learning. 
+		 		\item It is difficult to embed knowledge or infer structure from a neural network.
+		 		\item Most applicable when we have no causal knowledge but we cannot extract causal information from them.
+		 	\end{itemize}
+		\item Rule based system (logic based)
+			\begin{itemize}
+				\item Have just structure but they are not scalable and difficult to optimise.
+				\item Most applicable when we have causal knowledge as these systems can represent it well
+			\end{itemize}
+	\end{itemize}
+
+
+\end{enumerate}
+
+
 
 
 \section{Model Accuracy}
