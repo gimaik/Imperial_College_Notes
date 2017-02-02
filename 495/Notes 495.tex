@@ -225,7 +225,7 @@ N_k &= \sum_{n=1}^N \gamma(z_{nk})
 \begin{align*}
 p(\vec{X} \vert \vec{\theta}) = \sum_{\vec{Z}} p(\vec{X},\vec{Z} \vert \vec{\theta}) &\Rightarrow \ln p(\vec{X} \vert \vec{\theta}) = \mathcal{L}(q, \vec{\theta}) + KL(q\parallel p)\\
 \mathcal{L}(q, \vec{\theta})&=\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{X}, \vec{Z}\vert \vec{\theta})}{q(\vec{Z})}\right]\\
- KL(q\parallel p)&=\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{Z}\vert \vec{X}, \vec{\theta})}{q(\vec{Z})}\right]
+ KL(q\parallel p)&=-\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{Z}\vert \vec{X}, \vec{\theta})}{q(\vec{Z})}\right]
 \end{align*}
 
 In the E step, the lower bound $\mathcal{L}(q,\vec{\theta}^{old})$ is maximized with respect to $q(\vec{Z})$. The solution to this maximization problem can be done by setting $q(\vec{Z}) = p (\vec{Z}\vert \vec{X}, \vec{\theta}^{old})$ such that $KL(q\parallel p)=0$.\\
