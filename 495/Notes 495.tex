@@ -23,94 +23,94 @@
 \subsection{General Approach for Expectation Maximization}
 \subsubsection{Notes}
 \begin{enumerate}
-\item The goal of the Expectation-Maximization is to find maximum likelihood solutions for models having latent variables
-\item The general concept is that since our knowledge of the latent variables in $\vec{Z}$ is given by the posterior distribution $p(\vec{Z}\vert \vec{Z}, \vec{\theta})$, we use the expectation of the latent variables instead of the actual values.
-\item EM algorithm can be used to find MAP solutions models in which a prior is defined over the parameters.
+	\item The goal of the Expectation-Maximization is to find maximum likelihood solutions for models having latent variables
+	\item The general concept is that since our knowledge of the latent variables in $\vec{Z}$ is given by the posterior distribution $p(\vec{Z}\vert \vec{Z}, \vec{\theta})$, we use the expectation of the latent variables instead of the actual values.
+	\item EM algorithm can be used to find MAP solutions models in which a prior is defined over the parameters.
 \end{enumerate}
 
 \subsubsection{Algorithm}
 Given a joint distribution $p(\vec{X}, \vec{Z}\vert \vec{\theta})$ over observed variables $\vec{X}$ and latent variables $\vec{Z}$, governed by parameter $\vec{\theta}$ the goal is to maximize the likelihood function $p(\vec{X}\vert \vec{\theta})$ w.r.t $\vec{\theta}$.
-\begin{enumerate}
-\item Choose an initial for the parameters $\vec{\theta}^{old}$.
-\item E Step: Evaluate $p(\vec{Z} \vert \vec{X}, \vec{\theta}^{old})$
-\item M Step: Evaluate $\vec{\theta}^{new}$ given by
-\begin{align*}
-\vec{\theta}^{new}& = \text{arg} \max_{\vec{\theta}} \mathcal{Q}(\vec{\theta},\vec{\theta}^{old})
-\end{align*}
-where
-\begin{align*}
-\mathcal{Q}(\vec{\theta},\vec{\theta}^{old})& = \sum_{\vec{z}}p(\vec{Z}\vert \vec{X}, \vec{\theta}^{old})\ln p(\vec{X}, \vec{Z} \vert \vec{\theta})
-\end{align*}
-\item Check for convergence of either the log-likelihood or the parameter values. If convergence is not satisfied
-\begin{align*}
-\vec{\theta}^{old} \leftarrow \vec{\theta}^{new}
-\end{align*}
-and return to step 2
+	\begin{enumerate}
+		\item Choose an initial for the parameters $\vec{\theta}^{old}$.
+		\item E Step: Evaluate $p(\vec{Z} \vert \vec{X}, \vec{\theta}^{old})$
+		\item M Step: Evaluate $\vec{\theta}^{new}$ given by
+			\begin{align*}
+				\vec{\theta}^{new}& = \text{arg} \max_{\vec{\theta}} \mathcal{Q}(\vec{\theta},\vec{\theta}^{old})
+			\end{align*}
+		where
+			\begin{align*}
+				\mathcal{Q}(\vec{\theta},\vec{\theta}^{old})& = \sum_{\vec{z}}p(\vec{Z}\vert \vec{X}, \vec{\theta}^{old})\ln p(\vec{X}, \vec{Z} \vert \vec{\theta})
+			\end{align*}
+		\item Check for convergence of either the log-likelihood or the parameter values. If convergence is not satisfied
+				\begin{align*}
+					\vec{\theta}^{old} \leftarrow \vec{\theta}^{new}
+				\end{align*}
+		and return to step 2
 \end{enumerate}
 
 
 \subsection{Gaussian Mixture Models}
 The Gaussian mixture distribution can be written as a linear superposition of Gaussians
 \begin{align*}
-p(\vec{x}) &= \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)
+	p(\vec{x}) &= \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)
 \end{align*}
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width = 0.4\hsize]{./figures/GMM.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
-\caption{Gaussian Mixture Model.} % caption of the figure
-\label{fig:GMM} % a label. When we refer to this label from the text, the figure number is included automatically
-\end{center}
+	\begin{center}
+		\includegraphics[width = 0.4\hsize]{./figures/GMM.png} 
+		\caption{Gaussian Mixture Model.} % caption of the figure
+		\label{fig:GMM} % a label. When we refer to this label from the text, the figure number is included automatically
+	\end{center}
 \end{figure}
 
 
 \subsubsection{Formulation of the Gaussian Mixture Models}
 Let $\vec{z}$ be a $K$-dimensional binary random variable with 1-of-$K$ representation.
 \begin{align*}
-p(z_k=1) = \pi_k 	&\Rightarrow p(\vec{z})=\prod_{i=1}^K \pi_k^{z_k}
+	p(z_k=1) = \pi_k 	&\Rightarrow p(\vec{z})=\prod_{i=1}^K \pi_k^{z_k}
 \end{align*}
 
 Conditional probability of $\vec{x}$ given a particular value for latent variable $\vec{z}$:
 \begin{align*}
-p(\vec{x}\vert \vec{z}) = \prod_{k=1}^K \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)^{z_k}
+	p(\vec{x}\vert \vec{z}) = \prod_{k=1}^K \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)^{z_k}
 \end{align*}
 
 Using Bayes theorem and marginalize the latent variable $\vec{z}$
 \begin{align*}
-p(\vec{x}) =\sum_{\vec{z}}p(\vec{z})p(\vec{x}\vert \vec{z}) = \sum_{k=1}^K \pi_k\mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)
+	p(\vec{x}) =\sum_{\vec{z}}p(\vec{z})p(\vec{x}\vert \vec{z}) = \sum_{k=1}^K \pi_k\mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)
 \end{align*}
 
 Similarly, the posterior probability of $\vec{z}$ is given by
 \begin{align*}
-\gamma (z_k) = \frac{p(\vec{x}\vert \vec{z})p(\vec{z})}{p(\vec{x})} = \frac{\pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k) }{\sum_{j=1}^K \pi_j\mathcal{N}(\vec{x}\vert \vec{\mu}_j, \vec{\Sigma}_j)}
+	\gamma (z_k) = \frac{p(\vec{x}\vert \vec{z})p(\vec{z})}{p(\vec{x})} = \frac{\pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k) }{\sum_{j=1}^K \pi_j\mathcal{N}(\vec{x}\vert \vec{\mu}_j, \vec{\Sigma}_j)}
 \end{align*}
 
 \subsubsection{Maximum Likelihood}
 The log-likelihood function is given by
 \begin{align*}
-\ln p(\vec{X} \vert \vec{\pi}, \vec{\mu}, \vec{\Sigma})&=\sum_{n=1}^N \ln\left(\sum_{k=1}^K \pi_k\mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)\right)
+	\ln p(\vec{X} \vert \vec{\pi}, \vec{\mu}, \vec{\Sigma})&=\sum_{n=1}^N \ln\left(\sum_{k=1}^K \pi_k\mathcal{N}(\vec{x}\vert \vec{\mu}_k, 	\vec{\Sigma}_k)\right)
 \end{align*}
 
 The maximum likelihood method will yield the following:
 \begin{align*}
-\vec{\mu}_k & = \frac{\sum_{n=1}^N \gamma(z_{nk})\vec{x}_n}{\sum_{n=1}^N \gamma(z_{nk})}\\
-\vec{\Sigma}_k& = \frac{\sum_{n=1}^N \gamma(z_{nk})(\vec{x}_n-\vec{\mu}_k)(\vec{x}_n-\vec{\mu}_k)^\top}{\sum_{n=1}^N \gamma(z_{nk})}\\
-\pi_k&= \frac{\sum_{n=1}^N \gamma(z_{nk})}{N}
+	\vec{\mu}_k & = \frac{\sum_{n=1}^N \gamma(z_{nk})\vec{x}_n}{\sum_{n=1}^N \gamma(z_{nk})}\\
+	\vec{\Sigma}_k& = \frac{\sum_{n=1}^N \gamma(z_{nk})(\vec{x}_n-\vec{\mu}_k)(\vec{x}_n-\vec{\mu}_k)^\top}{\sum_{n=1}^N \gamma(z_{nk})}\\
+	\pi_k&= \frac{\sum_{n=1}^N \gamma(z_{nk})}{N}
 \end{align*}
 
 Issues with maximum likelihood:
 \begin{enumerate}
-\item Presence of singularities: When we have at least two components in the mixture, one of them can have a finite variance and assign finite probability to all the data points, while the other component can shrink onto one specific data point and therefore contribute to an ever increasing additive value to the log likelihood.
-\item Identifiability: Solutions may not be unique, hence it may be hard to interpret the parameter values discovered by a model.
-\item The log likelihood equation is difficult to optimize over.
+	\item Presence of singularities: When we have at least two components in the mixture, one of them can have a finite variance and assign finite probability to all the data points, while the other component can shrink onto one specific data point and therefore contribute to an ever increasing additive value to the log likelihood.
+	\item Identifiability: Solutions may not be unique, hence it may be hard to interpret the parameter values discovered by a model.
+	\item The log likelihood equation is difficult to optimize over.
 \end{enumerate}
 
 
 \subsubsection{Expectation Maximization Formulation}
 Supposed that in addition to $\vec{X}$, we were also given the values of the latent variables $\vec{Z}$, the likelihood and the log likelihood function are given by
 \begin{align*}
-p(\vec{X}, \vec{Z}\vert \vec{\mu}, \vec{\Sigma}, \vec{\pi})& =\prod_{n=1}^{N}\prod_{k=1}^{K} \pi_k^{z_{nk}}\mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k)^{z_{nk}}\\
-\ln p(\vec{X}, \vec{Z}\vert \vec{\mu}, \vec{\Sigma}, \vec{\pi})& =\sum_{n=1}^{N}\sum_{k=1}^{K} z_{nk}\left(\ln \pi_k + \ln \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k\right)
+	p(\vec{X}, \vec{Z}\vert \vec{\mu}, \vec{\Sigma}, \vec{\pi})& =\prod_{n=1}^{N}\prod_{k=1}^{K} \pi_k^{z_{nk}}\mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k)^{z_{nk}}\\
+	\ln p(\vec{X}, \vec{Z}\vert \vec{\mu}, \vec{\Sigma}, \vec{\pi})& =\sum_{n=1}^{N}\sum_{k=1}^{K} z_{nk}\left(\ln \pi_k + \ln \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k)\right)
 \end{align*}
 
 \begin{enumerate}
@@ -119,7 +119,7 @@ p(\vec{X}, \vec{Z}\vert \vec{\mu}, \vec{\Sigma}, \vec{\pi})& =\prod_{n=1}^{N}\pr
 Taking the expectation on the log likelihood 
 \begin{align*}
 \mathbb{E}_{p(\vec{Z}\vert \vec{X}, \vec{\theta})}\left[\ln p(\vec{X}, \vec{Z}\vert \vec{\mu}, \vec{\Sigma}, \vec{\pi})\right]
-& =\sum_{n=1}^{N}\sum_{k=1}^{K} \mathbb{E}_{p(\vec{Z}\vert \vec{X}, \vec{\theta})}[z_{nk}]\left(\ln \pi_k + \ln \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k\right)\\
+& =\sum_{n=1}^{N}\sum_{k=1}^{K} \mathbb{E}_{p(\vec{Z}\vert \vec{X}, \vec{\theta})}[z_{nk}]\left(\ln \pi_k + \ln \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k)\right)\\
 & = G(\vec{\theta})
 \end{align*}
 
@@ -148,26 +148,26 @@ By taking the derivative of $(\vec{\theta})$ w.r.t $\vec{\theta}$ and set them t
 \subsubsection{Expectation Maximization Algorithm}
 Given a Gaussian mixture model, the goal is to maximize the likelihood functions w.r.t to the parameters:
 \begin{enumerate}
-\item Initialize the means $\vec{\mu}_k$, covariances $\vec{\Sigma}_k$ and mixing coefficients $\pi_k$ and evaluate the initial of the log likelihood.
-\item E Step: Evaluate the responsibilities using the current parameter values
-\begin{align*}
-\gamma (z_k) = \frac{p(\vec{x}\vert \vec{z})p(\vec{z})}{p(\vec{x})} = \frac{\pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k) }{\sum_{j=1}^K \pi_j\mathcal{N}(\vec{x}\vert \vec{\mu}_j, \vec{\Sigma}_j)}
-\end{align*}
-\item M Step: Re-estimate the parameters using the current responsibilities
-\begin{align*}
-\vec{\mu}_k^{new}&=\frac{1}{N_k}\sum_{n=1}^N \gamma(z_{nk})\vec{x}_n\\
-\vec{\Sigma}_k^{new}&=\frac{1}{N_k}\sum_{n=1}^N \gamma(z_{nk})(\vec{x}_n-\vec{\mu}_k)(\vec{x}_n-\vec{\mu}_k)^\top\\
-\pi_k^{new}&=\frac{N_k}{N}
-\end{align*}
-where
-\begin{align*}
-N_k & = \sum_{n=1}^N \gamma(z_{nk})
-\end{align*}
-\item Evaluate the log likelihood
-\begin{align*}
-\ln p(\vec{X} \vert \vec{\pi}, \vec{\mu}, \vec{\Sigma})&=\sum_{n=1}^N \ln\left(\sum_{k=1}^K \pi_k\mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k)\right)
-\end{align*}
-and check for convergence of either parameter of the log likelihood. If the convergence criterion is not satisfied, return to step 2
+	\item Initialize the means $\vec{\mu}_k$, covariances $\vec{\Sigma}_k$ and mixing coefficients $\pi_k$ and evaluate the initial of the log likelihood.
+	\item E Step: Evaluate the responsibilities using the current parameter values
+		\begin{align*}
+			\gamma (z_k) = \frac{p(\vec{x}\vert \vec{z})p(\vec{z})}{p(\vec{x})} = \frac{\pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k) }	{\sum_{j=1}^K \pi_j\mathcal{N}(\vec{x}\vert \vec{\mu}_j, \vec{\Sigma}_j)}
+		\end{align*}
+	\item M Step: Re-estimate the parameters using the current responsibilities
+		\begin{align*}
+			\vec{\mu}_k^{new}&=\frac{1}{N_k}\sum_{n=1}^N \gamma(z_{nk})\vec{x}_n\\
+			\vec{\Sigma}_k^{new}&=\frac{1}{N_k}\sum_{n=1}^N \gamma(z_{nk})(\vec{x}_n-\vec{\mu}_k)(\vec{x}_n-\vec{\mu}_k)^\top\\
+			\pi_k^{new}&=\frac{N_k}{N}
+		\end{align*}
+	where
+		\begin{align*}
+			N_k & = \sum_{n=1}^N \gamma(z_{nk})
+		\end{align*}
+	\item Evaluate the log likelihood
+		\begin{align*}
+			\ln p(\vec{X} \vert \vec{\pi}, \vec{\mu}, \vec{\Sigma})&=\sum_{n=1}^N \ln\left(\sum_{k=1}^K \pi_k\mathcal{N}(\vec{x}\vert \vec{\mu}_k, 		\vec{\Sigma}_k)\right)
+	\end{align*}
+	and check for convergence of either parameter of the log likelihood. If the convergence criterion is not satisfied, return to step 2
 \end{enumerate}
 
 
@@ -273,14 +273,14 @@ p(\vec{x}_1,\dots, \vec{x}_N \vert \vec{\theta})
 p(\vec{x}_1,\dots, \vec{x}_N, \vec{y}_1,\dots, \vec{y}_N \vert \vec{\theta})
 & = \prod_{i=1}^N p(\vec{x}_i \vert \vec{y}_i,\vec{W}, \vec{\mu}, \sigma)p(\vec{y}_i)\\
 p(\vec{x}_i \vert \vec{y}_i,\vec{W}, \vec{\mu}, \sigma)p(\vec{y}_i) 
-&= \left[(2\pi\sigma^2)^{-\frac{F}{2}} e^{-\frac{1}{2\sigma^2}(\vec{x_i}-\vec{\mu}-\vec{Wy_i})^\top(\vec{x_i}-\vec{\mu}-\vec{Wy_i})}\right]\left[(2\pi)^{-\frac{d}{2}}e^{-\frac{1}{2}\vec{y_i}^\top\vec{y_i}}\right]
+&= \left[(2\pi\sigma^2)^{-\frac{F}{2}} e^{-\frac{1}{2\sigma^2}(\vec{x}_i-\vec{\mu}-\vec{Wy}_i)^\top(\vec{x}_i-\vec{\mu}-\vec{Wy}_i)}\right]\left[(2\pi)^{-\frac{d}{2}}e^{-\frac{1}{2}\vec{y}_i^\top\vec{y}_i}\right]
 \end{align*}
 
 \item By collecting the $\vec{y}$ in the exponents, completing the squares and then applying the Woodbury identity (more details please refer to notes in 496):
 \begin{align*}
-p(\vec{x_i}\vert \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{x_i}\vert \vec{\mu}, \vec{D} )\\
+p(\vec{x}_i\vert \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{x}_i\vert \vec{\mu}, \vec{D} )\\
 \vec{D}&=\vec{WW}^\top +\sigma^2\vec{I}\\
-p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y_i} \vert \vec{M}^{-1}\vec{W}^\top(\vec{x_i}-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
+p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y}_i \vert \vec{M}^{-1}\vec{W}^\top(\vec{x}_i-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
 \vec{M}&=\sigma^2\vec{I} + \vec{W^\top W}
 \end{align*}
 
@@ -293,8 +293,8 @@ p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 
 \item Hence we no longer have a projection but:
 \begin{align*}
-\mathbb{E}_{\vec{p(\vec{y_i}\vert \vec{x_i})}} [\vec{y_i}] & = \vec{M^{-1}W^\top (x_i - \mu)}\\
-\vec{\widehat{x_i}}&= \vec{W}\mathbb{E}_{\vec{p(\vec{y_i}\vert \vec{x_i})}} [\vec{y_i}]  + \vec{\mu}
+\mathbb{E}_{\vec{p(\vec{y}_i\vert \vec{x}_i)}} [\vec{y}_i] & = \vec{M}^{-1}\vec{W}^\top (\vec{x}_i - \vec{\mu})\\
+\vec{\widehat{x}_i}&= \vec{W}\mathbb{E}_{\vec{p(\vec{y}_i\vert \vec{x}_i)}} [\vec{y}_i]  + \vec{\mu}
 \end{align*}
 
 \end{enumerate}
@@ -304,15 +304,15 @@ p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 \begin{enumerate}
 \item Write the log likelihood of the joint distribution of the observed and latent variables
 \begin{align*}
-p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x_i \vert y_i, \theta})p(\vec{y_i})\\
-\ln p(\vec{X,Y} \vert \vec{\theta}) &= \sum_{i=1}^N \left(\ln p(\vec{x_i \vert y_i, \theta})+ \ln p(\vec{y_i})\right)\\
-\ln p(\vec{x_i} \vert \vec{y_i}, \vec{\theta}) &= -\frac{F}{2}\ln (2\pi\sigma^2) - \frac{1}{2\sigma^2}\vec{(x_i-Wy_i-\mu)^\top (x_i-Wy_i-\mu)}\\
-\ln p(\vec{y_i})&= -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi
+p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x}_i \vert\vec{y}_i, \vec{\theta})p(\vec{y}_i)\\
+\ln p(\vec{X,Y} \vert \vec{\theta}) &= \sum_{i=1}^N \left(\ln p(\vec{x}_i \vert\vec{y}_i,\vec{\theta})+ \ln p(\vec{y}_i)\right)\\
+\ln p(\vec{x}_i \vert \vec{y}_i, \vec{\theta}) &= -\frac{F}{2}\ln (2\pi\sigma^2) - \frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu})\\
+\ln p(\vec{y}_i)&= -\frac{1}{2}\vec{y}_i^\top \vec{y}_i-\frac{D}{2}\ln 2\pi
 \end{align*}
 
 \item \textbf{E-Step:} Take the expectation on the log likelihood on the joint distribution:
 \begin{align*}
-\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}\vec{(x_i-Wy_i-\mu)^\top (x_i-Wy_i-\mu)} -\frac{1}{2}\vec{y_i^\top y_i}-\frac{D}{2}\ln 2\pi\right]
+\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu}) -\frac{1}{2}\vec{y}_i^\top\vec{y}_i-\frac{D}{2}\ln 2\pi\right]
 \end{align*}
 
 Expanding the above and use the identities $\text{tr}\left[\vec{y_i^\top WW^\top y_i}\right]=\text{tr}\left[\vec{y_iy_i^\top WW^\top }\right]$
@@ -333,9 +333,9 @@ p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 
 \item \textbf{M-Step:} Maximize the log likelihood
 \begin{align*}
-\vec{\mu}&= \frac{1}{N}\sum_{i=1}^N(\vec{x_i} - \vec{W}\mathbb{E}[\vec{y_i}])\\
-\vec{W}&=\left[\sum_{i=1}^N (\vec{x_i} - \vec{\mu})\mathbb{E}[\vec{y_i}]^\top]\right]\left[\sum_{i=1}^N \mathbb{E}[\vec{y_iy_i}^\top]\right]^{-1}\\
-\sigma^2&=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y_i}]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y_iy_i^\top}]\vec{W^\top W})\right\rbrace
+\vec{\mu}&= \frac{1}{N}\sum_{i=1}^N(\vec{x}_i - \vec{W}\mathbb{E}[\vec{y}_i])\\
+\vec{W}&=\left[\sum_{i=1}^N (\vec{x}_i - \vec{\mu})\mathbb{E}[\vec{y}_i]^\top]\right]\left[\sum_{i=1}^N \mathbb{E}[\vec{y}_i\vec{y}_i^\top]\right]^{-1}\\
+\sigma^2&=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y}_i]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y}_i\vec{y}_i^\top]\vec{W^\top W})\right\rbrace
 \end{align*}
 
 
@@ -349,17 +349,53 @@ p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 \end{enumerate}
 
 
-\section{PPCA Mixture Model and Applications}
+\section{PPCA Mixture Model}
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width = 0.4\hsize]{./figures/PPCAMixture.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
-\caption{Gaussian Mixture Model.} % caption of the figure
+\caption{PPCA Mixture Model.} % caption of the figure
 \label{fig:PPCA Mixture Model} % a label. When we refer to this label from the text, the figure number is included automatically
 \end{center}
 \end{figure}
 
 
+The model is given by:
+\begin{align*}
+	\vec{x_i} &= \vec{\mu_k} + \vec{W_ky_{ik}} + \vec{e_{ik}}\\
+	\vec{y_{ik}} &\sim \mathcal{N} (\vec{y_{ik}}\vert \vec{0,I})\\
+	\vec{e_{ik}} & \sim \mathcal{N} (\vec{e_{ik}}\vert \vec{0},\sigma^2_k\vec{I}), \forall k = 1,\dots, K\\
+	p(\vec{x_i}\vert  \vec{z_{ik}} &=1, \vec{y_{ik}}, \vec{\mu_k}, \vec{W_k}, \sigma^2_k \vec{I}) = \mathcal{N}(\vec{x_i} \vert \vec{\mu_k} + \vec{W_ky_{ik}})\\
+	p(\vec{x_i}\vert \vec{\theta})& = \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x_i} \vert \vec{\mu}_k, \vec{D}_k)
+\end{align*}
+
+
+\subsection{Formulation}
+
+
+
+
+\begin{enumerate}
+\item Priors:
+	\begin{align*}
+		p(\vec{z_i} \vert \vec{\theta_z}) & = \prod_{k=1}^K \pi_k^{z_{ik}}\\
+		p(\vec{Y_i} \vert \vec{z_i}, \vec{\theta_z}) & = \prod_{k=1}^K p(y_{ik})^{z_{ik}} = \prod_{k=1}^K \mathcal{N}(y_{ik}\vert \vec{0}, \vec{I})^{z_{ik}}
+	\end{align*}
+
+
+\end{enumerate}
+
+
+
+\section{Useful Identities:}
+
+\begin{itemize}
+\item Woodbury Identity:
+\item Law of Total Expectation:
+\item Block 
+\item Derivative of inverse
+\item Derivatve of determinant
+\end{itemize}
 
 
 \end{document}
