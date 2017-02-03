@@ -370,10 +370,7 @@ The model is given by:
 \end{align*}
 
 
-\subsection{Formulation}
-
-
-
+\subsection{Probability Distributions for EM Formulation}
 
 \begin{enumerate}
 \item Priors distributions:
@@ -402,8 +399,43 @@ The model is given by:
 		&= \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}_i\vert \vec{\mu}_k, \vec{D}_k)		
 	\end{align*}
 
+\item Posteriors on $\vec{y}_{ik}$ (we will take expectation on this in the E step):
+	\begin{align*}
+		p(\vec{y}_{ik} \vert \vec{x}_{ik}, z_{ik}=1, \vec{W}_{k}, \vec{\mu}_{k}, \sigma_k^2 )
+		&= \mathcal{N}\left(\vec{y}_{ik}\vert \vec{M}_k^{-1}\vec{W}_k^\top(\vec{x}_i - \vec{\mu}_k),\sigma_k^2 \vec{M}_k^{-1}\right)
+	\end{align*}
+
+\item Posteriors on $\vec{z}_i$  (we will take expectation on this in the E step):
+\begin{align*}
+p(\vec{z}_i \vert \vec{x}_i, \theta)
+&= \frac{p(\vec{x}_i, \vec{z}_i \vert \theta)}{p(\vec{x}_i \vert \theta)}\\
+&= \frac{p(\vec{x}_i\vert \vec{z}_i, \theta)p(\vec{z}_i \vert \theta)}{p(\vec{x}_i \vert \theta)}\\
+&= \frac{\prod_k^K \left(\mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)\pi_k\right)^{z_{nk}}}{\sum_{l =1}^K \pi_l \mathcal{N}(\vec{x}_i \vert \vec{D}_l, \vec{\mu}_l)}
+\end{align*}
 
 \end{enumerate}
+
+
+\subsection{Formulation of EM}
+\begin{enumerate}
+\item Setting the joint likelihood (decomposition below can be guided by graphical model):	
+	\begin{align*}
+	p(\vec{X}, \vec{Y}, \vec{Z} \vert \theta) 
+	&= p(\vec{X} \vert \vec{Z}, \vec{Y}, \theta_x)p(\vec{Z}, \vec{Y}\vert \theta_Z)\\
+	&= p(\vec{X} \vert \vec{Z}, \vec{Y}, \theta_x)p(\vec{Y}\vert \vec{Z})p(\vec{Z}\vert \theta_Z)\\
+	p(\vec{Z}\vert \theta_Z)
+	&= \prod_{i=1}^N \prod_{k=1}^K \pi_k^{z_{ik}}\\
+	p(\vec{Y}\vert \vec{Z})
+	&= \prod_{i=1}^N p(\vec{Y}_i\vert \vec{z}_i, \theta_Z)
+	= \prod_{i=1}^N \prod_{k=1}^3 p(\vec{y}_{ik})^{z_{ik}}\\
+	&= \prod_{i=1}^N \prod_{k=1}^3 \mathcal{N}(\vec{y}_{ik}\vert \vec{0}, \vec{I})^{z_{ik}}\\
+	p(\vec{X} \vert \vec{Z}, \vec{Y}, \theta_x)
+	&=\prod_{i=1}^N p(\vec{x}_i \vec{z}_i, \vec{Y}_i, \theta_x)\\
+	&=\prod_{i=1}^N\prod_{k=1}^K \mathcal{N}(\vec{x}_i \vert \vec{W}_k\vec{y}_{ik}+\vec{\mu}_k, \sigma_k^2)^{z_{ik}}
+	\end{align*}
+\end{enumerate}
+
+
 
 
 

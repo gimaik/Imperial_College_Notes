@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  3 FEB 2017 13:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  3 FEB 2017 18:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1363,7 +1363,7 @@ LaTeX Info: Redefining \nameref on input line 15.
 \openout6 = `"Notes 495.out"'.
 
  (./titlepage.tex
-<./figures/imperial.pdf, id=75, 362.35374pt x 96.36pt>
+<./figures/imperial.pdf, id=79, 362.35374pt x 96.36pt>
 File: ./figures/imperial.pdf Graphic file (type pdf)
 
 <use ./figures/imperial.pdf>
@@ -1417,7 +1417,7 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 27.
 
-<./figures/GMM.png, id=110, 255.95625pt x 214.8025pt>
+<./figures/GMM.png, id=114, 255.95625pt x 214.8025pt>
 File: ./figures/GMM.png Graphic file (type png)
  <use ./figures/GMM.png>
 Package pdftex.def Info: ./figures/GMM.png used on input line 60.
@@ -1437,7 +1437,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 233--234
 
  []
 
-[7] <./figures/PPCA.png, id=164, 263.98625pt x 217.81375pt>
+[7] <./figures/PPCA.png, id=169, 263.98625pt x 217.81375pt>
 File: ./figures/PPCA.png Graphic file (type png)
 
 <use ./figures/PPCA.png>
@@ -1454,7 +1454,7 @@ LaTeX Font Info:    Try loading font information for TS1+bch on input line 344.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1bch.fd
 File: ts1bch.fd 2004/10/18 font definitions for TS1/bch.
 )
-<./figures/PPCAMixture.png, id=185, 311.1625pt x 321.2pt>
+<./figures/PPCAMixture.png, id=189, 311.1625pt x 321.2pt>
 File: ./figures/PPCAMixture.png Graphic file (type png)
 
 <use ./figures/PPCAMixture.png>
@@ -1465,20 +1465,20 @@ Package pdftex.def Info: ./figures/PPCAMixture.png used on input line 356.
 \openout7 = `"Notes 495.thm"'.
 
  [12]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 430.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 430.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 462.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 462.
 
 (./Notes 495.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 430.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 430.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 462.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 462.
 Package rerunfilecheck Info: File `"Notes 495".out' has not changed.
-(rerunfilecheck)             Checksum: 477265D4DAF8C53ABBD139A18E9494BC;1250.
+(rerunfilecheck)             Checksum: 1631F0640F7C9555E60A89BB3D7BE400;1353.
  ) 
 Here is how much of TeX's memory you used:
- 23205 strings out of 493014
- 425152 string characters out of 6133351
+ 23210 strings out of 493014
+ 425201 string characters out of 6133351
  498714 words of memory out of 5000000
- 26162 multiletter control sequences out of 15000+600000
+ 26163 multiletter control sequences out of 15000+600000
  82939 words of font info for 174 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  64i,20n,77p,922b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1497,10 +1497,10 @@ c/kpfonts/jkpmi.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfo
 nts/jkpmn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/
 jkpsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/jkpsyb
 .pfb>
-Output written on "Notes 495.pdf" (12 pages, 198594 bytes).
+Output written on "Notes 495.pdf" (12 pages, 201375 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
- 219 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
- 169 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 276 PDF objects out of 1000 (max. 8388607)
+ 226 compressed objects within 3 object streams
+ 66 named destinations out of 1000 (max. 500000)
+ 177 words of extra memory for PDF output out of 10000 (max. 10000000)
 
