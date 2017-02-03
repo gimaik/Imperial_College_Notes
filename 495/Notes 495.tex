@@ -315,20 +315,20 @@ p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x}_i \vert\vec{y}_i, \ve
 \ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu}) -\frac{1}{2}\vec{y}_i^\top\vec{y}_i-\frac{D}{2}\ln 2\pi\right]
 \end{align*}
 
-Expanding the above and use the identities $\text{tr}\left[\vec{y_i^\top WW^\top y_i}\right]=\text{tr}\left[\vec{y_iy_i^\top WW^\top }\right]$
+Expanding the above and use the identities $\text{tr}\left[\vec{y}_i^\top \vec{WW}^\top \vec{y}_i\right]=\text{tr}\left[\vec{y}_i\vec{y}_i^\top \vec{WW}^\top \right]$
 \begin{align*}
 \mathbb{E}_{p(\vec{Y\vert X})} [\ln p(\vec{X,Y} \vert \vec{\theta})]
 &=-\frac{NF}{2}\ln 2\pi\sigma^2 -\frac{ND}{2}\ln 2\pi\\
-& -\sum_{i=1}^N\left\lbrace\frac{1}{2\sigma^2}\left[\vec{(x_i-\mu)^\top (x_i-\mu)} -2 (\vec{x_i}-\vec{\mu})^\top \vec{W} \mathbb{E}[\vec{y_i}] \right.\right.\\
-&+\left.\left.\text{tr}\left[\mathbb{E}(\vec{y_i y_i^\top})\vec{W^\top W}\right]\right]+\frac{1}{2}\text{tr}\left[\mathbb{E}(\vec{y_i^\top y_i})\right]\right\rbrace
+& -\sum_{i=1}^N\left\lbrace\frac{1}{2\sigma^2}\left[(\vec{x}_i-\vec{\mu})^\top (\vec{x}_i-\vec{\mu}) -2 (\vec{x}_i-\vec{\mu})^\top \vec{W} \mathbb{E}[\vec{y}_i] \right.\right.\\
+&+\left.\left.\text{tr}\left[\mathbb{E}(\vec{y}_i\vec{y}_i^\top)\vec{W^\top W}\right]\right]+\frac{1}{2}\text{tr}\left[\mathbb{E}(\vec{y}_i^\top \vec{y}_i)\right]\right\rbrace
 \end{align*}
 
 We can obtain the moments of $\vec{y_i}$ from the earlier derivation of the PPCA
 \begin{align*}
-p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y_i} \vert \vec{M}^{-1}\vec{W}^\top(\vec{x_i}-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
+p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y}_i \vert \vec{M}^{-1}\vec{W}^\top(\vec{x}_i-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
 \vec{M}&=\sigma^2\vec{I} + \vec{W^\top W}\\
-\mathbb{E}_{p(\vec{Y\vert X})}[\vec{y_i}]&=\vec{M}^{-1}\vec{W}^\top(\vec{x_i}-\vec{\mu})\\
-\mathbb{E}_{p(\vec{Y\vert X})}[\vec{y_i y_i^\top}]&=\sigma^2\vec{M}^{-1} +\mathbb{E}[\vec{y_i}]\mathbb{E}[\vec{y_i}]^\top
+\mathbb{E}_{p(\vec{Y\vert X})}[\vec{y}_i]&=\vec{M}^{-1}\vec{W}^\top(\vec{x}_i-\vec{\mu})\\
+\mathbb{E}_{p(\vec{Y\vert X})}[\vec{y}_i \vec{y}_i^\top]&=\sigma^2\vec{M}^{-1} +\mathbb{E}[\vec{y}_i]\mathbb{E}[\vec{y}_i]^\top
 \end{align*}
 
 \item \textbf{M-Step:} Maximize the log likelihood
@@ -362,11 +362,11 @@ p(\vec{y_i}\vert \vec{x_i}, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 
 The model is given by:
 \begin{align*}
-	\vec{x_i} &= \vec{\mu_k} + \vec{W_ky_{ik}} + \vec{e_{ik}}\\
-	\vec{y_{ik}} &\sim \mathcal{N} (\vec{y_{ik}}\vert \vec{0,I})\\
-	\vec{e_{ik}} & \sim \mathcal{N} (\vec{e_{ik}}\vert \vec{0},\sigma^2_k\vec{I}), \forall k = 1,\dots, K\\
-	p(\vec{x_i}\vert  \vec{z_{ik}} &=1, \vec{y_{ik}}, \vec{\mu_k}, \vec{W_k}, \sigma^2_k \vec{I}) = \mathcal{N}(\vec{x_i} \vert \vec{\mu_k} + \vec{W_ky_{ik}})\\
-	p(\vec{x_i}\vert \vec{\theta})& = \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x_i} \vert \vec{\mu}_k, \vec{D}_k)
+	\vec{x}_i &= \vec{\mu}_k + \vec{W}_k\vec{y}_{ik} + \vec{e}_{ik}\\
+	\vec{y}_{ik} &\sim \mathcal{N} (\vec{y}_{ik}\vert \vec{0,I})\\
+	\vec{e}_{ik} & \sim \mathcal{N} (\vec{e}_{ik}\vert \vec{0},\sigma^2_k\vec{I}), \forall k = 1,\dots, K\\
+	p(\vec{x}_i\vert  \vec{z}_{ik} &=1, \vec{y}_{ik}, \vec{\mu_k}, \vec{W_k}, \sigma^2_k \vec{I}) = \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k + \vec{W}_k\vec{y}_{ik})\\
+	p(\vec{x}_i\vert \vec{\theta})& = \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)
 \end{align*}
 
 
@@ -376,10 +376,30 @@ The model is given by:
 
 
 \begin{enumerate}
-\item Priors:
+\item Priors distributions:
 	\begin{align*}
-		p(\vec{z_i} \vert \vec{\theta_z}) & = \prod_{k=1}^K \pi_k^{z_{ik}}\\
-		p(\vec{Y_i} \vert \vec{z_i}, \vec{\theta_z}) & = \prod_{k=1}^K p(y_{ik})^{z_{ik}} = \prod_{k=1}^K \mathcal{N}(y_{ik}\vert \vec{0}, \vec{I})^{z_{ik}}
+		p(\vec{z}_i \vert \vec{\theta}_z) & = \prod_{k=1}^K \pi_k^{z_{ik}}\\
+		p(\vec{Y}_i \vert \vec{z}_i, \vec{\theta}_z) & = \prod_{k=1}^K p(y_{ik})^{z_{ik}} = \prod_{k=1}^K \mathcal{N}(y_{ik}\vert \vec{0}, \vec{I})^{z_{ik}}
+	\end{align*}
+
+\item Conditional distribution:
+	\begin{align*}
+		p(\vec{x}_i \vert \vec{z}_i, \vec{Y}_i, \vec{\theta_x}) 
+		& = \prod_{k=1}^K p(\vec{x}_i \vert \vec{z}_{ik}=1, \vec{y}_{ik}, \vec{W}_k, \vec{\mu}_k, \vec{\sigma}_k^2\vec{I})^{z_{ik}}\\
+		& = \prod_{k=1}^K \mathcal{N}(\vec{x}_{ik}\vert \vec{W}_k \vec{y}_{ik}+\vec{\mu}_k, \sigma_k\vec{I})^{z_{ik}}		
+	\end{align*}
+
+\item Marginal distributions per cluster is found by integrating $\vec{y}$ out:
+	\begin{align*}
+		p(\vec{x}_i \vert \vec{z}_{ik}=1, \vec{W}_k, \vec{\mu}_k, \sigma_k^2) = \mathcal{N}(\vec{x}_i\vert \vec{\mu}_k, \vec{D}_k)\\
+		\vec{D}_k = \vec{W}_k\vec{W}_k^\top + \sigma_k^2 \vec{I}
+	\end{align*}
+
+\item Full marginal distributions:
+	\begin{align*}
+		p(\vec{x}_i \vert \vec{\theta}) 
+		&= \sum_{k=1}^K p(z_{ik}=1)p(\vec{x}\vert z_{ik}=1, \theta_x)\\
+		&= \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}_i\vert \vec{\mu}_k, \vec{D}_k)		
 	\end{align*}
 
 
@@ -391,7 +411,16 @@ The model is given by:
 
 \begin{itemize}
 \item Woodbury Identity:
+	\begin{align*}
+		(\vec{A} + \vec{U}\vec{C}\vec{V})^{-1} = \vec{A}^{-1}-\vec{A}^{-1} \vec{U}(\vec{C}^{-1}+\vec{V}\vec{A}^{-1}\vec{U})\vec{V}\vec{A}^{-1}
+	\end{align*}
+
 \item Law of Total Expectation:
+	\begin{align*}
+		\mathbb{E}_{p(\vec{X})}[\vec{X}] & =\mathbb{E}_{p(\vec{Y})}[\mathbb{E}_{p(\vec{X}\vert\vec{Y})}[\vec{X}\vert \vec{Y}]] 
+	\end{align*}
+
+
 \item Block 
 \item Derivative of inverse
 \item Derivatve of determinant
