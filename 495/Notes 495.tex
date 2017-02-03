@@ -402,7 +402,9 @@ The model is given by:
 \item Posteriors on $\vec{y}_{ik}$ (we will take expectation on this in the E step):
 	\begin{align*}
 		p(\vec{y}_{ik} \vert \vec{x}_{ik}, z_{ik}=1, \vec{W}_{k}, \vec{\mu}_{k}, \sigma_k^2 )
-		&= \mathcal{N}\left(\vec{y}_{ik}\vert \vec{M}_k^{-1}\vec{W}_k^\top(\vec{x}_i - \vec{\mu}_k),\sigma_k^2 \vec{M}_k^{-1}\right)
+		&= \mathcal{N}\left(\vec{y}_{ik}\vert \vec{M}_k^{-1}\vec{W}_k^\top(\vec{x}_i - \vec{\mu}_k),\sigma_k^2 \vec{M}_k^{-1}\right)\\
+		\mathbb{E}(\vec{y}_{ik})& = \vec{M}_k^{-1}\vec{W}_k^\top (\vec{x}_i - \vec{\mu}_k)\\
+		\mathbb{E}(\vec{y}_{ik}\vec{y}_{ik}^\top)& =\sigma_k^2\vec{M}_k^{-1}+\mathbb{E}(\vec{y}_{ik})\mathbb{E}(\vec{y}_{ik})^\top
 	\end{align*}
 
 \item Posteriors on $\vec{z}_i$  (we will take expectation on this in the E step):
@@ -410,7 +412,9 @@ The model is given by:
 p(\vec{z}_i \vert \vec{x}_i, \theta)
 &= \frac{p(\vec{x}_i, \vec{z}_i \vert \theta)}{p(\vec{x}_i \vert \theta)}\\
 &= \frac{p(\vec{x}_i\vert \vec{z}_i, \theta)p(\vec{z}_i \vert \theta)}{p(\vec{x}_i \vert \theta)}\\
-&= \frac{\prod_k^K \left(\mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)\pi_k\right)^{z_{nk}}}{\sum_{l =1}^K \pi_l \mathcal{N}(\vec{x}_i \vert \vec{D}_l, \vec{\mu}_l)}
+&= \frac{\prod_k^K \left(\mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)\pi_k\right)^{z_{nk}}}{\sum_{l =1}^K \pi_l \mathcal{N}(\vec{x}_i \vert \vec{D}_l, \vec{\mu}_l)}\\
+\mathbb{E}[z_{ik}] & = \sum_{z_{ik}=0,1} z_{ik} p(\vec{z_i}\vert \vec{x}_i, \theta)\\
+&= \frac{\pi_k\mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)}{\sum_{l=1}^K \pi_l\mathcal{N}(\vec{x}_i \vert \vec{\mu}_l, \vec{D}_l)}
 \end{align*}
 
 \end{enumerate}
@@ -433,6 +437,29 @@ p(\vec{z}_i \vert \vec{x}_i, \theta)
 	&=\prod_{i=1}^N p(\vec{x}_i \vec{z}_i, \vec{Y}_i, \theta_x)\\
 	&=\prod_{i=1}^N\prod_{k=1}^K \mathcal{N}(\vec{x}_i \vert \vec{W}_k\vec{y}_{ik}+\vec{\mu}_k, \sigma_k^2)^{z_{ik}}
 	\end{align*}
+	
+	
+	
+Hence the log likelihood of the joint distribution:
+\begin{align*}
+\ln p(\vec{X}, \vec{Z}, \vec{Y} \vert \theta) 
+&=\sum_{i=1}^N \sum_{k}^K z_{ik}\left[\ln  \mathcal{N}(\vec{x}_i \vert \vec{W}_k\vec{y}_{ik}+\vec{\mu}_k, \sigma_k^2) + \ln \mathcal{N}(\vec{y}_{ik}\vert \vec{0}, \vec{I}) + \ln\pi_k\right]\\
+&= \sum_{i=1}^N \sum_{k}^K z_{ik}\left[-\frac{1}{2\sigma_k^2}(\vec{x}_i - \vec{\mu}_k - \vec{W}_k\vec{y}_k)^\top(\vec{x}_i - \vec{\mu}_k - \vec{W}_k\vec{y}_k)-\frac{F}{2}\ln 2\pi - F\ln\sigma_k\right]\\
+&+ \sum_{i=1}^N\sum_{k}^K z_{ik}\left[-\frac{1}{2}\vec{y}_{ik}^\top\vec{y}_{ik} - \frac{d}{2}\ln 2\pi\right]+\sum_{i=1}^N\sum_{k}^K z_{ik}\ln \pi_k
+\end{align*}
+
+\item Taking the expectation yields
+\begin{align*}
+&\mathbb{E}[\ln p(\vec{X}, \vec{Z}, \vec{Y} \vert \theta) ]\\
+&=-\frac{1}{2\sigma_k^2} \sum_{i=1}^N \sum_{k}^K \mathbb{E}[z_{ik}]\left[
+\parallel \vec{x}_i -\vec{\mu}_k\parallel^2 - \mathbb{E}[\vec{y}_{ik}]^\top\vec{W}_k^\top(\vec{x}_i-\vec{\mu}_k) + \text{tr}(\vec{WW}^\top \mathbb{E}[\vec{y}_{ik}\vec{y}_{ik}^\top])\right]\\
+&+\sum_{i=1}^N\sum_{k}^K\left[\frac{F}{2}\ln 2\pi - F\ln\sigma_k\right]+ \sum_{i=1}^N\sum_{k}^K \mathbb{E}[z_{ik}]\left[-\frac{1}{2}\text{tr}(\mathbb{E}[\vec{y}_{ik}\vec{y}_{ik}^\top]) - \frac{d}{2}\ln 2\pi\right]+\sum_{i=1}^N\sum_{k}^K \mathbb{E}[z_{ik}]\ln \pi_k
+\end{align*}
+
+
+
+
+
 \end{enumerate}
 
 
