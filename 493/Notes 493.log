@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  3 FEB 2017 07:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  4 FEB 2017 18:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1381,7 +1381,7 @@ LaTeX Info: Redefining \nameref on input line 15.
 \openout6 = `"Notes 493.out"'.
 
  (./titlepage.tex
-<./figures/imperial.pdf, id=47, 362.35374pt x 96.36pt>
+<./figures/imperial.pdf, id=51, 362.35374pt x 96.36pt>
 File: ./figures/imperial.pdf Graphic file (type pdf)
 
 <use ./figures/imperial.pdf>
@@ -1436,7 +1436,7 @@ LaTeX Font Info:    Try loading font information for OT1+jkpss on input line 50
 (/usr/local/texlive/2016/texmf-dist/tex/latex/kpfonts/ot1jkpss.fd
 File: ot1jkpss.fd 2007/07/16 Fontinst v1.928 font definitions for OT1/jkpss.
 ) [2]
-<./figures/NaiveBayes.png, id=102, 366.36874pt x 320.19624pt>
+<./figures/NaiveBayes.png, id=106, 366.36874pt x 320.19624pt>
 File: ./figures/NaiveBayes.png Graphic file (type png)
 
 <use ./figures/NaiveBayes.png>
@@ -1453,7 +1453,7 @@ LaTeX Font Info:    Try loading font information for TS1+bch on input line 145.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1bch.fd
 File: ts1bch.fd 2004/10/18 font definitions for TS1/bch.
 ) [5]
-<./figures/PiLambda.png, id=149, 285.065pt x 301.125pt>
+<./figures/PiLambda.png, id=153, 285.065pt x 301.125pt>
 File: ./figures/PiLambda.png Graphic file (type png)
 
 <use ./figures/PiLambda.png>
@@ -1465,7 +1465,7 @@ Overfull \hbox (7.75497pt too wide) in paragraph at lines 242--242
  []
 
 [7] [8]
-<./figures/ProbabilityPropagation.png, id=198, 1140.26pt x 304.13625pt>
+<./figures/ProbabilityPropagation.png, id=202, 1140.26pt x 304.13625pt>
 File: ./figures/ProbabilityPropagation.png Graphic file (type png)
 
 <use ./figures/ProbabilityPropagation.png>
@@ -1473,7 +1473,7 @@ Package pdftex.def Info: ./figures/ProbabilityPropagation.png used on input lin
 e 376.
 (pdftex.def)             Requested size: 438.17227pt x 116.87238pt.
  [9 <./figures/ProbabilityPropagation.png>] <./figures/ConvergingConnection.png
-, id=212, 713.66624pt x 278.03876pt>
+, id=216, 713.66624pt x 278.03876pt>
 File: ./figures/ConvergingConnection.png Graphic file (type png)
 
 <use ./figures/ConvergingConnection.png>
@@ -1481,7 +1481,7 @@ Package pdftex.def Info: ./figures/ConvergingConnection.png used on input line
 404.
 (pdftex.def)             Requested size: 219.08614pt x 85.35109pt.
 
-<./figures/DivergingConnection.png, id=213, 728.7225pt x 335.2525pt>
+<./figures/DivergingConnection.png, id=217, 728.7225pt x 335.2525pt>
 File: ./figures/DivergingConnection.png Graphic file (type png)
 
 <use ./figures/DivergingConnection.png>
@@ -1490,7 +1490,7 @@ Package pdftex.def Info: ./figures/DivergingConnection.png used on input line 4
 (pdftex.def)             Requested size: 240.99608pt x 110.86897pt.
  [10 <./figures/ConvergingConnection.png> <./figures/DivergingConnection.png>] 
 [11]
-<./figures/TripletConfig.png, id=238, 408.52625pt x 315.1775pt>
+<./figures/TripletConfig.png, id=242, 408.52625pt x 315.1775pt>
 File: ./figures/TripletConfig.png Graphic file (type png)
 
 <use ./figures/TripletConfig.png>
@@ -1500,35 +1500,35 @@ Package pdftex.def Info: ./figures/TripletConfig.png used on input line 518.
 Underfull \vbox (badness 1742) has occurred while \output is active []
 
  [12]
-<./figures/MultParent.png, id=247, 528.97626pt x 214.8025pt>
+<./figures/MultParent.png, id=251, 528.97626pt x 214.8025pt>
 File: ./figures/MultParent.png Graphic file (type png)
 
 <use ./figures/MultParent.png>
 Package pdftex.def Info: ./figures/MultParent.png used on input line 532.
 (pdftex.def)             Requested size: 350.53915pt x 142.34366pt.
- [13 <./figures/TripletConfig.png> <./figures/MultParent.png>] [14]
+ [13 <./figures/TripletConfig.png> <./figures/MultParent.png>] [14] [15] [16]
 \tf@thm=\write7
 \openout7 = `"Notes 493.thm"'.
 
- [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 628.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 628.
+ [17]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 721.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 721.
  (./Notes 493.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 628.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 628.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 721.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 721.
 Package rerunfilecheck Info: File `"Notes 493".out' has not changed.
-(rerunfilecheck)             Checksum: 1F230E5707D096778B6858E06385E900;666.
+(rerunfilecheck)             Checksum: 4E6407D6E55FD49C12D025323449E0FB;739.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 23276 strings out of 493014
- 426059 string characters out of 6133351
- 494664 words of memory out of 5000000
- 26159 multiletter control sequences out of 15000+600000
- 78429 words of font info for 164 fonts, out of 8000000 for 9000
+ 23299 strings out of 493014
+ 426261 string characters out of 6133351
+ 494665 words of memory out of 5000000
+ 26161 multiletter control sequences out of 15000+600000
+ 80360 words of font info for 166 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  64i,19n,77p,922b,648s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
@@ -1546,10 +1546,10 @@ kpfonts/jkpmn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfo
 nts/jkpsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/jk
 psyb.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/jkpsyc.
 pfb>
-Output written on "Notes 493.pdf" (15 pages, 1131471 bytes).
+Output written on "Notes 493.pdf" (17 pages, 1138517 bytes).
 PDF statistics:
- 352 PDF objects out of 1000 (max. 8388607)
- 291 compressed objects within 3 object streams
- 134 named destinations out of 1000 (max. 500000)
- 133 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 386 PDF objects out of 1000 (max. 8388607)
+ 322 compressed objects within 4 object streams
+ 154 named destinations out of 1000 (max. 500000)
+ 141 words of extra memory for PDF output out of 10000 (max. 10000000)
 
