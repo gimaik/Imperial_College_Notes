@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  4 FEB 2017 08:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  4 FEB 2017 09:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1480,11 +1480,11 @@ Overfull \hbox (1.11316pt too wide) in paragraph at lines 465--465
 \openout7 = `"Notes 495.thm"'.
 
  [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 495.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 495.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 529.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 529.
  (./Notes 495.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 495.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 495.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 529.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 529.
 Package rerunfilecheck Info: File `"Notes 495".out' has not changed.
 (rerunfilecheck)             Checksum: 77B083CB0A70F0CDC3E8305A62459B0B;1415.
  ) 
@@ -1511,7 +1511,7 @@ c/kpfonts/jkpmi.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfo
 nts/jkpmn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/
 jkpsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/jkpsyb
 .pfb>
-Output written on "Notes 495.pdf" (13 pages, 204866 bytes).
+Output written on "Notes 495.pdf" (13 pages, 206564 bytes).
 PDF statistics:
  288 PDF objects out of 1000 (max. 8388607)
  237 compressed objects within 3 object streams

@@ -486,7 +486,41 @@ Hence the log likelihood of the joint distribution:
 	\end{align*}
 
 
-\item Block 
+\item Conditional and Margin of Block Distributions
+Given the distribution:
+\begin{align*}
+p(\vec{x},\vec{y}) = \mathcal{N}\left(
+\begin{bmatrix}
+\vec{\mu}_x\\
+\vec{\mu}_y
+\end{bmatrix},
+\begin{bmatrix}
+\vec{\Sigma}_{xx}	& \vec{\Sigma}_{xy}\\
+\vec{\Sigma}_{yx}	& \vec{\Sigma}_{yy}
+\end{bmatrix}
+\right)
+\end{align*}
+
+We have
+\begin{align*}
+p(\vec{x}\vert \vec{y})
+& = \mathcal{N}\left(\vec{\mu}_{x\vert y}, \vec{\Sigma}_{x\vert y}\right)\\
+\vec{\mu}_{x\vert y}
+&=\vec{\mu}_x+ \vec{\Sigma}_{xy}\vec{\Sigma}_{yy}^{-1}(\vec {y} - \vec{\mu}_y)\\
+\vec{\Sigma}_{x\vert y}
+&=\vec{\Sigma}_{xx} - \vec{\Sigma}_{xy}\vec{\Sigma}_{yy}^{-1}\vec{\Sigma}_{yx}
+\end{align*}
+
+\item Product of two Gaussians:
+\begin{align*}
+\mathcal{N}(\vec{x}\vert \vec{a}, \vec{A})\mathcal{N}(\vec{x}\vert \vec{b}, \vec{B})= c\mathcal{N}(\vec{x}\vert \vec{c}, \vec{C})
+\end{align*}
+\begin{align*}
+\vec{C} &= (\vec{A}^{-1}+\vec{B}^{-1})^{-1}\\
+\vec{c} &= \vec{C}(\vec{A}^{-1}\vec{a}+\vec{B}^{-1}\vec{b})\\
+c& = \mathcal{N}(\vec{a}\vert \vec{b}, \vec{A} + \vec{B}) = \mathcal{N}(\vec{b}\vert \vec{a}, \vec{A} + \vec{B})
+\end{align*}
+
 \item Derivative of inverse
 \item Derivatve of determinant
 \end{itemize}
