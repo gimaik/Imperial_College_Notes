@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  3 FEB 2017 19:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.5)  4 FEB 2017 08:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1363,7 +1363,7 @@ LaTeX Info: Redefining \nameref on input line 15.
 \openout6 = `"Notes 495.out"'.
 
  (./titlepage.tex
-<./figures/imperial.pdf, id=79, 362.35374pt x 96.36pt>
+<./figures/imperial.pdf, id=83, 362.35374pt x 96.36pt>
 File: ./figures/imperial.pdf Graphic file (type pdf)
 
 <use ./figures/imperial.pdf>
@@ -1417,7 +1417,7 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 27.
 
-<./figures/GMM.png, id=114, 255.95625pt x 214.8025pt>
+<./figures/GMM.png, id=118, 255.95625pt x 214.8025pt>
 File: ./figures/GMM.png Graphic file (type png)
  <use ./figures/GMM.png>
 Package pdftex.def Info: ./figures/GMM.png used on input line 60.
@@ -1437,7 +1437,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 233--234
 
  []
 
-[7] <./figures/PPCA.png, id=169, 263.98625pt x 217.81375pt>
+[7] <./figures/PPCA.png, id=173, 263.98625pt x 217.81375pt>
 File: ./figures/PPCA.png Graphic file (type png)
 
 <use ./figures/PPCA.png>
@@ -1454,7 +1454,7 @@ LaTeX Font Info:    Try loading font information for TS1+bch on input line 344.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1bch.fd
 File: ts1bch.fd 2004/10/18 font definitions for TS1/bch.
 )
-<./figures/PPCAMixture.png, id=189, 311.1625pt x 321.2pt>
+<./figures/PPCAMixture.png, id=193, 311.1625pt x 321.2pt>
 File: ./figures/PPCAMixture.png Graphic file (type png)
 
 <use ./figures/PPCAMixture.png>
@@ -1465,28 +1465,34 @@ Overfull \hbox (10.48337pt too wide) in paragraph at lines 449--449
 [] 
  []
 
-[12]
+
 Overfull \hbox (26.32074pt too wide) in paragraph at lines 457--457
 [] 
  []
 
+
+Overfull \hbox (1.11316pt too wide) in paragraph at lines 465--465
+[] 
+ []
+
+[12]
 \tf@thm=\write7
 \openout7 = `"Notes 495.thm"'.
 
-[13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 489.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 489.
+ [13]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 495.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 495.
  (./Notes 495.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 489.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 489.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 495.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 495.
 Package rerunfilecheck Info: File `"Notes 495".out' has not changed.
-(rerunfilecheck)             Checksum: 6049D56EA208F4A56C3934DBE4CDEC68;1353.
+(rerunfilecheck)             Checksum: 77B083CB0A70F0CDC3E8305A62459B0B;1415.
  ) 
 Here is how much of TeX's memory you used:
- 23212 strings out of 493014
- 425215 string characters out of 6133351
- 498714 words of memory out of 5000000
- 26163 multiletter control sequences out of 15000+600000
+ 23215 strings out of 493014
+ 425244 string characters out of 6133351
+ 501714 words of memory out of 5000000
+ 26164 multiletter control sequences out of 15000+600000
  82939 words of font info for 174 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  64i,20n,77p,922b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1505,10 +1511,10 @@ c/kpfonts/jkpmi.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfo
 nts/jkpmn8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/
 jkpsy.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/kpfonts/jkpsyb
 .pfb>
-Output written on "Notes 495.pdf" (13 pages, 203900 bytes).
+Output written on "Notes 495.pdf" (13 pages, 204866 bytes).
 PDF statistics:
- 283 PDF objects out of 1000 (max. 8388607)
- 232 compressed objects within 3 object streams
- 68 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 288 PDF objects out of 1000 (max. 8388607)
+ 237 compressed objects within 3 object streams
+ 70 named destinations out of 1000 (max. 500000)
+ 185 words of extra memory for PDF output out of 10000 (max. 10000000)
 
