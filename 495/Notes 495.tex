@@ -67,7 +67,7 @@ The Gaussian mixture distribution can be written as a linear superposition of Ga
 \subsubsection{Formulation of the Gaussian Mixture Models}
 Let $\vec{z}$ be a $K$-dimensional binary random variable with 1-of-$K$ representation.
 \begin{align*}
-	p(z_k=1) = \pi_k 	&\Rightarrow p(\vec{z})=\prod_{i=1}^K \pi_k^{z_k}
+	p(z_k=1) = \pi_k 	&\Rightarrow p(\vec{z})=\prod_{k=1}^K \pi_k^{z_k}
 \end{align*}
 
 Conditional probability of $\vec{x}$ given a particular value for latent variable $\vec{z}$:
@@ -82,7 +82,7 @@ Using Bayes theorem and marginalize the latent variable $\vec{z}$
 
 Similarly, the posterior probability of $\vec{z}$ is given by
 \begin{align*}
-	\gamma (z_k) = \frac{p(\vec{x}\vert \vec{z})p(\vec{z})}{p(\vec{x})} = \frac{\pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k) }{\sum_{j=1}^K \pi_j\mathcal{N}(\vec{x}\vert \vec{\mu}_j, \vec{\Sigma}_j)}
+	\gamma (z_k) = \frac{p(\vec{x}\vert z_k=1)p(z_k=1)}{p(\vec{x})} = \frac{\pi_k \mathcal{N}(\vec{x}\vert \vec{\mu}_k, \vec{\Sigma}_k) }{\sum_{j=1}^K \pi_j\mathcal{N}(\vec{x}\vert \vec{\mu}_j, \vec{\Sigma}_j)}
 \end{align*}
 
 \subsubsection{Maximum Likelihood}
