@@ -605,7 +605,9 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
         	\item The first part of the above equation is the average number of bits required to store the values. 
             \item \textbf{Example}. If a network has a parent and a child, and we have 4 datapoints ($N=4$, each node takes 2 values), the parent has a prior probability of 2 parameters, and the conditional table has $2\times2 =4 $. Therefore, $Size(Bn|Ds) = |Bn|log_2(4)/2 = [(2-1) + (2-1)\times2]log_2(4)/2  = 3 \times 2/2 = 3$.
             \item MDL Score is not an absolute measure. It can only be used to compare two models of the same data set.
+            \item \textbf{need to add why this is a better measure than euclidean distance (from tutorial)}
         \end{itemize}
+               
         
 	\item \textbf{Measuring Predictive Accuracy}: Split the data into training data and test data, then use the test data to measure the network accuracy. It can be used to minimize the number of variables in a spanning tree.
 		\begin{itemize}
@@ -618,6 +620,97 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 \end{enumerate}
 
 \section{Approximate Inference}
+\begin{enumerate}
+
+	\item For highly dependent data, we can:
+		\begin{enumerate}
+			\item Model all dependencies - Propagation of probabilities is difficult or infeasible.
+			\item Maximally weighted spanning tree - Does not model dependencies accurately but message passing terminates in one pass and it is very fast.
+		\end{enumerate}
+		
+	\item Problems with loops in networks:
+		\begin{enumerate}
+			\item Looping messages.
+			\item Independence of multiple parents.
+		\end{enumerate}	
+	
+	\item Approximate Inference Methods:
+		\begin{itemize}
+			\item Node deletion (Seletive Bayes Network)
+			\item Loopy belief propagation
+			\item Hidden / latent node placement
+		\end{itemize}
+		
+	\item \textbf{Node Deletion and Selective Bayes Network}: Main idea is to use a subset of the variables.
+		\begin{itemize}
+			\item Start with a network with all variables then deleting any variables and testing the improvement.
+			\item Alternatively, add variables incrementally and test the performance for each network.
+		\end{itemize}
+		
+	\item \textbf{Loopy Belief Propagation}: Include all arcs expressing significant dependency and allow propagation to continue until
+		\begin{itemize}
+			\item The probability distributions reach a stable state; or
+			\item A limiting number of iterations has occurrec (i.e. there may be no steady state)
+		\end{itemize}
+
+	\item \textbf{Hidden Nodes}: If any two children of a parent are not conditionally independent, they can be separated by hidden node.
+		\begin{itemize}
+			\item Switch nodes: Hidden nodes can act as switches to simplify the networks.
+			\item A network can always perform as well with a hidden node as it can without.
+		\end{itemize}
+			
+\end{enumerate}
+
+
+
+\subsection{Using Hidden Nodes}
+
+\begin{enumerate}
+\item To create a hidden note, we need to decide:
+	\begin{itemize}
+		\item How many states it should have.
+		\item Identify values for the 3 new linked matrices introduced.
+	\end{itemize}
+
+\item Determination of number of states:
+	\begin{itemize}
+		\item Number of states for hidden node will be comparable to the number of states of the nodes it is separating.
+		\item Expect the hidden node to have at least the same number of states of its parent.
+		\item Linked matrices with too many states will have low probabilities for some states. Hence, start with large number of states and then reduce them.
+	\end{itemize}
+
+\item Calculating the linked matrices (conditional probabilities)
+	\begin{enumerate}
+		\item Given the estimates of $P(H\vert A)$, $P(B\vert H)$, $P(C\vert H)$ and a set of data points $[a_i, b_j, c_k]$.
+		\item Use each $b_j$, $c_k$ to compute $P^\prime (A)$ from the network, calculate and accumulate the error
+			\begin{align*}
+				E = [P^\prime (A) - P(a_i)]^2
+			\end{align*}
+		\item Minimize $E$ over the data set by adjusted $P(H\vert A)$, $P(B\vert H)$, $P(C\vert H)$ using the gradient descent algorithm
+			\begin{align*}
+				P(h_k \vert a_j) &\rightarrow P(h_k \vert a_j)- \mu \frac{\partial E}{\partial P(h_k \vert a_j)}\\
+				P(b_j \vert h_k) &\rightarrow P(b_j \vert h_k) - \mu \frac{\partial E}{\partial P(b_j \vert h_k)}\\
+				P(c_j \vert h_k) &\rightarrow P(c_j \vert h_k) - \mu \frac{\partial E}{\partial P(c_j \vert h_k)}
+			\end{align*}
+		\item Using gradient descent may not actually arrive at the optimal answer due to the following issues:
+			\begin{itemize}
+				\item Distributions will no longer sum to 1.
+				\item Individual probability values may be greater than 1 or less than 0.
+				\item Conditional probability matrices need to be normalized and this may compromise finding an optimum solution.
+			\end{itemize}					
+		
+	\end{enumerate}
+
+
+
+
+\end{enumerate}
+
+
+
+
+
+
 
 \section{Exact Inference}
 

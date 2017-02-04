@@ -6,5 +6,6 @@
 \BOOKMARK [1][]{section.99}{6 Cause and Independence}{}% 6
 \BOOKMARK [1][]{section.112}{7 Model Accuracy}{}% 7
 \BOOKMARK [1][]{section.116}{8 Approximate Inference}{}% 8
-\BOOKMARK [1][]{section.117}{9 Exact Inference}{}% 9
-\BOOKMARK [1][]{section.118}{10 Probability Propagation: Join Trees}{}% 10
+\BOOKMARK [2][]{subsection.127}{8.1 Using Hidden Nodes}{section.116}% 9
+\BOOKMARK [1][]{section.135}{9 Exact Inference}{}% 10
+\BOOKMARK [1][]{section.136}{10 Probability Propagation: Join Trees}{}% 11
