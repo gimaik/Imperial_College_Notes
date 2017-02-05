@@ -1,0 +1,68 @@
+\documentclass[12pt,twoside]{article}
+
+\newcommand{\reporttitle}{422 Computational Finance}
+\newcommand{\reportauthor}{Thomas Teh}
+\newcommand{\reporttype}{Notes}
+\newcommand{\cid}{0124 3008}
+
+% include files that load packages and define macros
+\input{includes} % various packages needed for maths etc.
+\input{notation} % short-hand notation and macros
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% front page
+\input{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
+\section {Useful Identities}
+
+Geometric Progression
+\begin{align*}
+S_n &= \sum_{k=1}^n ar^{k-1}  =\frac{a(1-r^n)}{1-r}\\
+S_\infty &= \sum_{k=0}^\infty ar^{k-1} = \frac{1}{1-r}\\
+\end{align*}
+
+Arithmetic - Geometric Progression
+\begin{align*}
+S_n & = \sum_{k=1}^n\left[a + (k-1)d\right]r^{k-1}= \frac{a-\left[a+(n-1)d\right]r^n}{1-r}+\frac{dr(1-r^{n-1})}{(1-r)^2}
+\end{align*}
+
+Price of an Annuity
+\begin{align*}
+a_{\overline{n}\mid} & = \frac{1-v^n}{i}\\
+a_{\overline{n}\mid}^{(m)} & = \frac{1-v^n}{r^{m}}\\
+\end{align*}
+
+Price of a Perpetuity
+\begin{align*}
+a_{\overline{\infty}\mid} & = \frac{1}{i}\\
+a_{\overline{\infty}\mid} & = \frac{1}{r^{m}}\\
+\end{align*}
+
+Price of a varying annuity
+\begin{align*}
+(Ia)_{\overline{n}\mid} & = Pa_{\overline{n}\mid} + D\left[\frac{a_{\overline{n}\mid} - nv^n}{i}\right]
+\end{align*}
+
+Price of a bond
+\begin{align*}
+P & = NCa_{\overline{n}\mid} + Nv^n
+\end{align*}
+
+Macaulay Duration
+
+
+Modified Duration
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
