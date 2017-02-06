@@ -452,16 +452,19 @@ P^\prime(c_k) = \alpha \lambda(c_k) \pi(c_k)
 
 
 \item \textbf{Measures of dependencies}
+
+    Weighted measures are used to reduce dependencies for less likely values.
+        
 \begin{itemize}
 \item \textbf{$L1$ dependency measure}:
 \begin{align*}
-Dep (A,B) & = \sum_{A\times B} \left\vert P(a_i \cap b_j) - P(a_i)P(b_j)\right\vert \\
-Dep (A,B) & = \sum_{A\times B} P(a_i \cap b_j) \times \left\vert P(a_i \cap b_j) - P(a_i)P(b_j)\right\vert 
+    \text{\textit{unweighted:}} \qquad Dep (A,B) & = \sum_{A\times B} \left\vert P(a_i \cap b_j) - P(a_i)P(b_j)\right\vert \\
+    \text{\textit{weighted:}} \qquad Dep (A,B) & = \sum_{A\times B} P(a_i \cap b_j) \times \left\vert P(a_i \cap b_j) - P(a_i)P(b_j)\right\vert 
 \end{align*}
 \item \textbf{$L2$ dependency measure}:
 \begin{align*}
-Dep (A,B) & = \sum_{A\times B} \left(P(a_i \cap b_j) - P(a_i)P(b_j)\right)^2\\
-Dep (A,B) & = \sum_{A\times B} P(a_i \cap b_j) \times \left(P(a_i \cap b_j) - P(a_i)P(b_j)\right)^2
+\text{\textit{unweighted:}} \qquad Dep (A,B) & = \sum_{A\times B} \left(P(a_i \cap b_j) - P(a_i)P(b_j)\right)^2\\
+\text{\textit{weighted:}} \qquad Dep (A,B) & = \sum_{A\times B} P(a_i \cap b_j) \times \left(P(a_i \cap b_j) - P(a_i)P(b_j)\right)^2
 \end{align*}
 As the probabilities becomes small they contribute less to the dependency, and this effect is acceptable since we have little information on rare events. 
 The weighted version of the $L1$ and $L2$ further reduces the dependency for low probability values.
