@@ -476,6 +476,12 @@ Given the PPCA model:
 \vec{e} & \sim \mathcal{N}(\vec{e}\vert \vec{0}, \sigma^2\vec{I})\\
 \vec{y} & \sim \mathcal{N}(\vec{y}\vert \vec{0}, \vec{I})
 \end{align*}
+\begin{align*}
+p(\vec{x}_i \vert \vec{W}, \vec{\mu}, \sigma^2)&= \mathcal{N}(\vec{x}_i\vert \vec{\mu}, \vec{D})\\
+p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_i \vert \vec{M}^{-1}\vec{W}^\top (\vec{x}_i-\vec{\mu}), \sigma^2\vec{M}^{-1})\\
+\vec{D} &= \vec{WW}^\top +\sigma^2\vec{I} \\
+\vec{M} &= \vec{W}^\top \vec{W} +\sigma^2\vec{I}
+\end{align*}
 
 \begin{enumerate}
 
@@ -520,6 +526,24 @@ Given the PPCA model:
 			\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}[(\vec{x}_i-\vec{a})(\vec{x}_i-\vec{a})^\top] &=\vec{Q}+(\vec{z}_i-\vec{a})(\vec{z}_i-\vec{a})^\top\\ 
 		\end{align*}
 		
+	\item Writing down the log likelihood for the observed variable $X$ and the latent variable $Y$
+		\begin{align*}
+			\ln p(\vec{X}, \vec{Y} \vert \vec{\theta})
+			&= -\frac{1}{2\sigma^2}\sum_{i=1}^N \left\lbrace\text{tr}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]-  2\text{tr} \left[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top \vec{W}\right]+\text{tr}\left[\vec{W}^\top\vec{Wy}_i\vec{y}_i^\top\right]\right\rbrace\\
+			&-\frac{1}{2}\sum_{i=1}^N \text{tr}[\vec{y}_i\vec{y}_i^\top]-\frac{NF}{2} \ln 2\pi - NF \ln \sigma - N \ln 2\pi
+		\end{align*}
+	
+	\item Take the expectation with regards to the probability distribution $p(\vec{X}, \vec{Y} \vert \vec{X}^o)$
+		\begin{align*}
+			&\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}\left[\ln p(\vec{X}, \vec{Y} \vert \vec{\theta})\right]\\
+			&= -\frac{1}{2\sigma^2}\sum_{i=1}^N \left\lbrace\text{tr}\left(\mathbb{E}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\right)-  2\text{tr} \left(\mathbb{E}\left[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top\right] \vec{W}\right)+\text{tr}\left(\vec{W}^\top\vec{W}\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)\right\rbrace\\
+			&-\sum_{i=1}^N \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)-\frac{NF}{2} \ln 2\pi - NF \ln \sigma - N \ln 2\pi
+		\end{align*}
+
+
+
+	\item Maximization step:
+	
 	
 	
 
