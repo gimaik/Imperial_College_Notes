@@ -441,6 +441,7 @@ P^\prime(c_k) = \alpha \lambda(c_k) \pi(c_k)
 \begin{enumerate}
 \item The nodes that are joined by arcs are depedent and those not are at least conditionally independent. Hence the strategy is to add arcs that connect variables that are most dependent.
 \item For every pair of variables calculate the dependency. Then join the nodes in dependency order, provided the resulting structure has no loops
+\item The algorithm minimises the KL divergence between the network joint probability and the data joint probability
 \end{enumerate}
 \end{enumerate}
 
