@@ -366,7 +366,8 @@ The model is given by:
 	\vec{y}_{ik} &\sim \mathcal{N} (\vec{y}_{ik}\vert \vec{0,I})\\
 	\vec{e}_{ik} & \sim \mathcal{N} (\vec{e}_{ik}\vert \vec{0},\sigma^2_k\vec{I}), \forall k = 1,\dots, K\\
 	p(\vec{x}_i\vert  \vec{z}_{ik} &=1, \vec{y}_{ik}, \vec{\mu_k}, \vec{W_k}, \sigma^2_k \vec{I}) = \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k + \vec{W}_k\vec{y}_{ik})\\
-	p(\vec{x}_i\vert \vec{\theta})& = \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)
+	p(\vec{x}_i\vert \vec{\theta})& = \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)\\\
+	\vec{D}_k &= \vec{W}_k\vec{W}_k^\top + \sigma_k^2\vec{I}
 \end{align*}
 
 
@@ -466,9 +467,63 @@ Hence the log likelihood of the joint distribution:
 
 \end{enumerate}
 
+\newpage
+
 \section{PPCA with Missing Values}
+Given the PPCA model:
+\begin{align*}
+\vec{x} &= \vec{Wy} + \vec{\mu} + \vec{e}\\
+\vec{e} & \sim \mathcal{N}(\vec{e}\vert \vec{0}, \sigma^2\vec{I})\\
+\vec{y} & \sim \mathcal{N}(\vec{y}\vert \vec{0}, \vec{I})
+\end{align*}
 
+\begin{enumerate}
 
+	\item We can reformulate the PPCA model to take into account of missing data:
+		\begin{align*}
+			\vec{x} = 	\begin{bmatrix}
+								\vec{x}^o \\ \vec{x}^u
+							\end{bmatrix}
+			&\Rightarrow
+			p\left(\vec{x}^o, \vec{x}^u\right) = \mathcal{N}\left(\left.
+				\begin{bmatrix}
+					\vec{x}^o \\ \vec{x}^u
+				\end{bmatrix}
+			\right\vert 
+				\begin{bmatrix}
+					\vec{\mu}^o \\ \vec{\mu}^u
+				\end{bmatrix},
+				\begin{bmatrix}
+					\vec{D}^{oo} 		&\vec{D}^{ou} 		\\ 
+					\vec{D}^{uo}			&\vec{D}^{uu}
+				\end{bmatrix}\right)\\
+				p(\vec{x}^u\vert \vec{x}^o)
+				&=\mathcal{N}\left(\vec{x}^u\left \vert\vec{\mu}^u +\vec{D}_{uo}\vec{D}_{oo}^{-1}(\vec{x}^o - \vec{\mu}^o), \vec{D}_{uu}-\vec{D}_{uo}\vec{D}_{oo}^{-1}\vec{D}_{ou}  				\right.\right )
+\end{align*}
+
+	\item For convenience, we can rewrite this formulation as derive its first order and second order moments:
+		\begin{align*}
+			p(\vec{x}_i\vert \vec{x}_i^o)  &= \mathcal{N} \left(\vec{x}_i\left\vert \vec{z}_i, \vec{Q}\right. \right)\\
+			\vec{z}_i &=\begin{bmatrix}
+			\vec{x}_i^o\\
+			\vec{\mu}^u +\vec{D}_{uo}\vec{D}_{oo}^{-1}(\vec{x}^o - \vec{\mu}^o)
+			\end{bmatrix}\\
+			\vec{Q} & = \begin{bmatrix}
+			0	&	0\\
+			0	& 	\vec{D}_{uu}-\vec{D}_{uo}\vec{D}_{oo}^{-1}\vec{D}_{ou} 
+			\end{bmatrix}
+		\end{align*}		
+		
+		\begin{align*}
+			\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}[\vec{x}_i] &=\vec{z}_i\\
+			\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}[\vec{x}_i\vec{x}_i^\top] &=\vec{Q}+\vec{z}_i\vec{z}_i^\top\\
+			\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}[(\vec{x}_i-\vec{a})(\vec{x}_i-\vec{a})^\top] &=\vec{Q}+(\vec{z}_i-\vec{a})(\vec{z}_i-\vec{a})^\top\\ 
+		\end{align*}
+		
+	
+	
+
+\end{enumerate}
 
 
 
@@ -511,7 +566,7 @@ p(\vec{x}\vert \vec{y})
 &=\vec{\Sigma}_{xx} - \vec{\Sigma}_{xy}\vec{\Sigma}_{yy}^{-1}\vec{\Sigma}_{yx}
 \end{align*}
 
-\item Product of two Gaussians:
+\item Product of two Gaussians (note that the underlying random variable must be the same):
 \begin{align*}
 \mathcal{N}(\vec{x}\vert \vec{a}, \vec{A})\mathcal{N}(\vec{x}\vert \vec{b}, \vec{B})= c\mathcal{N}(\vec{x}\vert \vec{c}, \vec{C})
 \end{align*}
