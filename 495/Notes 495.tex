@@ -537,15 +537,36 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 		\begin{align*}
 			&\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}\left[\ln p(\vec{X}, \vec{Y} \vert \vec{\theta})\right]\\
 			&= -\frac{1}{2\sigma^2}\sum_{i=1}^N \left\lbrace\text{tr}\left(\mathbb{E}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\right)-  2\text{tr} \left(\mathbb{E}\left[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top\right] \vec{W}\right)+\text{tr}\left(\vec{W}^\top\vec{W}\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)\right\rbrace\\
-			&-\sum_{i=1}^N \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)-\frac{NF}{2} \ln 2\pi - NF \ln \sigma - N \ln 2\pi
+			&-\frac{1}{2}\sum_{i=1}^N \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)-\frac{NF}{2} \ln 2\pi - NF \ln \sigma - N \ln 2\pi
+		\end{align*}
+		
+		\begin{align*}
+			\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top] 
+			&=\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top]\\ 
+			&=\vec{Q}+(\vec{z}_i-\vec{\mu})(\vec{z}_i-\vec{\mu})^\top\\ 			
+			\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top] 
+			&=\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}\left[\mathbb{E}_{p(\vec{y}_i\vert \vec{x}_i^o)} \left[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top\right]\right] \\
+			&=\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}\left[\vec{M}^{-1}\vec{W}^\top (\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\\
+			& =\vec{M}^{-1}\vec{W}^\top \mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\\
+			\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}[\vec{y}_i\vec{y}_i^\top] 
+			&=\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}\left[\mathbb{E}_{p(\vec{y}_i\vert \vec{x}_i^o)} \left[\vec{y}_i\vec{y}_i^\top\right]\right] \\
+			&=\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}\left[\sigma^2 \vec{M}^{-1}+\vec{M}^{-1}\vec{W}^\top (\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\vec{W}\vec{M}^{-1}\right]\\
+			& =\sigma^2\vec{M}^{-1}+ \vec{M}^{-1}\vec{W}^\top\mathbb{E}_{p(\vec{x}_i\vert \vec{x}_i^o)}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right] \vec{W} \vec{M}^{-1}
 		\end{align*}
 
-
-
 	\item Maximization step:
+		\begin{align*}
+				\vec{\mu}	&=\frac{1}{N}\sum_{i=1}^N \vec{z}_i\\
+				\vec{W}	&=\left[\sum_{i=1}^N\mathbb{E}\left[(\vec{x}_i-\vec{\mu})\vec{y}_i^\top\right]\right]\left[\sum_{i=1}^N\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right]^{-1}\\
+				\sigma^2 &=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \text{tr}\left(\mathbb{E}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\right) 
+				-2 \text{tr}\left( \mathbb{E} \left[ \vec{y}_i (\vec{x}_i-\vec{\mu})^\top \right]\vec{W} \right)
+				+ \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\vec{W}^\top\vec{W}\right)	
+				\right\rbrace\\
+				\vec{D} & = \vec{W}\vec{W}^\top +\sigma^2\vec{I}
+		\end{align*}			
 	
 	
-	
+% + \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\vec{W}^\top\vec{W}\right)	
 
 \end{enumerate}
 
