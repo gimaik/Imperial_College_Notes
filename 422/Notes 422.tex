@@ -18,40 +18,123 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
-\section {Useful Identities}
+\section{Theory of Interest}
 
-Geometric Progression
+\begin{enumerate}
+\item Relationship between effective interest rate $r_{eff}$ and nominal rate ($m$ period compounding), $r^{(m)}$:
+	\begin{align*}
+		1+r_{eff} = \left(1+\frac{r^{(m)}}{m}\right)^{m}
+	\end{align*}
+
+\item \textbf{Definitions.} An ideal bank
+	\begin{itemize}
+		\item applies the same interest rates for borrowing and lending
+		\item no transaction costs
+		\item has the same rate for any size of principal
+	\end{itemize}
+
+\item \textbf{Definitions.} An ideal bank has an interest value that is independent of the length of time of which it applies, it is called a constant ideal bank.
+
+\item \textbf{Theorem.} The cash flow streams $\lbrace x_i \rbrace_{i=1}^n$ and $\lbrace y_i \rbrace_{i=1}^n$ are equivalent for a constant ideal bank with interest rate $r$ if and only if their PVs are equal. 
+
+\item \textbf{Definitions.} The spot rate $s_t$ is the annualized interest rate charged for money held from the present until time $t$. Properties of spot rate
+	\begin{itemize}
+		\item Long commitments tend to offer higher interest rates than short commitments
+		\item The spot rate curve undulates around in time.
+		\item Spot rate curve is normally curved if it is increasing; and inverted if it is decreasing.
+		\item Spot rate curve is smooth.
+	\end{itemize}
+
+\item \textbf{Definitions.} Forward rate between times $t_1$ and $t_2$ is denoted by $f_{t_1,t_2}$. It is the interest rate charged for borrowing money at time $t_1$ which is to be repaid at $t_2$. $f_{t_1,t_2}$ is agreed on today.
 \begin{align*}
-S_n &= \sum_{k=1}^n ar^{k-1}  =\frac{a(1-r^n)}{1-r}\\
-S_\infty &= \sum_{k=0}^\infty ar^{k-1} = \frac{1}{1-r}\\
+	(1+s_{t_2})^{t_2} = (1+s_{t_1})^{t_1}(1+f_{t_1, t_2})^{t_2-t_1}
 \end{align*}
 
-Arithmetic - Geometric Progression
-\begin{align*}
-S_n & = \sum_{k=1}^n\left[a + (k-1)d\right]r^{k-1}= \frac{a-\left[a+(n-1)d\right]r^n}{1-r}+\frac{dr(1-r^{n-1})}{(1-r)^2}
-\end{align*}
+\item The forward rate $f_{1,2}$ is 
+\begin{itemize}
+\item the implied rate for money loaned for 1 year, a year from now
+\item the market expectation today of what the 1-year spot rate will be next year
+\end{itemize}
 
-Price of an Annuity
-\begin{align*}
-a_{\overline{n}\mid} & = \frac{1-v^n}{i}\\
-a_{\overline{n}\mid}^{(m)} & = \frac{1-v^n}{r^{m}}\\
-\end{align*}
+\end{enumerate}
 
-Price of a Perpetuity
-\begin{align*}
-a_{\overline{\infty}\mid} & = \frac{1}{i}\\
-a_{\overline{\infty}\mid} & = \frac{1}{r^{m}}\\
-\end{align*}
 
-Price of a varying annuity
-\begin{align*}
-(Ia)_{\overline{n}\mid} & = Pa_{\overline{n}\mid} + D\left[\frac{a_{\overline{n}\mid} - nv^n}{i}\right]
-\end{align*}
 
-Price of a bond
-\begin{align*}
-P & = NCa_{\overline{n}\mid} + Nv^n
-\end{align*}
+
+\section {Fixed Income Securities}
+\begin{enumerate}
+	\item Important sequences:
+		\begin{itemize}
+			\item Geometric Progression
+				\begin{align*}
+					S_n &= \sum_{k=1}^n ar^{k-1}  =\frac{a(1-r^n)}{1-r}\\
+					S_\infty &= \sum_{k=0}^\infty ar^{k-1} = \frac{1}{1-r}\\
+				\end{align*}
+			\item Arithmetic - Geometric Progression
+				\begin{align*}
+					S_n & = \sum_{k=1}^n\left[a + (k-1)d\right]r^{k-1}= \frac{a-\left[a+(n-1)d\right]r^n}{1-r}+\frac{dr(1-r^{n-1})}{(1-r)^2}
+				\end{align*}
+			\end{itemize}
+	
+	\item Price of various basic securities
+		\begin{itemize}
+			\item Annuities
+				\begin{align*}
+					a_{\overline{n}\mid} & = \frac{1-v^n}{r} &
+					a_{\overline{n}\mid}^{(m)} & = \frac{1-v^n}{r^{m}}
+				\end{align*}
+			\item Perpetuity
+				\begin{align*}
+					a_{\overline{\infty}\mid} & = \frac{1}{r}&
+					a_{\overline{\infty}\mid} & = \frac{1}{r^{m}}\\
+				\end{align*}
+				
+			\item  Varying annuity
+				\begin{align*}
+					(Ia)_{\overline{n}\mid} & = Pa_{\overline{n}\mid} + D\left[\frac{a_{\overline{n}\mid} - nv^n}{i}\right]
+				\end{align*}
+				
+			\item Bond
+				\begin{align*}
+					P & = NCa_{\overline{n}\mid} + Nv^n
+				\end{align*}
+		\end{itemize}
+
+	\item \textbf{Definition.} A bond's \textbf{yield to maturity} if the flat interest rate at which the PV of the CFs is equal to the current price. The bond's \textbf{current yield} is $\frac{NC}{P}$.
+		\begin{itemize}
+			\item There's an inverse relationship between price and yield
+			\item The longer the time to maturity, the more sensitive is the price of the bond to the yield (think of duration!)
+			\item If yield to maturity is the same as the coupon rate, the bond price would be the face value
+		\end{itemize}
+		
+	\item \textbf{Duration.} Duration measures the sensitivity of the bond with respect to the interest rate
+		\begin{align*}
+			D_{mac}& = \frac{\sum_{t=1}^n t\times PV_t }{\sum_{t=1}^n PV_t}\\
+			D_{mod}& = -\frac{1}{P(r_0)}\left.\frac{dP(r)}{dr}\right\vert_{r=r_0} = \frac{D_{mac}}{(1+r_0)}
+		\end{align*}
+		
+	\item \textbf{Convexity.} Convexity is defined as
+		\begin{align*}
+			C	&=\frac{1}{P(r_0)}\left.\frac{d^2P(r)}{dr^2}\right\vert_{r=r_0}
+				=\frac{1}{P(r_0)}\sum_{t=1}^n t^2PV_t
+		\end{align*}
+	
+	\item Estimation of bond price change
+		\begin{align*}
+			\Delta P \approx -D_{mod}P(r_0)\Delta r + \frac{1}{2}P(r_0) (\Delta r)^2
+		\end{align*}
+
+	\item \textbf{Immunization.} Let $A$ be assets and $L$ be liabilities.
+		\begin{itemize}
+			\item $PV(A) = PV(L)$
+			\item $D(A) = D(L)$
+			\item $C(A) > C(L)$
+		\end{itemize}
+
+\end{enumerate}
+
+
+
 
 Macaulay Duration
 
