@@ -713,7 +713,23 @@ c& = \mathcal{N}(\vec{a}\vert \vec{b}, \vec{A} + \vec{B}) = \mathcal{N}(\vec{b}\
 \end{align*}
 
 \item Derivative of inverse
-\item Derivatve of determinant
+\begin{align*}
+\frac{\partial \vec{Y}^{-1}}{\partial x} &= -\vec{Y}^{-1}\frac{\partial \vec{Y}}{\partial x}\vec{Y}^{-1}\\
+\frac{\partial \vec{a}^\top\vec{X}^{-1}\vec{B}}{\partial \vec{X}} &= -\vec{X}^{-\top}\vec{ab}^\top\vec{X}^{-\top}
+\end{align*}
+
+
+\item Derivative of determinant
+\begin{align*}
+\frac{\partial \vert \vec{X}\vert}{\partial \vec{X}} & = \vert \vec{X}\vert \vec{X}^{-\top}
+\end{align*}
+
+
+
+\begin{align*}
+	\vec{a}^\top \vec{a} = \text{tr }(\vec{a}\vec{a}^\top)
+\end{align*}
+
 \end{itemize}
 
 
