@@ -568,8 +568,98 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 
 \end{enumerate}
 
+\newpage
+
 
 \section {Hidden Markov Model}
+\subsection{Markov Property and Markov Chains}
+
+\begin{enumerate}
+	\item Markov Property:
+		\begin{align*}
+			p(\vec{x_i} \vert \vec{x}_1, \ldots, \vec{x}_{i-1}) &= p(\vec{x}_i \vert \vec{x}_{i-1})
+		\end{align*}
+		
+	\item Markov Model: Given the observations $\lbrace \vec{x}_t \rbrace_{t=1}^N$
+		\begin{align*}
+			p(\vec{x}_1, \ldots, \vec{x}_N) &= p(\vec{x}_1)\prod_{t=2}^N p(\vec{x}_t \vert \vec{x}_{t-1}) & \text{bigram model}\\
+			p(\vec{x}_1, \ldots, \vec{x}_N) &= p(\vec{x}_1)p(\vec{x}_2\vert \vec{x}_1 )\prod_{t=3}^N p(\vec{x}_t \vert \vec{x}_{t-1},\vec{x}_{t-2}) & \text{trigram model}\\
+			p(\vec{x}_1, \ldots, \vec{x}_N) &= p(\vec{x}_1)p(\vec{x}_2\vert \vec{x}_1 )p(\vec{x}_3\vert \vec{x}_1,\vec{x}_2 )\prod_{t=4}^N p(\vec{x}_t \vert \vec{x}_{t-1},\vec{x}_{t-2},\vec{x}_{t-3}) & \text{n-gram model}
+		\end{align*}	
+		
+		\item A transition matrix $\vec{A}$ specifies the probabilities of getting from state $i$ (\textit{row}) to state $j$ (\textit{column}) in one step. Note that $\vec{A}$ is a stochastic matrix, i.e. the row must sum to 1.
+		
+		\item Stationary distribution is the long term distribution over the states
+					\begin{align*}
+						\vec{\pi}^\top & = \vec{\pi}^\top  \vec{A}\\
+					\end{align*}
+				Solving for the stationary distribution is the same as eigenanalysis, where $\vec{\pi}$ is an eigenvector with eigenvalue 1.	
+				
+				\begin{align*}
+					\vec{\pi}^\top(\vec{I} - \vec{A}) = \vec{0}\\
+					\vec{\pi}^\top \vec{1} = \vec{1}	
+				\end{align*}
+				
+		\item For a stationary distribution to exist, the markov chain has to be irreducible and aperiodic.
+			\begin{itemize}
+				\item Irreducibility: The state transition diagram must be singly connected, i.e. it is possible to move from one state to another.
+				\item Aperiodicty: $d(i) = gcd\lbrace t: a_{ii}(t)>0\rbrace =1, \forall i$
+			\end{itemize}
+	
+		\item Add detail balance condition	
+	
+		\item Estimation of the transition matrix from training data (language model)\\
+			\begin{enumerate}
+				\item The probability of a character is given by
+					\begin{align*}
+						p(\vec{x}_1\vert \vec{\pi}) & = \prod_{k=1}^K \pi_k^{x_{1k}}\\
+						p(\vec{x}_t\vert \vec{x}_{t-1}) & = \prod_{j=1}^K \prod_{k=1}^K a_{jk}^{x_{(t-1)j}x_{tk}}				
+					\end{align*}
+					
+				\item Probability of a sequence $D_l$ with length $T$
+					\begin{align*}
+						P(D_l\vert \theta) 
+						 = p(\vec{x}_1^l, \ldots, \vec{x}_T^l)
+						 = p(\vec{x}_1^l) \prod_{t=2}^T p(\vec{x}_t^l \vert \vec{x}_{t-1}^l)
+						 = \prod_{k=1}^K \pi_k^{x_{1k}^l}\prod_{t=2}^T\prod_{j=1}^K \prod_{k=1}^K a_{jk}^{x^l_{(t-1)j}x^l_{tk}}	
+					\end{align*}
+					
+				\item The likelihood function is then
+					\begin{align*}
+						p(D_1,\ldots, D_N\vert \theta) 
+						& = \prod_{l=1}^N p(D_l\vert \theta)
+						 = \prod_{l=1}^N \left\lbrace  \prod_{k=1}^K \pi_k^{x_{1k}^l}\prod_{t=2}^T\prod_{j=1}^K \prod_{k=1}^K a_{jk}^{x^l_{(t-1)j}x^l_{tk}} \right\rbrace
+					\end{align*}
+					
+					\begin{align*}
+						\ln p(D_1,\ldots, D_N\vert \theta) 
+						& =\sum_{l=1}^N\sum_{k=1}^K x_{1k}^l\ln\pi_k +\sum_{l=1}^N\sum_{t=2}^T\sum_{j=1}^K \sum_{k=1}^K x^l_{(t-1)j}x^l_{tk}\ln a_{jk}\\
+						& = \sum_{k=1}^K \left(\sum_{l=1}^N x_{1k}^l\right)\ln\pi_k +\sum_{j=1}^K \sum_{k=1}^K\left(\sum_{l=1}^N\sum_{t=2}^T x^l_{(t-1)j}x^l_{tk}\right)\ln a_{jk}\\
+						& = \sum_{k=1}^K N_k^1 \ln \pi_k + \sum_{j=1}^K \sum_{k=1}^K N_{jk} \ln a_{jk}
+					\end{align*}
+					
+					where 
+					\begin{align*}
+						N_k^1& = \sum_{l=1}^N x_{1k}^l & N_{jk}&=\sum_{l=1}^N\sum_{t=2}^T x^l_{(t-1)j}x^l_{tk}
+					\end{align*}
+
+				\item We just need to solve the optimization below by formulating the Lagrangian:
+					\begin{align*}
+						\max_{\vec{\theta}}	&\sum_{k=1}^K N_k^1 \ln \pi_k + \sum_{j=1}^K \sum_{k=1}^K N_{jk} \ln a_{jk}\\
+						\text{s.t. }&	\sum_{k=1}^K \pi_k =1\\
+										&	\sum_{k=1}^K a_{jk} = 1
+					\end{align*}									
+					
+					\begin{align*}
+						\pi_k &= \frac{N_k^1}{\sum_{k=1}^K N_k^1}	&	a_{jk} & =\frac{N_{jk}}{\sum_{k=1}^K N_{jk}}
+					\end{align*}
+				
+			\end{enumerate}					
+		
+			
+		
+\end{enumerate}
+
 
 
 
