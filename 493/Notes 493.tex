@@ -137,7 +137,7 @@ P^\prime(e_i) = \alpha P(e_i)P(s_3\vert e_i)P(d_2\vert e_i)
 
 \newpage
 
-\section{Evidence and Message Passing: Pearl's Algorithm}
+\section{Evidence \& Message Passing}
 
 \begin{enumerate}
 \item New concepts to deal with complex networks with intermediate nodes:
@@ -235,11 +235,96 @@ P(x\vert a) = \alpha \lambda(x) \pi(x)
 \end{enumerate}
 
 
+
+\end{enumerate}
+
+\subsection{Probability Propagation in Trees}
+	\subsubsection{Operative Formulas}
+		\begin{enumerate}
+			\item If $B$ is a child of $A$, $B$ has $k$ possible values, and $A$ has $m$ possible values, then for $1\leq j \leq m$, the $\lambda$ message from B to A is given by
+				\begin{align*}
+					\lambda_B(a_j) = \sum_{i=1}^k P(b_i\vert a_j) \lambda(b_i)
+				\end{align*}
+	
+			\item If $B$ is a child of $A$ and $A$ has $m$ possible values, then for $1 \leq j \ leq m$ the  $\pi$ message from $A$ to $B$ is given by
+				\begin{align*}
+					\pi_B(a_j) = \begin{cases}
+					1															& \text{ if $A$ is instantiated for $a_j$}\\
+					0															& \text{ if $A$ is instantiated, but not for $a_j$}\\
+					\frac{P^\prime(a_j)}{\lambda_B(a_j)}	& \text{ if $A$ is not instantiated}
+					\end{cases}
+				\end{align*}
+					where $P^\prime (a_j)$ is the current conditional probability of $a_j$ based on the variables thus fr instantiated.
+					
+			\item If $B$ is a variable with $k$ possible values, $s(B)$ is the set of $B$'s children, then for $1 \leq i \leq k$ the $\lambda$ value of $B$ is given by
+				\begin{align*}
+					\lambda(b_i) = \begin{cases}
+					\prod_{C\in s(B)} \lambda_C(b_i)			&  \text{ if $B$ is not instantiated}\\
+					1															&	\text{ if $B$ is instantiated for $b_i$}\\
+					0															&	\text{ if $B$ is instantiated, but not for $b_i$}
+					\end{cases}
+				\end{align*}
+				
+			\item If $B$ is a variable with $k$ possible values, $A$ is the parent of $B$, and $A$ has $m$ possible values, the for $1\leq i \leq k$ the $\pi$ value of $B$ is given by
+				\begin{align*}
+					\pi(b_i)	= \sum_{j=1}^m P(b_i\vert a_j) \pi_B(a_j)
+				\end{align*}
+				
+			\item If $B$ is a variable with $k$  possible values, then for $1 \leq i \leq k$, $P^\prime (b_i)$, the conditional probability of $b_i$ based on the variables thus far instantiated, is given by
+				\begin{align*}
+					P^\prime(b_i) = \alpha \lambda(b_i)\pi(b_i)
+				\end{align*}
+
+			\end{enumerate}
+
+\subsubsection{Initialization}
+\begin{enumerate}
+	\item Set all $\lambda$ messages and $\lambda$ values to $1$.
+	\item If the root $A$ has $m$ possible values, then for $1 \leq j \leq m$, set
+		\begin{align*}
+			\pi(a_j) = P(a_j)
+		\end{align*}
+	\item For all children $B$ of the root $A$, post a new $\pi$ message to $B$ using operative formula (2).
+	
+	
+\subsubsection{Updating}
+ When a variable is instantiated or a $\lambda$ or $\pi$ message is received by a variable, one of the following updating procedures is used:
+ 
+ \begin{enumerate}
+\item \textbf{Instantiation.} If a variable $B$ is instantiated for $b_j$, then
+	\begin{enumerate}
+		\item Set $P^\prime (b_j)=1$ and for $i \neq j$, set $P^\prime(b_i)=0$
+		\item Compute $\lambda (B)$ using operative formula (3).
+		\item Post a new $\lambda$ message to $B$'s parents using operative formula (1).
+		\item Post a new $\pi$ message to $B$'s children using operative formula (2).
+	\end{enumerate}
+	
+
+\item \textbf{Upward Propagation.} If a variable $B$ receives a new $\lambda$ message from one of its children and if $B$ is not already instantiated, then
+	\begin{enumerate}
+		\item Compute the new value for $\lambda (B)$ using operative formula (3)
+		\item Compute the new value of $P^\prime(B)$ using operative formula (5)
+		\item Post new $\lambda$ message to $B$'s parents using operative formula (1)
+		\item Post new $\pi$ messages to $B$'s other children using operative formula (2)
+	\end{enumerate}
+
+
+\item \textbf{Downward Propagation.} If a variable $B$ receives a new  $\pi$ message from its parent and if $B$ is not already instantiated, then
+	\begin{enumerate}
+		\item Compute the new value of $\pi(B)$ using operative formula (4)
+		\item Compute the new value of $P^\prime(B)$ using operative formula (5)
+		\item Post new $\pi$ messages to $B$'s children using operative formulat (2)
+	\end{enumerate}
+
+ \end{enumerate}
+
+
+
 \end{enumerate}
 
 \newpage
 
-\section{Probability Propagation: Single Connected Networks}
+\section{Single Connected Networks}
 \begin{enumerate}
 \item A DAG is singly connected if there is at most one path between any two nodes. In a singly-connected network, each node can have more than 1 parents.
 \item The main properties of these networks are:
@@ -329,76 +414,17 @@ P(x\vert a) = \alpha \lambda(x) \pi(x)
 
 \end{enumerate}
 
-\item \textbf{The Operating Equations for Probability Propagation}
-\begin{enumerate}
-\item {The $\lambda$ Message}
-\begin{align*}
-\lambda_C(a_i)& = \sum_{j=1}^m \pi_C(b_j) \sum_{k=1}^n P(c_k \vert a_i \cap b_j)\lambda(c_k)\\
-&\\
-\vec{\lambda_C(A)}&=\vec{\lambda(C)P(C\vert A)}\\
-\lambda_C(a_i)& = \sum_{j=1}^m \pi_C(b_j) \lambda_C(a_i \cap b_j)
-\end{align*}
+	\item \textbf{Blocked Path (very important to understand this):}
+		\begin{itemize}
+			\item For a diverging path: when the node is instantiated, it will block the passing message between other nodes.
+			\item For a converging path: it is blocked when there is no $\lambda$ evidence on the child node, but unblocked when there is $\lambda$ evidence or when the node is instantiated.
 
-
-\item {The $\pi$ Message:} If $C$ is a child of $A$, the $\pi$ message from $A$ to $C$ is:
-\begin{align*}
-\pi_C(a_i) & = \begin{cases}
-1 													& \text{if $A$ is instantiated for $a_i$} \\
-0 													& \text{if $A$ is instantiated but not for $a_i$} \\
-P^\prime(a_i)/\lambda_C(a_i)		 	& \text{if $A$ is not instantiated}
-\end{cases}
-\end{align*}
-
-
-\item {The $\lambda$ Evidence:} If $C$ is a node with $n$ children $D_1, \dots, D_n$, then the $\lambda$ evidence for $C$ is
-\begin{align*}
-\lambda(c_k) &=\begin{cases}
-1											& \text{if $C$ is instantiated for $c_k$}\\
-0											& \text{if $C$ is instantiated but not for $c_k$}\\
-\prod_i \lambda_{D_i}(c_k)	& \text{if $C$ is not instantiated}
-\end{cases}
-\end{align*}
-
-\item {The $\pi$ Evidence:} If $C$ is a child of two parents $A$ and $B$, the $pi$ evidence for $C$ is:
-\begin{align*}
-\pi(c_k)& = \sum_{i=1}^l \sum_{j=1}^m P(c_k \vert a_i \cap b_j)\pi_C(a_i)\pi_C(b_i)\\
-\vec{\pi(C)}& = \vec{P(C\vert A)\pi_C(A)}
-\end{align*}
-
-\item {The Posterior Probabilities:} If $C$ is a variable, the posterior probability of $C$ based on the evidence received is
-\begin{align*}
-P^\prime(c_k) = \alpha \lambda(c_k) \pi(c_k)
-\end{align*}
-\end{enumerate}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width = 1.00\hsize]{./figures/ProbabilityPropagation.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
-\caption{Probability propagation} % caption of the figure
-\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
-\end{center}
-\end{figure}
-
-\item \textbf{Message Passing}
-\begin{enumerate}
-\item \textbf{Initialization:} For all the root nodes, the $\pi$ values are set to the prior probabilities and propagate the $\pi$ messages using downward propagation
-\item \textbf{Upward Propagation (only for uninstantiated nodes):} A node $C$ receives $\lambda$ from a child. 
-\begin{itemize}
-\item Compute the new $\lambda(C)$ and $P^\prime(C)$. Then, post a $\lambda$ message to all its parents and post a $\pi$ message to all $C$'s other children.
-\end{itemize}
-\item \textbf{Downward Propagation:} If a variable $C$ receives a $\pi$ message from one parent.
-\begin{itemize}
-\item If $C$ is not instantiated: Compute $\pi(C)$ and $P^\prime(C)$ and post $\pi$ message to each child.
-\item If there is evidence in $C$: Post $\lambda$ message to the other parents
-\end{itemize}
-
-\item \textbf{Instantiation:} If $C$ is instantiated for state $c_k$,
-\begin{itemize}
-\item $P^\prime (c_k) =1$ and $P^\prime (c_j) = 0 \forall j\neq k$. Compute $\lambda (C)$
-\item Post $\lambda$ and $\pi$ message to each parent and each child of $C$ respectively.
-\end{itemize}
-\end{enumerate}
-
+			\begin{align*}
+				\lambda_C(a_i)& = \sum_{j=1}^m \pi_C (b_j) \sum_{k=1}^n P(c_k \vert a_i \cap b_j) \lambda(c_k)\\
+				\lambda(c_k) & = 1, \forall c_k \Rightarrow \lambda_C(a_i) = \sum_{j=1}^m \pi_C (b_j) 
+			\end{align*}
+		\end{itemize}
+		
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width = 0.50\hsize]{./figures/ConvergingConnection.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
@@ -415,19 +441,113 @@ P^\prime(c_k) = \alpha \lambda(c_k) \pi(c_k)
 \end{center}
 \end{figure}
 
+\end{enumerate}
 
-\item \textbf{Blocked Path (very important to understand this):}
+
+\subsection{Probability Propagation}
+\subsubsection{The Operating Equations for Probability Propagation}
+	\begin{enumerate}
+		\item \textbf{The $\lambda$ Message.} If $C$ is a child of $A$ and $B$, then the $\lambda$ message from $C$ to $A$ is given by
+			\begin{align*}
+				\lambda_C(a_i)& = \sum_{j=1}^m \pi_C(b_j) \sum_{k=1}^n P(c_k \vert a_i, b_j)\lambda(c_k)\\
+				\vec{\lambda_C(A)}&=\vec{\lambda(C)P(C\vert A)}\\
+				\lambda_C(a_i)& = \sum_{j=1}^m \pi_C(b_j) \lambda_C(a_i \cap b_j)
+			\end{align*}
+
+
+		\item {The $\pi$ Message:} If $C$ is a child of $A$, the $\pi$ message from $A$ to $C$ is:
+			\begin{align*}
+				\pi_C(a_i) & = \begin{cases}
+						1 													& \text{if $A$ is instantiated for $a_i$} \\
+						0 													& \text{if $A$ is instantiated but not for $a_i$} \\
+						P^\prime(a_i)/\lambda_C(a_i)		 	& \text{if $A$ is not instantiated}
+				\end{cases}
+			\end{align*}
+		where $P^\prime(a_i)$ is defined to be the current conditional probability of $a_i$ based on the variables thus far instantiated.
+
+		\item {The $\lambda$ Evidence:} If $C$ is a node with $n$ children $D_1, \dots, D_n$, then the $\lambda$ evidence for $C$ is
+			\begin{align*}
+				\lambda(c_k) &=\begin{cases}
+						1											& \text{if $C$ is instantiated for $c_k$}\\
+						0											& \text{if $C$ is instantiated but not for $c_k$}\\
+						\prod_i \lambda_{D_i}(c_k)	& \text{if $C$ is not instantiated}
+				\end{cases}
+			\end{align*}
+
+		\item {The $\pi$ Evidence:} If $C$ is a child of two parents $A$ and $B$, the $pi$ evidence for $C$ is:
+			\begin{align*}
+				\pi(c_k)& = \sum_{i=1}^l \sum_{j=1}^m P(c_k \vert a_i, b_j)\pi_C(a_i)\pi_C(b_i)\\
+				\vec{\pi(C)}& = \vec{P(C\vert A)\pi_C(A)}
+			\end{align*}
+
+		\item {The Posterior Probabilities:} If $C$ is a variable, the posterior probability of $C$ based on the evidence received is
+			\begin{align*}
+				P^\prime(c_k) = \alpha \lambda(c_k) \pi(c_k)
+			\end{align*}
+\end{enumerate}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 1.00\hsize]{./figures/ProbabilityPropagation.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+\caption{Probability propagation} % caption of the figure
+\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}
+
+\subsubsection{Initialization}
+\begin{enumerate}
+	\item All $\lambda$ messages, $\pi$ messages and $\lambda$ values are set to 1.
+	\item For all root nodes $A$, the $\pi$ values are set to the prior probabilities.
+		\begin{align*}
+			\pi(a_j) = P(a_j)
+		\end{align*}
+	\item Post and propagate the $\pi$ messages from the root nodes using downward propagation with operative formula 2.
+\end{enumerate}
+
+\subsubsection{Updating}
+\begin{enumerate}
+
+
+\item \textbf{Upward Propagation.} A node $C$ receives $\lambda$ from a child and $C$ is not instantiated: 
 \begin{itemize}
-\item For a diverging path: when the node is instantiated, it will block the passing message between other nodes.
-\item For a converging path: it is blocked when there is no $\lambda$ evidence on the child node, but unblocked when there is $\lambda$ evidence or when the node is instantiated.
-
-\begin{align*}
-\lambda_C(a_i)& = \sum_{j=1}^m \pi_C (b_j) \sum_{k=1}^n P(c_k \vert a_i \cap b_j) \lambda(c_k)\\
-\lambda(c_k) & = 1, \forall c_k \Rightarrow \lambda_C(a_i) = \sum_{j=1}^m \pi_C (b_j) 
-\end{align*}
+	\item Compute the new $\lambda(C)$ using operative equation (3).
+	\item Compute the new posterior probability $P^\prime (C)$ using operative equation (5).
+	\item Post a $\lambda$ message to all $C$'s parents.
+	\item Post a $\pi$ message to all $C$'s other children.
 \end{itemize}
 
+
+\item \textbf{Downward Propagation.} If a variable $C$ receives a $\pi$ message from one parent:
+	\begin{itemize}
+		\item If $C$ is not instantiated:
+			\begin{itemize}
+				\item Compute a new value for array $\pi(C)$ using operative equation (4)
+				\item Compute a new value for $P(C)$ using operative equation (5)
+				\item Post a $\pi$ message to each child.
+			\end{itemize}
+		
+		\item If there is $\lambda$ evidence in $C$
+			\begin{itemize}
+				\item Post a $\lambda$ message to the other parents.
+			\end{itemize}
+	\end{itemize}
+
+\item \textbf{Instantiation.} If $C$ is instantiated for state $c_k$,
+\begin{itemize}
+	\item Set $P^\prime (c_j) = 0, \forall j\neq k$
+	\item Set $P^\prime (c_k) =1$ 
+	\item Compute $\lambda (C)$ using operative equation (3)
+	\item Post $\lambda$ and $\pi$ message to each parent and each child of $C$ respectively.
+\end{itemize}
+
+
 \end{enumerate}
+
+
+
+
+
+
 
 \newpage
 
@@ -497,7 +617,7 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 \end{enumerate}
 
 
-
+\newpage 
 
 
 
@@ -577,7 +697,7 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 
 \end{enumerate}
 
-
+\newpage
 
 
 \section{Model Accuracy}
@@ -623,6 +743,9 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 	
 \end{enumerate}
 
+
+\newpage
+
 \section{Approximate Inference}
 \begin{enumerate}
 
@@ -638,6 +761,14 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 			\item Independence of multiple parents.
 		\end{enumerate}	
 	
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width = 0.8\hsize]{./figures/LoopsParents.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+			\caption{(Left half) When F is instantiated, the messages will not stop propagating. However, if one of B, C or D is instantiated, exact propagation is possible. (Right half) When only A is instantiated, C and D are no independent and the $pi$ evidence at E and F is not correct. Exact propagation can be still carried out if B,C, and D are instantiated.} % caption of the figure
+		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}	
+	
 	\item Approximate Inference Methods:
 		\begin{itemize}
 			\item Node deletion (Seletive Bayes Network)
@@ -651,10 +782,19 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 			\item Alternatively, add variables incrementally and test the performance for each network.
 		\end{itemize}
 		
+\begin{figure}[H]		
+	\begin{center}
+		\includegraphics[width = 0.6\hsize]{./figures/SelectiveBayesianFinal.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+			\caption{(Top Row) Adding incrementally.  (Bottom row) Deletion incrementally.}
+		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}			
+		
+		
 	\item \textbf{Loopy Belief Propagation}: Include all arcs expressing significant dependency and allow propagation to continue until
 		\begin{itemize}
 			\item The probability distributions reach a stable state; or
-			\item A limiting number of iterations has occurrec (i.e. there may be no steady state)
+			\item A limiting number of iterations has occurred (i.e. there may be no steady state)
 		\end{itemize}
 
 	\item \textbf{Hidden Nodes}: If any two children of a parent are not conditionally independent, they can be separated by hidden node.
@@ -663,6 +803,21 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 			\item A network can always perform as well with a hidden node as it can without.
 		\end{itemize}
 			
+\begin{figure}[H]		
+	\begin{center}
+		\includegraphics[width = 0.4\hsize]{./figures/HiddenNodes.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+			\caption{Hidden Nodes to introduce conditional independence.}
+		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}			
+
+\begin{figure}[H]		
+	\begin{center}
+		\includegraphics[width = 0.4\hsize]{./figures/SwitchNodes.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+			\caption{Hidden Nodes to untangle double loops and acts as switch nodes.}
+		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}	
 \end{enumerate}
 
 
@@ -705,9 +860,21 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 		
 	\end{enumerate}
 
+\begin{figure}[H]		
+	\begin{center}
+		\includegraphics[width = 0.4\hsize]{./figures/PropagationStrategies.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+			\caption{Propagation Strategies in Calculating Errors.}
+		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}	
 
-
-
+\begin{figure}[H]		
+	\begin{center}
+		\includegraphics[width = 0.4\hsize]{./figures/ReducingLoopsFinal.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+			\caption{Propagation Strategies in Calculating Errors.}
+		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
+\end{center}
+\end{figure}	
 \end{enumerate}
 
 
