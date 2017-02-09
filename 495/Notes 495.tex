@@ -602,11 +602,14 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 				
 		\item For a stationary distribution to exist, the markov chain has to be irreducible and aperiodic.
 			\begin{itemize}
-				\item Irreducibility: The state transition diagram must be singly connected, i.e. it is possible to move from one state to another.
-				\item Aperiodicty: $d(i) = gcd\lbrace t: a_{ii}(t)>0\rbrace =1, \forall i$
+				\item Irreducibility: The state transition diagram must be singly connected, i.e. it is possible to move from one state to another ($a_{ij}(t)>0$)
+				\item Aperiodicty: $d(i) = gcd\lbrace t: a_{ii}(t)>0\rbrace =1, \forall i$. At some point in time, the probability of a recurrent connection is greater than 0.
 			\end{itemize}
 	
-		\item Add detail balance condition	
+		\item \textbf{Detailed balance condition}: A markov process is called a reversible Markov process if it satisfies the detailed balance equations.
+			\begin{align*}
+				\pi_i P_{ij} = \pi_j P_{ji}
+			\end{align*}
 	
 		\item Estimation of the transition matrix from training data (language model)\\
 			\begin{enumerate}
