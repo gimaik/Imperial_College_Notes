@@ -693,13 +693,19 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 	
 	\item Inferences using the Hidden Markov Model
 		\begin{itemize}
-			\item Filtering
-			\item Smoothing
-			\item Fixed lag smoothing
-			\item Prediction 
-			\item MAP estimation (Viterbi Decoding)
-			\item Probability of Evidence (Evaluation)
-			\item Parameter Estimation
+			\item \textbf{Filtering}: Compute the belief state $p(\vec{z}_n \vert \vec{x}_1,\ldots, \vec{x}_n)$ online as the data streams in. It is known as filtering to reduce the noise in the estimation of the hidden state.
+			
+			\item \textbf{Smoothing}: Compute $p(\vec{z}_t\vert  \vec{x}_1,\ldots, \vec{x}_N)$ offline, given all the evidence. Reducing the uncertainty by conditioning on the past and future data. 
+			
+			\item \textbf{Fixed lag smoothing}: Compute  $p(\vec{z}_{t-\ell} \vert \vec{x}_1,\ldots, \vec{x}_n)$, where  $\ell >0$ is the lag. 
+			
+			\item \textbf{MAP estimation}: Compute $\text{arg} \max_{\vec{z}_1,\ldots, \vec{z}_n} p(\vec{z}_{1},\ldots,\vec{z}_{n} \vert \vec{x_1}, \ldots, \vec{x_n}) $. This is known as Viterbi Decoding.
+			
+			\item \textbf{Evaluation}: Find the probability of the evidence $p(\vec{x}_1,\ldots, \vec{x}_N)= \sum_{\vec{z}} p(\vec{x}, \vec{z})$.			
+			
+			\item \textbf{Prediction}: Predicting the future given the past, we compute $p(\vec{z}_{n+\delta}\vert \vec{x}_1, \ldots, \vec{x}_n)$ and $p(\vec{x}_{n+\delta}\vert \vec{x}_1, \ldots, \vec{x}_n)$.
+			
+			\item \textbf{Parameter Estimation}: This is know as the Baum-Welch algoritm. We estimate the parameter $\vec{A}$, $\vec{\pi}$ and $\vec{\theta}$.
 		\end{itemize}
 
 \end{enumerate}
