@@ -664,8 +664,45 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 
 \subsection{Hidden Markov Model}
 
+\subsubsection{Model Description and Important Properties}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width = 0.7\hsize]{./figures/HiddenMarkovModel.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+		\caption{State Space Model. If $\vec{z}$ are discrete and markovian, then it is a Hidden Markov model.} % caption of the figure
+		\label{fig:Hidden Markov Model} % a label. When we refer to this label from the text, the figure number is included automatically
+	\end{center}
+\end{figure}
 
 
+
+
+\begin{enumerate}
+	\item The HMM is a specific instance of the state space model in Figure \ref{fig:Hidden Markov Model} in which the latent variables are discrete.
+	\item If we view a single time slice of the model, it corresponds to a mixture distribution densities given by $p(\vec{x}\vert \vec{z})$, where $p(\vec{z}_n \vert \vec{z}_{n-1})$.
+	\item Properties of conditional independence
+	\begin{align*}
+		p(\vec{X}\vert \vec{z}_n)	 &= p(\vec{x}_1,\ldots, \vec{x}_n\vert \vec{z}_n)p(\vec{x}_{n+1},\ldots, \vec{x}_N\vert \vec{z}_n)\\
+		p(\vec{x}_1,\ldots, \vec{x}_{n-1} \vert \vec{x}_n, \vec{z}_n)	&= p(\vec{x}_1,\ldots, \vec{x}_{n-1}\vert \vec{z}_n)\\
+		p(\vec{x}_1,\ldots, \vec{x}_{n-1} \vert \vec{z}_{n-1}, \vec{z}_n)	&= p(\vec{x}_1,\ldots, \vec{x}_{n-1}\vert \vec{z}_{n-1})\\
+		p(\vec{x}_{n+1},\ldots, \vec{x}_N \vert \vec{z}_n, \vec{z}_{n+1})&= p(\vec{x}_{n+1},\ldots, \vec{x}_N \vert \vec{z}_{n+1})\\
+		p(\vec{x}_{n+2},\ldots, \vec{x}_N \vert \vec{z}_{n+1}, \vec{x}_{n+1})	& =p(\vec{x}_{n+2},\ldots, \vec{x}_N \vert \vec{z}_{n+1})\\
+		p(\vec{X}\vert \vec{z}_{n-1}, \vec{z}_n) & = p(\vec{x}_1,\ldots, \vec{x}_{n-1}\vert \vec{z}_{n-1})p(\vec{x}_n\vert\vec{z}_n)p(\vec{x}_{n+1},\ldots, \vec{x}_N\vert \vec{z}_n)\\
+		p(\vec{x}_{N+1}\vert \vec{X}, \vec{z}_{N+1})& = p(\vec{x}_{N+1}\vert \vec{z}_{N+1})\\
+		p(\vec{z}_{N+1}\vert \vec{z}_N, \vec{X})	& = p(\vec{z}_{N+1}\vert \vec{z}_N)
+	\end{align*}		
+	
+	\item Inferences using the Hidden Markov Model
+		\begin{itemize}
+			\item Filtering
+			\item Smoothing
+			\item Fixed lag smoothing
+			\item Prediction 
+			\item MAP estimation (Viterbi Decoding)
+			\item Probability of Evidence (Evaluation)
+			\item Parameter Estimation
+		\end{itemize}
+
+\end{enumerate}
 
 
 
