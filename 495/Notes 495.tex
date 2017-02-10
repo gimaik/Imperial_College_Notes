@@ -710,9 +710,60 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 
 \end{enumerate}
 
+\subsubsection{Filtering and Smoothing: Forwards and Backwards Algorithm}
+
+\begin{enumerate}
+
+	\item We can write the posterior probabilities of the latent variables as below. After that, we will formulate the computation for $\alpha(\vec{z}_n)$ (forward probabilities) and $		\beta(\vec{z}_n)$ (backward probabilities).
+		\begin{align*}
+			\gamma(\vec{z}_n) & = p(\vec{z}_n\vert \vec{X}) = \frac{p(\vec{X}\vert \vec{z}_n)p(\vec{z}_n)}{p(\vec{X})}\\
+			& = \frac{p(\vec{x}_1,\ldots, \vec{x}_n \vert \vec{z}_n)p(\vec{x}_{n+1},\ldots,\vec{x}_N\vert \vec{z}_n)p(\vec{z}_n)}{p(\vec{X})}\\
+			& = \frac{p(\vec{x}_1,\ldots, \vec{x}_n, \vec{z}_n)p(\vec{x}_{n+1},\ldots,\vec{x}_N\vert \vec{z}_n)}{p(\vec{X})}\\
+			& = \frac{\alpha(\vec{z}_n)\beta(\vec{z}_n)}{p(\vec{X})}
+		\end{align*}
+
+	\item The forward probabilities can be computed recursively based on the below:
+		\begin{align*}
+			\alpha(\vec{z}_n)
+			& = p(\vec{x}_1,\ldots, \vec{x}_n, \vec{z}_n)\\
+			& = p(\vec{x}_1,\ldots, \vec{x}_n\vert \vec{z}_n) p(\vec{z}_n)\\
+			& = p(\vec{x}_n\vert \vec{z}_n) p(\vec{x}_1,\ldots, \vec{x}_{n-1}\vert \vec{z}_n) p(\vec{z}_n)\\
+			& = p(\vec{x}_n\vert \vec{z}_n) p(\vec{x}_1,\ldots, \vec{x}_{n-1}, \vec{z}_n)\\
+			& = p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}}p(\vec{x}_1,\ldots, \vec{x}_{n-1}, \vec{z}_n \vert \vec{z}_{n-1})p(\vec{z}_{n-1})\\
+			& = p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}}p(\vec{x}_1,\ldots, \vec{x}_{n-1}\vert \vec{z}_{n-1})p(\vec{z}_n\vert \vec{z}_{n-1}) p(\vec{z}_{n-1})\\
+			& = p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}}p(\vec{x}_1,\ldots, \vec{x}_{n-1}, \vec{z}_{n-1})p(\vec{z}_n\vert \vec{z}_{n-1}) \\
+			& = p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}} \alpha(\vec{z}_{n-1})p(\vec{z}_n\vert \vec{z}_{n-1})
+		\end{align*}
+
+		The initial condition of the recursive formula is given by:
+		\begin{align*}
+			\alpha(\vec{z}_1) =p(\vec{x}_1,\vec{z}_1) &= p(\vec{z}_1)p(\vec{x}_1 \vert \vec{z}_1)=\prod_{k=1}^K \lbrace \pi_k p(\vec{x}_1\vert z_{1k})\rbrace^{z_{1k}}
+		\end{align*}
+
+		\begin{align*}
+			p(\vec{x}_1,\ldots, \vec{x}_n)&= \sum_{\vec{z}_n}p(\vec{x}_1, \ldots, \vec{x}_n, \vec{z}_n) = \sum_{\vec{z}_n} \alpha(\vec{z}_n)\\
+			p(\vec{z}_n\vert \vec{x}_1,\ldots, \vec{x}_n) & = \frac{p(\vec{x}_1,\ldots, \vec{x}_n, \vec{z}_n)}{p(\vec{x}_1,\ldots, \vec{x}_n)}=\frac{\alpha(\vec{z}_n)}{\sum_{\vec{z}_n} 			\alpha(\vec{z}_n)}=\tilde{\alpha}(\vec{z}_n)
+		\end{align*}
+
+	\item The backward probabilities can be computed as follows:
+		\begin{align*}
+			\beta(\vec{z}_n)
+			&= p(\vec{x}_{n+1},\ldots, \vec{x}_N \vert \vec{z}_n)\\
+			& = \sum_{\vec{z}_{n+1}}p(\vec{x}_{n+1},\ldots, \vec{x}_N, \vec{z}_{n+1} \vert \vec{z}_n)\\
+			& = \sum_{\vec{z}_{n+1}}p(\vec{x}_{n+1},\ldots, \vec{x}_N \vert \vec{z}_n,\vec{z}_{n+1} ) p(\vec{z}_{n+1}\vert \vec{z}_{n})\\
+			& = \sum_{\vec{z}_{n+1}}p(\vec{x}_{n+1},\ldots, \vec{x}_N \vert \vec{z}_{n+1} ) p(\vec{z}_{n+1}\vert \vec{z}_{n})\\
+			& = \sum_{\vec{z}_{n+1}}p(\vec{x}_{n+2},\ldots, \vec{x}_N \vert \vec{z}_{n+1} ) p(\vec{x}_{n+1}\vert \vec{z}_{n+1}) p(\vec{z}_{n+1} \vert \vec{z}_{n})\\
+			& = \sum_{\vec{z}_{n+1}} \beta(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1}) p(\vec{z}_{n+1} \vert \vec{z}_{n})
+		\end{align*}
+
+\end{enumerate}
 
 
 
+
+\subsubsection{Prediction}
+\subsubsection{Baum-Welch Algorithm}
+\subsubsection{Vertebi Algorithm}
 
 
 
