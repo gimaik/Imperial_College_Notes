@@ -138,9 +138,9 @@ p(\vec{Z}\vert \vec{X}, \vec{\theta})\propto &
 \item \textbf{Maximization Step}:
 By taking the derivative of $(\vec{\theta})$ w.r.t $\vec{\theta}$ and set them to $0$, the parameters can be found to be
 \begin{align*}
-\vec{\mu}_k & = \frac{\sum_{n=1}^N \gamma(z_{nk})\vec{x}_n}{\sum_{n=1}^N \gamma(z_{nk})}\\
-\vec{\Sigma}_k& = \frac{\sum_{n=1}^N \gamma(z_{nk})(\vec{x}_n-\vec{\mu}_k)(\vec{x}_n-\vec{\mu}_k)^\top}{\sum_{n=1}^N \gamma(z_{nk})}\\
-\pi_k&= \frac{\sum_{n=1}^N \gamma(z_{nk})}{N}
+	\vec{\mu}_k & = \frac{\sum_{n=1}^N \gamma(z_{nk})\vec{x}_n}{\sum_{n=1}^N \gamma(z_{nk})}\\
+	\vec{\Sigma}_k& = \frac{\sum_{n=1}^N \gamma(z_{nk})(\vec{x}_n-\vec{\mu}_k)(\vec{x}_n-\vec{\mu}_k)^\top}{\sum_{n=1}^N \gamma(z_{nk})}\\
+	\pi_k&= \frac{\sum_{n=1}^N \gamma(z_{nk})}{N}
 \end{align*}
 
 \end{enumerate}
@@ -190,16 +190,16 @@ p(\vec{x}\vert \vec{\mu}_k) &= \prod^{D}_{i=1} \mu_{ki}^{x_i} (1- \mu_{ki}^{x_i}
 
 Let $\vec{z}$ be the one hot representation, we have
 \begin{align*}
-p(\vec{x} \vert \vec{z}, \vec{\mu}) &= \prod_{k=1}^K p(\vec{x}\vert \vec{\mu}_k)^{z_k}\\
-p(\vec{z}\vert \vec{\pi}) &= \prod_{k=1}^K \pi_k^{z_k}
+	p(\vec{x} \vert \vec{z}, \vec{\mu}) &= \prod_{k=1}^K p(\vec{x}\vert \vec{\mu}_k)^{z_k}\\
+	p(\vec{z}\vert \vec{\pi}) &= \prod_{k=1}^K \pi_k^{z_k}
 \end{align*}
 
 The log likelihood function is given by
 \begin{align*}
-\ln p(\vec{X}, \vec{Z} \vert \vec{\mu}, \vec{\pi})&=\sum_{n=1}^N\sum_{k=1}^Kz_{nk}
-\left\lbrace 
-\ln \pi_k +\sum_{i=1}^D[x_{ni}\ln\mu_{ki}+(1-x_{ni})\ln(1-\mu_{ki})]
-\right\rbrace
+	\ln p(\vec{X}, \vec{Z} \vert \vec{\mu}, \vec{\pi})&=\sum_{n=1}^N\sum_{k=1}^Kz_{nk}
+	\left\lbrace 
+	\ln \pi_k +\sum_{i=1}^D[x_{ni}\ln\mu_{ki}+(1-x_{ni})\ln(1-\mu_{ki})]
+	\right\rbrace
 \end{align*}
 
 The E step: we then take the expectation of the log likelihood above
@@ -215,17 +215,17 @@ The E step: we then take the expectation of the log likelihood above
 
 The M step: we then maximize the log likelihood wrt to the parameters
 \begin{align*}
-\vec{\mu}_k &=\frac{1}{N_k}\sum_{n=1}^N \gamma(z_{nk})\\
-\pi_k&=\frac{N_k}{N}\\
-N_k &= \sum_{n=1}^N \gamma(z_{nk})
+	\vec{\mu}_k &=\frac{1}{N_k}\sum_{n=1}^N \gamma(z_{nk})\\
+	\pi_k&=\frac{N_k}{N}\\
+	N_k &= \sum_{n=1}^N \gamma(z_{nk})
 \end{align*}
 
 \subsection{Convergence of the EM Algorithm}
 
 \begin{align*}
-p(\vec{X} \vert \vec{\theta}) = \sum_{\vec{Z}} p(\vec{X},\vec{Z} \vert \vec{\theta}) &\Rightarrow \ln p(\vec{X} \vert \vec{\theta}) = \mathcal{L}(q, \vec{\theta}) + KL(q\parallel p)\\
-\mathcal{L}(q, \vec{\theta})&=\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{X}, \vec{Z}\vert \vec{\theta})}{q(\vec{Z})}\right]\\
- KL(q\parallel p)&=-\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{Z}\vert \vec{X}, \vec{\theta})}{q(\vec{Z})}\right]
+	p(\vec{X} \vert \vec{\theta}) = \sum_{\vec{Z}} p(\vec{X},\vec{Z} \vert \vec{\theta}) &\Rightarrow \ln p(\vec{X} \vert \vec{\theta}) = \mathcal{L}(q, \vec{\theta}) + KL(q\parallel p)\\
+	\mathcal{L}(q, \vec{\theta})&=\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{X}, \vec{Z}\vert \vec{\theta})}{q(\vec{Z})}\right]\\
+	 KL(q\parallel p)&=-\sum_{\vec{Z}} q(\vec{Z})\ln \left[\frac{p(\vec{Z}\vert \vec{X}, \vec{\theta})}{q(\vec{Z})}\right]
 \end{align*}
 
 In the E step, the lower bound $\mathcal{L}(q,\vec{\theta}^{old})$ is maximized with respect to $q(\vec{Z})$. The solution to this maximization problem can be done by setting $q(\vec{Z}) = p (\vec{Z}\vert \vec{X}, \vec{\theta}^{old})$ such that $KL(q\parallel p)=0$.\\
@@ -234,8 +234,8 @@ In the M step, the lower bound $\mathcal{L}(q,\vec{\theta}^{old})$ is maximized 
 
 By substituting $q(\vec{Z}) = p(\vec{Z}\vert\vec{X}, \vec{\theta}^{old})$, we get the lower bound to be the following after the E step:
 \begin{align*}
-\mathcal{L}(q,\vec{\theta}) & = \sum_{\vec{Z}}p(\vec{Z}\vert \vec{X}, \vec{\theta}^{old})\ln p(\vec{X},\vec{Z}\vert \vec{\theta}) - \sum_{\vec{Z}}p(\vec{Z}\vert \vec{X}, \vec{\theta}^{old})\ln p(\vec{Z} \vert \vec{X}, \vec{\theta}^{old})\\
-&= \mathcal{Q}(\vec{\theta},\vec{\theta}^{old} ) + const 
+	\mathcal{L}(q,\vec{\theta}) & = \sum_{\vec{Z}}p(\vec{Z}\vert \vec{X}, \vec{\theta}^{old})\ln p(\vec{X},\vec{Z}\vert \vec{\theta}) - \sum_{\vec{Z}}p(\vec{Z}\vert \vec{X}, 	\vec{\theta}^{old})\ln p(\vec{Z} \vert \vec{X}, \vec{\theta}^{old})\\
+	&= \mathcal{Q}(\vec{\theta},\vec{\theta}^{old} ) + const 
 \end{align*}
 
 
@@ -244,9 +244,9 @@ By substituting $q(\vec{Z}) = p(\vec{Z}\vert\vec{X}, \vec{\theta}^{old})$, we ge
 \section{Probabilistic PCA}
 
 \begin{align*}
-\vec{x} &= \vec{Wy} + \vec{\mu} + \vec{e}\\
-\vec{e} & \sim \mathcal{N}(\vec{e}\vert \vec{0}, \sigma^2\vec{I})\\
-\vec{y} & \sim \mathcal{N}(\vec{y}\vert \vec{0}, \vec{I})
+	\vec{x} &= \vec{Wy} + \vec{\mu} + \vec{e}\\
+	\vec{e} & \sim \mathcal{N}(\vec{e}\vert \vec{0}, \sigma^2\vec{I})\\
+	\vec{y} & \sim \mathcal{N}(\vec{y}\vert \vec{0}, \vec{I})
 \end{align*}
 
 
@@ -603,7 +603,7 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 		\item For a stationary distribution to exist, the markov chain has to be irreducible and aperiodic.
 			\begin{itemize}
 				\item Irreducibility: The state transition diagram must be singly connected, i.e. it is possible to move from one state to another ($a_{ij}(t)>0$)
-				\item Aperiodicty: $d(i) = gcd\lbrace t: a_{ii}(t)>0\rbrace =1, \forall i$. At some point in time, the probability of a recurrent connection is greater than 0.
+				\item Aperiodicity: $d(i) = gcd\lbrace t: a_{ii}(t)>0\rbrace =1, \forall i$. At some point in time, the probability of a recurrent connection is greater than 0.
 			\end{itemize}
 	
 		\item \textbf{Detailed balance condition}: A markov process is called a reversible Markov process if it satisfies the detailed balance equations.
@@ -756,12 +756,39 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 			& = \sum_{\vec{z}_{n+1}} \beta(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1}) p(\vec{z}_{n+1} \vert \vec{z}_{n})
 		\end{align*}
 
+		Initial condition for the backward probabilities is given by:
+		\begin{align*}
+			p(\vec{z}_N \vert \vec{x}_1,\ldots,\vec{x}_N) & = \frac{p( \vec{x}_1,\ldots,\vec{x}_N, \vec{z}_N)}{p(\vec{x}_1,\ldots,\vec{x}_N)}=\frac{\alpha(\vec{z}_N)}{p(\vec{x}_1,\ldots,\vec{x}_N)}\Rightarrow \beta(\vec{z}_N) = 1
+		\end{align*}
+
+	
+
 \end{enumerate}
 
 
 
 
 \subsubsection{Prediction}
+\begin{align*}
+	p(\vec{x}_{n+2}\vert \vec{x}_1, \ldots, \vec{x}_n) &= \sum_{\vec{z}_{n+2}}p(\vec{x}_{n+2}\vert \vec{z}_{n+2})p(\vec{z}_{n+2}\vert \vec{x}_1,\ldots, \vec{x}_n)\\
+	p(\vec{z}_{n+2}\vert \vec{x}_1,\ldots, \vec{x}_n) 
+	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1},\vec{z}_{n}\vert \vec{x}_1, \ldots, \vec{x}_{n})\\
+	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1} \vert \vec{x}_1, \ldots, \vec{x}_{n}, \vec{z}_{n})p(\vec{z}_{n}\vert \vec{x}_1, \ldots, \vec{x}_{n})\\
+	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1} \vert \vec{z}_{n})\tilde{\alpha}(\vec{z}_n)\\
+	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2}\vert \vec{z}_{n+1})p(\vec{z}_{n+1}\vert \vec{z}_{n})\tilde{\alpha}(\vec{z}_n)\\
+	& = \vec{A}^\top\vec{A}^\top\tilde{\vec{\alpha}}
+\end{align*}	
+
+
+\subsubsection{Smooth Transition}
+\begin{align*}
+	\xi (\vec{z}_{n-1},\vec{z}_{n}) & = p(\vec{z}_{n-1},\vec{z}_{n} \vert \vec{X})\\
+	&= \frac{p(\vec{X}\vert\vec{z}_{n-1},\vec{z}_{n})p(\vec{z}_{n-1},\vec{z}_{n})}{p(\vec{X})}\\
+	&= \frac{p(\vec{x}_1,\ldots, \vec{x}_{n-1} \vert \vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)p(\vec{x}_{n+1},\ldots, \vec{x}_{N} \vert \vec{z}_{n})p(\vec{z}_n\vert \vec{z}_{n-1})p(\vec{z}_{n-1})}{p(\vec{X})}\\
+	&= \frac{\alpha(\vec{z}_{n-1}) p(\vec{x}_n\vert \vec{z}_n)p(\vec{z}_n\vert \vec{z}_{n-1})\beta(\vec{z}_n)}{p(\vec{X})}
+\end{align*}
+
+
 \subsubsection{Baum-Welch Algorithm}
 \subsubsection{Vertebi Algorithm}
 
