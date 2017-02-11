@@ -894,16 +894,46 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 
 \end{enumerate}
 
-
-
-
-
-
+\newpage
 
 \section{Exact Inference}
+There are methods to do approximate inference
+	\begin{enumerate}
+		\item \textbf{Cutset conditioning}
+		\begin{itemize}
+			\item \textbf{Method}: (1) Identify a cut set of nodes, which if instantiated makes propoagation terminate correctly, (2) If the node cannot be instantiated (no data), the network is broken into several networks, one for each possible states of the node		
+			\item \textbf{Problems}: (1) Computation time expands exponentially; (2) Not enough data to do it sufficiently.
+		\end{itemize}
+			
+		\item \textbf{Node clustering}
+		\begin{itemize}
+			\item \textbf{Method}: Combining the nodes into a new variable
+			\item \textbf{Problems}: The increase number of states in the new node limits the applicability of this method as the number of nodes goes up exponentially.
+		\end{itemize}				
+		
+		\item \textbf{Join trees}: 
+		\begin{itemize}
+			\item \textbf{Method}: Basically a generalization of the node clustering method. However, it is to find a systematic way to join the variables such that the probability propagation is possible.
+		\end{itemize}
+	\end{enumerate}
 
-\section{Probability Propagation: Join Trees}
+\newpage
 
+\section{Join Trees}
+
+\subsection{Preliminaries}
+\begin{enumerate}
+	\item \textbf{Potential Representations.} Let $V$ be a finite set of propositional variables and $P$ be a joint probability distribution of $V$. Suppose  $W_i$, $1 \leq i \leq p$  is a collection of subsets of $V$, and $\psi$ is a function that assigns a unique real number to every combination of values of the propositional variables in $W_i$. Then we have
+	\begin{align*}
+		P(V) = K \prod_{i=1}^p \psi(W_i)
+	\end{align*}		
+	
+	\item \textbf{The running intersection property.} Let $V$ be a set and  $\lbrace W_i \textbf{ such that } 1 \leq i \leq p$ be an ordered set of subsets of $V$. Then we have
+	\begin{align*}
+		S_i &= W_i \cap (W_1\cup W_2\cup \cdots \cup W_{i-1})\\
+		R_i & = W_i - S_i
+	\end{align*}
+\end{enumerate}
 
 
 \end{document}
