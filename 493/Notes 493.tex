@@ -928,12 +928,55 @@ There are methods to do approximate inference
 		P(V) = K \prod_{i=1}^p \psi(W_i)
 	\end{align*}		
 	
-	\item \textbf{The running intersection property.} Let $V$ be a set and  $\lbrace W_i \textbf{ such that } 1 \leq i \leq p$ be an ordered set of subsets of $V$. Then we have
+	\item \textbf{The running intersection property.} Let $V$ be a set and  $\lbrace W_i \text{ such that } 1 \leq i \leq p$ be an \textbf{ordered} set of subsets of $V$. Then we have
 	\begin{align*}
 		S_i &= W_i \cap (W_1\cup W_2\cup \cdots \cup W_{i-1})\\
 		R_i & = W_i - S_i
 	\end{align*}
+	
+	\item \textbf{Potential and running intersection property.} Let $V$ be a finite set of propositional variables and $P$ be a joint probability distribution of $V$ and $(W_i \forall 1 \leq i \leq p, \psi)$  a potential representation of $P$. If the ordering $[W_1, \ldots, W_p]$ has the running intersection property
+	\begin{align*}
+		P(V) = P(W_1) \prod_{i=2}^p P(R_i\vert S_i)
+	\end{align*}
 \end{enumerate}
+
+
+\subsection{Join Tree Construction from a DAG}
+A ordered subset of the variables can be found from a causal graph as fllow
+\begin{enumerate}
+	\item Moralisation
+	\begin{itemize}
+		\item For each child node with multiple parents, we need to ensure that the child and the parents are in the same clique.
+		\item Hence we need to marry the parents by constructing an edge joining the parents.
+	\end{itemize}
+	
+	\item Triangulation
+	\begin{itemize}
+		\item A chordal/triangulated graph is one in which all cycles of four or more nodes have a chord, i.e. an edge that is not part of the cycle but connects two nodes of the cycle. 
+		\item This is to ensure that the marginal distribution for a variable appearing in multiple nodes are consistent and equal.
+	\end{itemize}
+	
+	\item  Identify the cliques of the resulting graph
+	\begin{itemize}
+		\item  A clique is a maximal set of nodes in which every node is connected to every other.
+	\end{itemize}		
+	
+
+	\item Find an ordering with the running intersection property. Can be done using a search algorithm
+	\begin{enumerate}
+		\item Start with a clique containing a root of the original network
+		\item Find all nodes that can be its children - i.e. those for which any variable appearing higher up in the evolving tree is in the parent
+		\item Recursively search from the children till all cliques are joined
+	\end{enumerate}		
+	
+	
+	\item For each clique, $cli$, find the set of its variables $\lbrace X_i \rbrace$ whose parents $Pa(X_i)$ also belongs to the clique and initialize the clique potential function as follows:
+	\begin{align*}
+		\psi(cli) = \psi(W_i) = \prod_{\lbrace X_i \rbrace} P(X\vert Pa(X))
+	\end{align*}
+\end{enumerate}
+
+
 
 
 \end{document}
