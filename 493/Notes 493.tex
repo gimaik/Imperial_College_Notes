@@ -928,11 +928,27 @@ There are methods to do approximate inference
 		P(V) = K \prod_{i=1}^p \psi(W_i)
 	\end{align*}		
 	
+
+	
 	\item \textbf{The running intersection property.} Let $V$ be a set and  $\lbrace W_i \text{ such that } 1 \leq i \leq p$ be an \textbf{ordered} set of subsets of $V$. Then we have
 	\begin{align*}
 		S_i &= W_i \cap (W_1\cup W_2\cup \cdots \cup W_{i-1})\\
 		R_i & = W_i - S_i
 	\end{align*}
+
+	\item \textbf{Conditional probabilities} 
+		\begin{itemize}	
+			\item Let $V$ be a finite set of propositional variables, $P$ is a joint probability distribution of $V$ and $\lbrace W_i \forall i \leq \leq p\rbrace$ an ordered set of subsets of $V$
+				\begin{align*}
+					P(R_i\vert S_i) = P(W_i \vert S_i)
+				\end{align*}							
+			
+			\item Let $V$ be a finite set of propositional variables, $P$ is a joint probability distribution of $V$ and $(\lbrace W_i \forall i \leq \leq p\rbrace,\psi)$ a potential representation of $P$
+				\begin{align*}
+					P(R_p \vert S_p) =\frac{\psi(W_p)}{\sum_{R_p}\psi(W_p)}
+				\end{align*}
+			
+		\end{itemize}
 	
 	\item \textbf{Potential and running intersection property.} Let $V$ be a finite set of propositional variables and $P$ be a joint probability distribution of $V$ and $(W_i \forall 1 \leq i \leq p, \psi)$  a potential representation of $P$. If the ordering $[W_1, \ldots, W_p]$ has the running intersection property
 	\begin{align*}
@@ -970,9 +986,9 @@ A ordered subset of the variables can be found from a causal graph as fllow
 	\end{enumerate}		
 	
 	
-	\item For each clique, $cli$, find the set of its variables $\lbrace X_i \rbrace$ whose parents $Pa(X_i)$ also belongs to the clique and initialize the clique potential function as follows:
+	\item For each clique, $Clq$, find the set of its variables $\lbrace X_i \rbrace$ whose parents $Pa(X_i)$ also belongs to the clique and initialize the clique potential function as follows:
 	\begin{align*}
-		\psi(cli) = \psi(W_i) = \prod_{\lbrace X_i \rbrace} P(X\vert Pa(X))
+		\psi(Clq) = \psi(W_i) = \prod_{\lbrace X_i \rbrace} P(X\vert Pa(X))
 	\end{align*}
 \end{enumerate}
 
