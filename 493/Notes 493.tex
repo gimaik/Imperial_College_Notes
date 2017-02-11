@@ -857,24 +857,41 @@ C(A,B) & = \frac{\Sigma_{AB}}{\sqrt{\sigma_A\sigma_B}}\\
 				\item Individual probability values may be greater than 1 or less than 0.
 				\item Conditional probability matrices need to be normalized and this may compromise finding an optimum solution.
 			\end{itemize}					
+		\item The propagation strategies for calculating errors as per Figure \ref{fig:PropagationStrategies}. If strategies are alternated during optimization, it produces annealing beahaviour
 		
+		\begin{figure}[H]		
+			\begin{center}
+			\includegraphics[width = 0.4\hsize]{./figures/PropagationStrategies.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+				\caption{Propagation Strategies in Calculating Errors.}
+			\label{fig:PropagationStrategies} % a label. When we refer to this label from the text, the figure number is included automatically
+			\end{center}
+		\end{figure}	
+
 	\end{enumerate}
 
-\begin{figure}[H]		
-	\begin{center}
-		\includegraphics[width = 0.4\hsize]{./figures/PropagationStrategies.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
-			\caption{Propagation Strategies in Calculating Errors.}
-		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
-\end{center}
-\end{figure}	
+
+\item  Hidden nodes can be used to remove loops. We can always reduce any network to a singly connected form by this method as in Figure \ref{fig:ReduceLoops}, but the performance will be increasingly dependent on the training data and training process. 
 
 \begin{figure}[H]		
 	\begin{center}
-		\includegraphics[width = 0.4\hsize]{./figures/ReducingLoopsFinal.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
+		\includegraphics[width = 0.5\hsize]{./figures/ReducingLoopsFinal.png} 
 			\caption{Propagation Strategies in Calculating Errors.}
-		\label{fig:NaiveBayes} % a label. When we refer to this label from the text, the figure number is included automatically
-\end{center}
+		\label{fig:ReduceLoops} % a label. When we refer to this label from the text, the figure number is included automatically
+	\end{center}
 \end{figure}	
+
+\item Limitations for hidden nodes
+	\begin{itemize}
+		\item We may need too many hidden nodes to model all dependencies through hidden nodes.
+		\item The number of states in the hidden node will become large.
+	\end{itemize}
+
+\item Criteria for introducing hidden nodes
+	\begin{itemize}
+		\item We measure the conditional dependency of each pair of children given the parents. 
+		\item If the dependency is high, we expect benefits from introduction of the hidden nodes. Else, we can ignore the dependency.
+	\end{itemize}
+
 \end{enumerate}
 
 
