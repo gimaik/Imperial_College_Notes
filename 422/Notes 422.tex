@@ -58,7 +58,7 @@
 
 \end{enumerate}
 
-
+\newpage
 
 
 \section {Fixed Income Securities}
@@ -133,13 +133,106 @@
 
 \end{enumerate}
 
+\newpage
+
+\section{Mean Variance Portfolio Theory}
+\begin{enumerate}
+\item A portfolio's total return and rate of return are
+	\begin{align*}
+		R &= \sum_i^n R_i\\
+		r  &= \sum_i^n r_i
+	\end{align*}
+
+\item Mean and variance of portfolio return
+\begin{align*}
+	\overline{r} 	& = \mathbb{E}(r) = \sum_{i=1}^n w_i \overline(r)_i\\
+	\sigma^2 		& = \mathbb{V}(r) = \sum_{i,j=1}^n w_iw_j\sigma_{ij}
+\end{align*}
+
+\item Assumptions of the Markowitz model:
+\begin{itemize}
+	\item Investors consider each investment alternative as being represented by a probability distribution of expected returns over some holding period.
+	\item Investors maximize one-period expected utility and their utility curves demonstrate diminishing marginal utility of wealth.
+	\item Investors estimate risk on basis of variability of expected returns and base decisions solely on expected return and risk.
+	\item Investors prefer higher returns to lower risk and lower risk for the same level of return
+\end{itemize}
+
+\item Markowitz Model:
+\begin{itemize}
+	\item Assumed that there are $n$ risky assets with mean return $\lbrace \overline{r}_i\rbrace_{i=1}^n$ and covariances $\lbrace \sigma_{ij}\rbrace_{i,j=1}^n$, the portfolio has mean return and variance
+	\begin{align*}
+		\overline{r}_P	& = \sum_{i=1}^n w_i \overline{r}_i\\
+		\sigma_P^2		& = \sum_{i,j=1}^n w_iw_j\sigma_{ij}
+	\end{align*}
+	
+	\item The Markowitz model is then an optimization problem to minimize the variance subject to a portfolio target returns. 
+	\begin{align*}
+		\min_{w_i, w_i}	& \frac{1}{2}\sum_{i,i=1}^n w_i\sigma_{ij}w_j = \frac{1}{2}\sigma^2_P\\
+		\text{s.t.  	}		& \sum_{i=1}^n w_i\overline{r}_i = \overline{r}_P\\
+								&	\sum_{i=1}^n w_i = 1
+	\end{align*}
+	
+	This problem can be solve by introducing the Lagrange multipliers.
+	\begin{align*}
+		L(w) & = \frac{1}{2}\sum_{i,i=1}^n w_i\sigma_{ij}w_j  - \lambda \left(\sum_{i=1}^n w_i\overline{r}_i - r_P\right) - \mu \left(\sum_{i=1}^n w_i - 1\right)
+	\end{align*}
+	
+	The mean-variance set is obtained by plotting the minimal $\sigma_P^2$ for different $\overline{r}_P$. The efficient frontier is the top half of the mean-variance set.
+	
+	\item Solution to the model can be obtained by solving the linear equations
+	\begin{align*}
+			w_i:			&\sum_{i=1}^n \sigma_{ij}w_j - \lambda \overline{r}_i - \mu = 0\\
+			\lambda:	&\sum_{i=1}^n w_i\overline{r}_i = \overline{r}_P\\
+			\mu:			&\sum_{i=1}^n w_i = 1
+	\end{align*}		
+\end{itemize}
+
+		
+	\item In vector notation:
+	\begin{align*}
+			\min_{\vec{w}}	\text{  }	& \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w}\\
+			\text{s.t.  	}						& \vec{w}^\top\overline{\vec{r}} - \overline{r}_P = 0\\
+													&	\vec{w}^\top \vec{1} - 1 = 0
+	\end{align*}
+	
+	\begin{align*}
+		L(\vec{w}, \lambda, \mu) = \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w} &- \lambda \left(\vec{w}^\top\overline{\vec{r}} - \overline{r}_P \right) - \mu (\vec{w}^\top \vec{1} -1)
+	\end{align*}
+	
+	\begin{align*}
+		\begin{bmatrix}
+			\vec{\Sigma}						& 	- \overline{\vec{r}}	& - \vec{1} \\
+		 	- \overline{\vec{r}}^\top	& 0 								& 0\\
+			\vec{1}^\top						& 0 								& 0
+		\end{bmatrix}
+		\begin{bmatrix}
+		\vec{w}\\
+		\lambda \\
+		\mu
+		\end{bmatrix}
+		&= \begin{bmatrix}
+		\vec{0}		\\
+		-\overline{r}_P\\
+		-1
+		\end{bmatrix}
+	\end{align*}
+	
+	\item The above formulation assume short selling is permitted. However, if there is no short selling, we need to add the constraints for the weights to be positive.
+	
+	\item Estimation of the parameters can be done using historical data and MLE.
+		\begin{align*}
+			\hat{r} 				& = \frac{1}{n}\sum_{i=1}^n r_i\\
+			\hat{\sigma^2}	& = \frac{1}{n-1}\sum_{i=1}^n (r_i-\hat{r})^2\\
+			\hat{\sigma}_{ab}& = \frac{1}{n-1} \sum_{i=1}^n (r_{a,i}-\hat{r}_a)(r_{b,i}-\hat{r}_b)
+		\end{align*}
 
 
 
-Macaulay Duration
+\end{enumerate}
+
+\section{CAPM}
 
 
-Modified Duration
 
 
 
