@@ -807,8 +807,8 @@ Taking log of the likelihood,
 
 Taking the derivative w.r.t. to the parameters, we get
 \begin{align*}
-	\vec{\mu}_k	&= \frac{}{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]}\\
-	\vec{\Sigma}_k	&=\frac{}{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]}\\\\
+	\vec{\mu}_k	&= \frac{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]\vec{x}_n^l}{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]}\\
+	\vec{\Sigma}_k	&=\frac{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l](\vec{x}_n^l - \vec{\mu}_k)(\vec{x}_n^l - \vec{\mu}_k)^\top}{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]}\\
 	\pi_k 	& = \frac{\sum_{l=1}^M \mathbb{E}\left[z_{1,k}^l\right]}{\sum_{l=1}^M\sum_{r=1}^K\mathbb{E}\left[z_{1,r}^l\right]}\\
 	a_{ij}		& = \frac{\sum_{l=1}^M \sum_{n=2}^N \mathbb{E}\left[z_{n-1, i}^l z_{n, j}^l\right]}{\sum_{r=1}^K \sum_{l=1}^M \sum_{n=2}^N \mathbb{E}\left[z_{n-1, i}^l z_{n, r}^l\right]}
 \end{align*}
@@ -896,9 +896,37 @@ Taking the derivative w.r.t. to the parameters, we get
 
 
 \item \textbf{Baum-Welch Algorithm / EM }
+\begin{enumerate}
+	\item Initialization: We set all the parameters to random values. For $\vec{A}$ or $\vec{\pi}$, if any of their elements are initialized to 0, they will remain to be 0.
+	\item Compute both the smoothed and filtered posterior probability recursively
+	\item Compute the expectation $\mathbb{E} [z_{n,k}^l]$ for all $M$ number of sequences.
+	\item Compute the smooth transition probability
+\end{enumerate}
 
 
+\item \textbf{Scaling Issue}
+\begin{align*}
+	p(\vec{x}_1,\ldots , \vec{x}_n) = \prod_{k=1}^n c_k\\
+	c_k = p(\vec{x}_k \vert \vec{x}_1, \ldots, \vec{x}_{k-1})
+\end{align*}
 
+We can then define $\hat{\alpha}(\vec{z}_n)$ and $\hat{\beta}(\vec{z}_n)$
+\begin{align*}
+	\alpha(\vec{z}_n) & = p(\vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_n) p(\vec{x}_1,\ldots, \vec{x}_n) = \hat{\alpha}(\vec{z}_n) \prod_{k=1}^n c_k\\
+	\beta (\vec{z}_n) & = \hat{\beta}(\vec{z}_n) \prod_{k=n+1}^N c_k
+\end{align*}
+
+The recursive formulae to use are then:
+\begin{align*}
+c_n\hat{\alpha}(\vec{z}_n) &= p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}}\hat{\alpha}(\vec{z}_{n-1})p(\vec{z}_n \vert \vec{z}_{n-1})\\
+c_{n+1}\hat{\beta}(\vec{z}_n) & = \sum_{\vec{z}_{t+1}} \hat{\beta}(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1}) p(\vec{z}_{n+1}\vert \vec{z}_n)
+\end{align*}
+
+Hence, the posteriors become
+\begin{align*}
+	p(\vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_N) &= \hat{\alpha}(\vec{z}_n)\hat{\beta}(\vec{z}_n)\\
+	p(\vec{z}_{n-1}, \vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_N) &= c_n^{-1}\hat{\alpha}(\vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)p(\vec{z}_n\vert \vec{z}_{n-1})\hat{\beta}(\vec{z}_{n})
+\end{align*}
 
 \item \textbf{Vertebi Algorithm}
 
