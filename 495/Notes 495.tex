@@ -930,11 +930,19 @@ Hence, the posteriors become
 
 \item \textbf{Vertebi Algorithm}
 
+We define the probability of ending in a state $j$ at time $n$, given that we take the most probable path
+\begin{align*}
+	\delta_n(j) 
+	&= \max_{\vec{z}_1, \ldots, \vec{z}_{n-1}} p(\vec{z}_1, \ldots, \vec{z}_{n-1}, \vec{z}_{n,j}=1\vert \vec{x}_1,\ldots, \vec{x}_n)\\
+	&= c_n^{-1} p(\vec{x}_n \vert \vec{z}_{n, j}=1)\max_{i} \delta_{n-1}(i) p(\vec{z}_{n,j}=1 \vert \vec{z}_{n-1,i}=1) \\
+	a_n(j)& = \text{arg } \max_i p(\vec{x}_n\vert \vec{z}_{n,j} =1) \delta_{n-1}(i)p(\vec{z}_{n,j}=1 \vert \vec{z}_{n-1,i}=1)
+\end{align*}
 
 
 \end{enumerate}
 
 
+\section{Linear Dynamical System (Kalman Filter)}
 
 
 \section{Useful Identities:}
