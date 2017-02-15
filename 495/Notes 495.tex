@@ -674,8 +674,6 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 \end{figure}
 
 
-
-
 \begin{enumerate}
 	\item The HMM is a specific instance of the state space model in Figure \ref{fig:Hidden Markov Model} in which the latent variables are discrete.
 	\item If we view a single time slice of the model, it corresponds to a mixture distribution densities given by $p(\vec{x}\vert \vec{z})$, where $p(\vec{z}_n \vert \vec{z}_{n-1})$.
@@ -710,9 +708,53 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 
 \end{enumerate}
 
-\subsubsection{Filtering and Smoothing: Forwards and Backwards Algorithm}
 
+\subsubsection{Formulation (Discrete Case)}
+Let there be $K$ possible states for the latent variable $\vec{z}$ and $S$ possible states for the observed variable $\vec{x}$.
+\begin{align*}
+	p(\vec{z}_1\vert \vec{\pi}) 						&= \prod_{c=1}^K \pi_c^{z_{1,c}}\\
+	p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A})	&= \prod_{i=1}^K \prod_{j=1}^K a_{ij}^{z_{n-1, i}z_{n, j}}\\
+	p(\vec{x}_n \vert \vec{z}_n)					 	&= \prod_{i=1}^S \prod_{j=1}^K b_{ij}^{x_{n,i}z_{n,j}}
+\end{align*}
+
+If $\vec{x}$ is continuous, we just replace the last equation as
+\begin{align*}
+	p(\vec{x}_n \vert \vec{z}_n)	 = \prod_{j=1}^K p(\vec{x}_n \vert \vec{z}_{n, j})^{z_{n,j}}
+\end{align*}
+
+Given the $M$ observations of sequence $D$ with size $N$
+\begin{align*}
+	p(\vec{D}, \vec{Z}\vert \vec{\theta})
+	& =\prod_{l=1}^M p(\vec{x}_1^l,\ldots, \vec{x}_N^l, \vec{z}_1^l,\ldots, \vec{z}_N^l \vert \theta)\\
+	& = \prod_{l=1}^M \left(\prod_{n=1}^N p(\vec{x}_n^l \vert \vec{z}_n^l) p(\vec{z}_1^l)\prod_{n=2}^N p(\vec{z}_n^l \vert \vec{z}_{n-1}^l) \right)\\
+	& = \prod_{l=1}^M \left(\prod_{n=1}^N \prod_{i=1}^S \prod_{j=1}^K b_{ij}^{x_{n,i}^lz_{n,j}^l} \prod_{c=1}^K \pi_c^{z_{1,c}^l}\prod_{n=2}^N \prod_{i=1}^K \prod_{j=1}^K a_{ij}^{z_{n-1, i}^l z_{n, j}^l} \right)\\
+\end{align*}
+
+Taking the log of the likelihood function
+\begin{align*}
+	L = \sum_{l=1}^M \sum_{n=1}^N \sum_{i=1}^S \sum_{j=1}^K x_{n,i}^lz_{n,j}^l \ln b_{ij}  +  \sum_{l=1}^M \sum_{c=1}^K z_{1,c}^l \ln \pi_c + \sum_{l=1}^M \sum_{n=2}^N \sum_{i=1}^K \sum_{j=1}^K z_{n-1, i}^l z_{n, j}^l\ln a_{ij}
+\end{align*}
+
+Taking expectation of the likelihood function
+\begin{align*}
+\mathbb{E} [L]& = \sum_{l=1}^M \sum_{n=1}^N \sum_{i=1}^S \sum_{j=1}^K x_{n,i}^l\mathbb{E}[z_{n,j}^l] \ln b_{ij}  + \sum_{l=1}^M \sum_{c=1}^K \mathbb{E}[z_{1,c}^l] \ln \pi_c + \sum_{l=1}^M \sum_{n=2}^N \sum_{i=1}^K \sum_{j=1}^K \mathbb{E}[z_{n-1, i}^l z_{n, j}^l]\ln a_{ij}
+\end{align*}
+
+\begin{align*}
+\mathbb{E}[z_{1,c}]		
+\mathbb{E}[z_{n-1, i}^l z_{n, j}^l]
+\mathbb{E}[z_{n,j}^l]
+\end{align*}
+
+
+
+
+
+\subsubsection{Inference}
 \begin{enumerate}
+\item \textbf{Filtering and Smoothing: Forwards and Backwards Algorithm}
+
+	\begin{enumerate}
 
 	\item We can write the posterior probabilities of the latent variables as below. After that, we will formulate the computation for $\alpha(\vec{z}_n)$ (forward probabilities) and $		\beta(\vec{z}_n)$ (backward probabilities).
 		\begin{align*}
@@ -761,36 +803,43 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 			p(\vec{z}_N \vert \vec{x}_1,\ldots,\vec{x}_N) & = \frac{p( \vec{x}_1,\ldots,\vec{x}_N, \vec{z}_N)}{p(\vec{x}_1,\ldots,\vec{x}_N)}=\frac{\alpha(\vec{z}_N)}{p(\vec{x}_1,\ldots,\vec{x}_N)}\Rightarrow \beta(\vec{z}_N) = 1
 		\end{align*}
 
-	
+	\end{enumerate}
+
+
+\item \textbf{Prediction}
+
+	\begin{align*}
+		p(\vec{x}_{n+2}\vert \vec{x}_1, \ldots, \vec{x}_n) &= \sum_{\vec{z}_{n+2}}p(\vec{x}_{n+2}\vert \vec{z}_{n+2})p(\vec{z}_{n+2}\vert \vec{x}_1,\ldots, \vec{x}_n)\\
+		p(\vec{z}_{n+2}\vert \vec{x}_1,\ldots, \vec{x}_n) 
+		& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1},\vec{z}_{n}\vert \vec{x}_1, \ldots, \vec{x}_{n})\\
+		& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1} \vert \vec{x}_1, \ldots, \vec{x}_{n}, \vec{z}_{n})p(\vec{z}_{n}\vert \vec{x}_1, \ldots, \vec{x}_{n})\\
+		& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1} \vert \vec{z}_{n})\tilde{\alpha}(\vec{z}_n)\\
+		& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2}\vert \vec{z}_{n+1})p(\vec{z}_{n+1}\vert \vec{z}_{n})\tilde{\alpha}(\vec{z}_n)\\
+		& = \vec{A}^\top\vec{A}^\top\tilde{\vec{\alpha}}
+	\end{align*}	
+
+
+
+\item \textbf{Smooth Transition}
+	\begin{align*}
+		\xi (\vec{z}_{n-1},\vec{z}_{n}) & = p(\vec{z}_{n-1},\vec{z}_{n} \vert \vec{X})\\
+		&= \frac{p(\vec{X}\vert\vec{z}_{n-1},\vec{z}_{n})p(\vec{z}_{n-1},\vec{z}_{n})}{p(\vec{X})}\\
+		&= \frac{p(\vec{x}_1,\ldots, \vec{x}_{n-1} \vert \vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)p(\vec{x}_{n+1},\ldots, \vec{x}_{N} \vert \vec{z}_{n})p(\vec{z}_n\vert \vec{z}_{n-1})p(\vec{z}	_{n-1})}{p(\vec{X})}\\
+		&= \frac{\alpha(\vec{z}_{n-1}) p(\vec{x}_n\vert \vec{z}_n)p(\vec{z}_n\vert \vec{z}_{n-1})\beta(\vec{z}_n)}{p(\vec{X})}
+	\end{align*}
+
+
+\item \textbf{Baum-Welch Algorithm / EM }
+
+
+
+
+\item \textbf{Vertebi Algorithm}
+
+
 
 \end{enumerate}
 
-
-
-
-\subsubsection{Prediction}
-\begin{align*}
-	p(\vec{x}_{n+2}\vert \vec{x}_1, \ldots, \vec{x}_n) &= \sum_{\vec{z}_{n+2}}p(\vec{x}_{n+2}\vert \vec{z}_{n+2})p(\vec{z}_{n+2}\vert \vec{x}_1,\ldots, \vec{x}_n)\\
-	p(\vec{z}_{n+2}\vert \vec{x}_1,\ldots, \vec{x}_n) 
-	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1},\vec{z}_{n}\vert \vec{x}_1, \ldots, \vec{x}_{n})\\
-	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1} \vert \vec{x}_1, \ldots, \vec{x}_{n}, \vec{z}_{n})p(\vec{z}_{n}\vert \vec{x}_1, \ldots, \vec{x}_{n})\\
-	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2},\vec{z}_{n+1} \vert \vec{z}_{n})\tilde{\alpha}(\vec{z}_n)\\
-	& =  \sum_{\vec{z}_{n+1}}\sum_{\vec{z}_{n}} p(\vec{z}_{n+2}\vert \vec{z}_{n+1})p(\vec{z}_{n+1}\vert \vec{z}_{n})\tilde{\alpha}(\vec{z}_n)\\
-	& = \vec{A}^\top\vec{A}^\top\tilde{\vec{\alpha}}
-\end{align*}	
-
-
-\subsubsection{Smooth Transition}
-\begin{align*}
-	\xi (\vec{z}_{n-1},\vec{z}_{n}) & = p(\vec{z}_{n-1},\vec{z}_{n} \vert \vec{X})\\
-	&= \frac{p(\vec{X}\vert\vec{z}_{n-1},\vec{z}_{n})p(\vec{z}_{n-1},\vec{z}_{n})}{p(\vec{X})}\\
-	&= \frac{p(\vec{x}_1,\ldots, \vec{x}_{n-1} \vert \vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)p(\vec{x}_{n+1},\ldots, \vec{x}_{N} \vert \vec{z}_{n})p(\vec{z}_n\vert \vec{z}_{n-1})p(\vec{z}_{n-1})}{p(\vec{X})}\\
-	&= \frac{\alpha(\vec{z}_{n-1}) p(\vec{x}_n\vert \vec{z}_n)p(\vec{z}_n\vert \vec{z}_{n-1})\beta(\vec{z}_n)}{p(\vec{X})}
-\end{align*}
-
-
-\subsubsection{Baum-Welch Algorithm}
-\subsubsection{Vertebi Algorithm}
 
 
 
