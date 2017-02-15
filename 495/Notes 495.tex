@@ -741,11 +741,77 @@ Taking expectation of the likelihood function
 \end{align*}
 
 \begin{align*}
-\mathbb{E}[z_{1,c}]		
-\mathbb{E}[z_{n-1, i}^l z_{n, j}^l]
-\mathbb{E}[z_{n,j}^l]
+\mathbb{E}\left[z_{1,c}^l	\right]					
+& = \sum_{z_{1,c}^l} z_{1,c}^l p\left(z_{1,c}^l\vert \vec{x}_1^l,\dots, \vec{x}_T^l\right) = p\left(z_{1,c}^l=1\vert \vec{x}_1^l,\dots, \vec{x}_T^l\right)\\
+&= \frac{p\left(\vec{x}_1^l, z_{1,c}^l=1\right)p\left(\vec{x}_2^l,\ldots, \vec{x}_N^l \vert  z_{1,c}^l=1\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}= \frac{\alpha\left(z_{1,c}^l\right)\beta\left(z_{1,c}^l\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}\\
+\mathbb{E}\left[z_{n,j}^l\right]						
+& = \sum_{z_{n,j}^l}z_{n,j}^l p\left(z_{n,j}^l\vert \vec{x}_1^l, \ldots, \vec{x}_N^l \right) = p\left(z_{n,j}^l = 1\vert \vec{x}_1^l, \ldots, \vec{x}_N^l\right)\\
+& = \frac{p\left(\vec{x}_1^l, \ldots, \vec{x}_n^l, z_{n,j}^l=1\right)p\left(\vec{x}_{t+1}^l,\ldots, \vec{x}_N^l \vert  z_{n,j}^l=1\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}= \frac{\alpha\left(z_{n,j}^l\right)\beta\left(z_{n,j}^l\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}\\
+\mathbb{E}\left[z_{n-1, i}^l z_{n, j}^l\right]		
+&= \sum_{z_{n-1,i}^l}\sum_{z_{n,j}^l} z_{n-1, i}^l z_{n,j}^l p\left(z_{n-1,i}^l z_{n,j}^l\vert \vec{x}_1^l, \ldots, \vec{x}^l_N\right) = p \left(z_{n-1, i}^l=1 ,z_{n,j}^l = 1\vert \vec{x}_1^l, \ldots, \vec{x}^l_N\right)\\
+& = \frac{\alpha\left(z_{n-1,i}^l\right)\prod_{r=1}^S b_{j,r}^{x_{n, r}^l} a_{ij}\beta\left(z_{n,j}^l\right) }{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}
 \end{align*}
 
+Formulating the Lagrangian and solving for the parameters we get
+\begin{align*}
+\mathcal{L}& = \sum_{l=1}^M \sum_{n=1}^N \sum_{i=1}^S \sum_{j=1}^K x_{n,i}^l\mathbb{E}[z_{n,j}^l] \ln b_{ij}  + \sum_{l=1}^M \sum_{c=1}^K \mathbb{E}[z_{1,c}^l] \ln \pi_c + \sum_{l=1}^M \sum_{n=2}^N \sum_{i=1}^K \sum_{j=1}^K \mathbb{E}[z_{n-1, i}^l z_{n, j}^l]\ln a_{ij}\\
+&+ \left(\sum_{j=1}^K\lambda_j\sum_{i=1}^S b_{ij} -1\right) + \mu\left(\sum_{c=1}^K \pi_c -1\right) + \phi\left(\sum_{k=1}^K a_{jk}-1\right)
+\end{align*}
+
+Taking the derivative w.r.t. to the parameters, we get
+\begin{align*}
+	b_{ij}	& = \frac{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}\left[z_{n,j}^l\right]x_{n,i}^l}{\sum_{l=1}^M\sum_{n=1}^N \mathbb{E}\left[z_{n,j}^l\right]}\\
+	\pi_c 	& = \frac{\sum_{l=1}^M \mathbb{E}\left[z_{1,c}^l\right]}{\sum_{l=1}^M\sum_{r=1}^K\mathbb{E}\left[z_{1,r}^l\right]}\\
+	a_{ij}		& = \frac{\sum_{l=1}^M \sum_{n=2}^N \mathbb{E}\left[z_{n-1, i}^l z_{n, j}^l\right]}{\sum_{r=1}^K \sum_{l=1}^M \sum_{n=2}^N \mathbb{E}\left[z_{n-1, i}^l z_{n, r}^l\right]}
+\end{align*}
+
+
+\subsubsection{Formulation (Continuous Case)}
+Let there be $K$ possible states for the latent variable $\vec{z}$ and $p(\vec{x}_n \vert \vec{z}_n)$ is a normal distribution.
+\begin{align*}
+	p(\vec{z}_1\vert \vec{\pi}) 						&= \prod_{k=1}^K \pi_k^{z_{1,k}}\\
+	p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A})	&= \prod_{i=1}^K \prod_{j=1}^K a_{ij}^{z_{n-1, i}z_{n, j}}\\
+	p(\vec{x}_n \vert \vec{z}_n)					 	&= \prod_{k=1}^K \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k, \vec{\Sigma}_k)^{z_{n,k}}
+\end{align*}
+
+
+Given the $M$ observations of sequence $D$ with size $N$
+\begin{align*}
+	p(\vec{D}, \vec{Z}\vert \vec{\theta})
+	& =\prod_{l=1}^M p(\vec{x}_1^l,\ldots, \vec{x}_N^l, \vec{z}_1^l,\ldots, \vec{z}_N^l \vert \theta)\\
+	& = \prod_{l=1}^M \left(\prod_{n=1}^N p(\vec{x}_n^l \vert \vec{z}_n^l) p(\vec{z}_1^l)\prod_{n=2}^N p(\vec{z}_n^l \vert \vec{z}_{n-1}^l) \right)\\
+	& = \prod_{l=1}^M \left(\prod_{n=1}^N \prod_{k=1}^K \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k,\vec{\Sigma}_k)^{z_{n,k}^l} \prod_{k=1}^K \pi_k^{z_{1,k}^l}\prod_{n=2}^N \prod_{i=1}^K \prod_{j=1}^K a_{ij}^{z_{n-1, i}^l z_{n, j}^l} \right)
+\end{align*}
+
+Taking log of the likelihood,
+\begin{align*}
+	L 
+	&= \sum_{l=1}^M \sum_{n=1}^N \sum_{k=1}^K z_{n,k}^l\ln \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k,\vec{\Sigma}_k) 
+	+ \sum_{l=1}^M \sum_{k=1}^K z_{1,k}^l\ln \pi_k
+	+ \sum_{l=1}^M \sum_{n=2}^N \sum_{i=1}^K \sum_{j=1}^K z_{n-1, i}^l z_{n, j}^l \ln a_{ij} \\
+	\mathbb{E}\left[L\right]
+	& = \sum_{l=1}^M \sum_{n=1}^N \sum_{k=1}^K \mathbb{E}\left[z_{n,k}^l\right]\ln \mathcal{N}(\vec{x}_n\vert \vec{\mu}_k,\vec{\Sigma}_k) 
+	+ \sum_{l=1}^M \sum_{k=1}^K \mathbb{E}\left[z_{1,k}^l\right]\ln \pi_k
+	+ \sum_{l=1}^M \sum_{n=2}^N \sum_{i=1}^K \sum_{j=1}^K \mathbb{E}\left[z_{n-1, i}^l z_{n, j}^l\right] \ln a_{ij}
+\end{align*}
+
+
+\begin{align*}
+\mathbb{E}\left[z_{1,c}^l	\right]					
+&= \frac{p\left(\vec{x}_1^l, z_{1,c}^l=1\right)p\left(\vec{x}_2^l,\ldots, \vec{x}_N^l \vert  z_{1,c}^l=1\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}= \frac{\alpha\left(z_{1,c}^l\right)\beta\left(z_{1,c}^l\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}\\
+\mathbb{E}\left[z_{n,j}^l\right]						
+& = \frac{p\left(\vec{x}_1^l, \ldots, \vec{x}_n^l, z_{n,j}^l=1\right)p\left(\vec{x}_{t+1}^l,\ldots, \vec{x}_N^l \vert  z_{n,j}^l=1\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}= \frac{\alpha\left(z_{n,j}^l\right)\beta\left(z_{n,j}^l\right)}{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}\\
+\mathbb{E}\left[z_{n-1, i}^l z_{n, j}^l\right]		
+& = \frac{\alpha\left(z_{n-1,i}^l\right)\mathcal{N}(\vec{x}_n\vert \vec{\mu}_k,\vec{\Sigma}_k) a_{ij}\beta\left(z_{n,j}^l\right) }{p\left(\vec{x}_1^l,\ldots, \vec{x}_N^l\right)}
+\end{align*}
+
+Taking the derivative w.r.t. to the parameters, we get
+\begin{align*}
+	\vec{\mu}_k	&= \frac{}{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]}\\
+	\vec{\Sigma}_k	&=\frac{}{\sum_{l=1}^M \sum_{n=1}^N \mathbb{E}[z_{n,k}^l]}\\\\
+	\pi_k 	& = \frac{\sum_{l=1}^M \mathbb{E}\left[z_{1,k}^l\right]}{\sum_{l=1}^M\sum_{r=1}^K\mathbb{E}\left[z_{1,r}^l\right]}\\
+	a_{ij}		& = \frac{\sum_{l=1}^M \sum_{n=2}^N \mathbb{E}\left[z_{n-1, i}^l z_{n, j}^l\right]}{\sum_{r=1}^K \sum_{l=1}^M \sum_{n=2}^N \mathbb{E}\left[z_{n-1, i}^l z_{n, r}^l\right]}
+\end{align*}
 
 
 
