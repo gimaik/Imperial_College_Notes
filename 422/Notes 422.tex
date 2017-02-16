@@ -230,10 +230,111 @@
 
 \end{enumerate}
 
-\section{CAPM}
+\section{Capital Asset Pricing Model}
+\begin{enumerate}
+	\item \textbf{The Two-Fund Theorem.} Let $(\vec{w}_1, \lambda_1, \mu_1)$ and $(\vec{w}_2, \lambda_2, \mu_2)$ be the Markowitz solutions for $\overline{r}_P^1$ and $\overline{r}_P^2$. Then , the Markowitz solution for 
+		\begin{align*}
+			\overline{r}_P^3 = \alpha \overline{r}_P^1 + (1-\alpha)\overline{r}_P^2
+		\end{align*}
+is given by
+		\begin{align*}
+			(\vec{w}_3, \lambda_3, \mu_3) = \alpha(\vec{w}_1, \lambda_1, \mu_1) + (1-\alpha)(\vec{w}_2, \lambda_2, \mu_2).
+		\end{align*}
+The implication of the two fund theorem is that investors seeking efficient portfolios need to only invest in combinations of two efficient funds. There is no need for anyone to buy individual stocks.
+
+	\item \textbf{The One-Fund Theorem.} When risk-free borrowing and lending are available, there is a single fund $F$ of risky assets such that any efficient portfolio can be constructed as a combination of the fund $F$ and the risk free asset. 
+	
+	The implication is that every investor will buy a combination of the fund and the risk-free assets. Hence, $F$ must be the market portfolio.
+	
+	 \item \textbf{Capital Market Line.} Given a risk-free asset, the efficient frontier is called the capital market line. Any asset on the CML satisfies
+	 	\begin{align*}
+	 		\overline{r} = r_f +\frac{\overline{r}_M - r_F}{\sigma_M}\sigma
+	 	\end{align*}
+	 	
+	 \item \textbf{Capital Asset Pricing Model.} Assumed that 
+	 \begin{itemize}
+	 	\item All investors are Markowitz mean-variance investors
+	 	\item Shorting is allowed
+	 	\item There exists a risk-free asset
+	 	\item The investors share same predictions of means, variances and covariances
+	 \end{itemize}
+	 
+	 For the market portfolio $M$ is efficient, the expected return of $\overline{r}_i$ of any asset $i$ satisfies
+	 \begin{align*}
+	 	\overline{r}_i - r_F &= \beta_i (\overline{r}_M-r_f)\\
+	 	\beta_i &=\frac{\sigma_{iM}}{\sigma^2_M}
+	 \end{align*}
+	 
+	 Under equilibrium conditions assumed by CAPM, any assets should fall on the security market line.
+	 
+	 \item Importance of CAPM
+	 	\begin{itemize}
+	 		\item The correlation with the market determines the expected excess rate of return of an asset
+	 		\item The Capital Market Line relates the expected rate of return of an efficient portfolio to its standard deviation / risk.
+	 		\item The Security Market Line relates the expected rate of return of an in individual asset to its beta / systematic risk.
+	 	\end{itemize}
+	
+	 \item Proof of only systematic loss would be relevant
+	 \begin{align*}
+	 	r_i 					& = r_f + \beta_i (r_M - r_f )+ \epsilon_i
+	 	\sigma_{iM}		& = \text{cov} \left(r_f + \beta_i (r_M - r_f )+ \ epsilon_i, r_M\right)\\
+	 							& = \beta_i \text{cov}(r_M, r_M) +  \text{cov}(\epsilon_i, r_M)
+	 \end{align*}
+ 		
+		\item CAPM can be used as a pricing formula
+			\begin{align*}
+				\frac{\overline{P}_1 - P_0}{P_0} &=  r_f + \beta (\overline{r}_M - r_f)\\
+				P & = \frac{\overline{P}_1}{1+ r_f + \beta (\overline{r}_M - r_f)}
+			\end{align*}
+		
+		\item Certainty Equivalent form for CAPM
+		\begin{align*}
+			P_0 	&= \frac{\overline{P}_1 }{1+r_f + \beta (\overline{r}_M - r_f)}\\
+					& = \frac{1}{1+r_f}\left(\overline{P}_1 - \frac{\text{cov}(P, r_M)}{\sigma^2_M}(\overline{r}_M - r_f) \right)
+		\end{align*}
+		
+		We can hence use the NPV to evaluate projects
+		\begin{align*}
+			NPV = -P + \frac{1}{1+r_f}\left(\overline{P}_1 - \frac{\text{cov}(P, r_M)}{\sigma^2_M}(\overline{r}_M - r_f) \right)
+		\end{align*}				
+		
+		
+\end{enumerate}
+
+\newpage 
+
+\section{General Risk Principles}
+\subsection{Utility Functions}
+
+\begin{enumerate}
+\item The utility function is used to rank random wealth levels. It varies among decision makers, depending on their
+	\begin{itemize}
+		\item Risk tolerance
+		\item Individual financial environment
+	\end{itemize}
+
+\item Characteristic of utility functions:
+	\begin{itemize}
+		\item Define on the real line (possible wealth levels) and gives a real value
+		\item Invariant to affine transformation
+			\begin{align*}
+				U_1(x) = aU(x) + b \equiv U(x), \forall a>0.
+			\end{align*}				
+	\end{itemize}
+
+\item Some examples of utility functions:
+	\begin{align*}
+		U(x) & = - e^{-ax}, \forall a>0\\
+		U(x) & = \ln x, \forall x>0\\
+		U(x) & = bx^b, \forall b\leq 1, b\neq 0\\
+		U(x) & = x - bx^2, \forall b>0
+	\end{align*}
+	
 
 
+\end{enumerate}
 
+\subsection{Risk Aversion}
 
 
 
