@@ -922,7 +922,7 @@ c_n\hat{\alpha}(\vec{z}_n) &= p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}}\h
 c_{n+1}\hat{\beta}(\vec{z}_n) & = \sum_{\vec{z}_{t+1}} \hat{\beta}(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1}) p(\vec{z}_{n+1}\vert \vec{z}_n)
 \end{align*}
 
-Hence, the posteriors become
+Hence, the posteriors become (PLEASE DOUBLE CHECK THE TRANSITION PROBABILITY)s
 \begin{align*}
 	p(\vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_N) &= \hat{\alpha}(\vec{z}_n)\hat{\beta}(\vec{z}_n)\\
 	p(\vec{z}_{n-1}, \vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_N) &= c_n^{-1}\hat{\alpha}(\vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)p(\vec{z}_n\vert \vec{z}_{n-1})\hat{\beta}(\vec{z}_{n})
