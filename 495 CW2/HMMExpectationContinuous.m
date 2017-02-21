@@ -1,4 +1,4 @@
-function [post_latent, post_transit,z] = HMMExpectationContinuous (Y,N,T,pi,A,mu,sigma2)
+function [post_latent, post_transit] = HMMExpectationContinuous (Y,N,T,pi,A,mu,sigma2)
 
     % This function computes the posterior for the latent variable and the
     % smoothed transition probability. These two posterior probabilities
@@ -21,7 +21,7 @@ function [post_latent, post_transit,z] = HMMExpectationContinuous (Y,N,T,pi,A,mu
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % GENERATING THE NORMAL EMISSION PROBABILITY FOR SEQUENCE Y %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    z = normEmissionProba(N, T, Y,mu, sqrt(sigma2));
+    z = normEmissionProba(N, T, Y,mu, sigma2);
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % THE FORWARD PASS: Computation of alpha %

@@ -1,4 +1,4 @@
-function [alpha, beta, c, post_latent, post_transit] = HMMExpectationDiscreteDebug (Y,N,T,pi,A,E)
+function [post_latent, post_transit] = HMMExpectationDiscreteDebug (Y,N,T,pi,A,E)
 
 
     % This function computes the posterior for the latent variable and the

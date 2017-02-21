@@ -1,4 +1,4 @@
-function [firstMoment, secondMoment, sequence, pi, A, mu, sigma2] = HMMMaximizationContinuous(Y,N,T, mu, sigma2,post_latent, post_transit)
+function [pi, A, mu, sigma2] = HMMMaximizationContinuous(Y,N,T, mu, sigma2,post_latent, post_transit)
 
     
     NbLatent    =   size(post_latent,1); 
@@ -11,22 +11,20 @@ function [firstMoment, secondMoment, sequence, pi, A, mu, sigma2] = HMMMaximizat
     secondMoment = zeros(size(post_latent));
     sequence = zeros(size(post_latent));
     sequence2 = zeros(size(post_latent));
-    SumOfEZ =  sum(sum(post_latent,3),2);
-    
-    for t = 1:T
-        sequence(:,:,t) = repmat(Y(:,t).',NbLatent, 1);  
-        firstMoment(:,:,t) = post_latent(:,:,t).*sequence(:,:,t);
-    end
-        
     
     MU = repmat(mu.',1,N);
     
-    for t =1:T
+    SumOfEZ = sum(sum(post_latent,3),2);
+    
+    for t = 1:T
+        sequence(:,:,t) = repmat(Y(:,t).',NbLatent, 1);  
         sequence2(:,:,t) = power(sequence(:,:,t)- MU,2);
-        fprintf('xxxxxxxxxxxxx')
-        sequence2(:,:,t)
-        post_latent(:,:,t)
-        fprintf('xxxxxxxxxxxxx')
+        firstMoment(:,:,t) = post_latent(:,:,t).*sequence(:,:,t);
+    end
+        
+
+    for t =1:T
+       
         secondMoment(:,:,t) = post_latent(:,:,t).*sequence2(:,:,t);
     end
     mu = (sum(sum(firstMoment,3),2)./SumOfEZ).';
