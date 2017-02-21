@@ -34,7 +34,7 @@ E = [   0.16    0.16    0.16    0.16    0.16    0.20;
         0.10    0.10    0.10    0.10    0.10    0.50];
 
 % Running EM Algorithm
-[pi_e, A_e, E_e, decode] = HMM(Y,N,T,pi,A,E, 1e-6, 2000, 'discrete');
+[pi_e, A_e, E_e, decode] = HMM(Y,N,T,pi,A,E, 1e-6, 200, 'discrete');
 
 accuracy = sum(sum(decode==S))/(N*T);
 pi_e
@@ -47,5 +47,5 @@ A  =    [0.30   0.70;
 E = [   0.16    0.16    0.16    0.16    0.16    0.20;  
         0.10    0.10    0.10    0.10    0.10    0.50];
 
-[ESTTR,ESTEMIT] = hmmtrain(Y,A,E)
+%[ESTTR,ESTEMIT] = hmmtrain(Y,A,E)
 

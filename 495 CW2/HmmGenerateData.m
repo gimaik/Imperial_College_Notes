@@ -25,7 +25,7 @@ if nargin < 6
     outModel = 'multinomial';
 end
 
-%rng(5)% added random number generator seed
+rng(5)% added random number generator seed
 
 % Start generating samples.
 S = zeros(nums,T); %%Hidden States

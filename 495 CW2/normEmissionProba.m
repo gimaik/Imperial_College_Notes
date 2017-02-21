@@ -9,8 +9,7 @@ function [z] = normEmissionProba(N, T, Y,mu,sigma2)
     sigma2 = sqrt(sigma2);
     nbLatent = max(size(mu));
     z = zeros(nbLatent, N, T);
-    
-    
+   
     for t = 1: T
         for k = 1: nbLatent
                
@@ -18,9 +17,5 @@ function [z] = normEmissionProba(N, T, Y,mu,sigma2)
             
         end
     end
-
-
-
-
 
 end
