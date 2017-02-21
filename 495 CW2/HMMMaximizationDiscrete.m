@@ -23,6 +23,4 @@ function [pi, A, E] = HMMMaximizationDiscrete(Y,N,T,post_latent, post_transit)
     E = sum(sum(B,4),3).';
     E = E./repmat(sum(E,2),1,NbObserved);
     
-
-
 end

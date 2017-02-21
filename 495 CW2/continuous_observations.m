@@ -26,7 +26,7 @@ E.sigma2=[0.4 0.8]; %%the variances
 % EM ALGORITHM %
 %%%%%%%%%%%%%%%%
 % Initializing parameters
-pi = [0.25; 0.75]; 
+pi = [0.50; 0.50]; 
 A  = [0.2 0.8 ; 0.7 0.3 ];       
 
 % One Dimensional Gaussians 
@@ -34,19 +34,19 @@ E.mu    =[0.7 0.6]; %%the means of each of the Gaussians
 E.sigma2=[0.5 0.4]; %%the variances
 
 % Running EM Algorithm
-for i = 1:1000
+for i = 1:80
     i
     
-    [post_latent, post_transit,z] = HMMExpectationContinuous (Y,N,T,pi,A,E);   
-    post_latent(:,:,:)
+    [post_latent, post_transit,z] = HMMExpectationContinuous (Y,N,T,pi,A,E.mu, E.sigma2);   
+    post_latent(:,:,:);
     
     
     
-    [firstMoment, secondMoment, sequence, pi, A, E] = HMMMaximizationContinuous(Y,N,T,E,post_latent, post_transit);
+    [firstMoment, secondMoment, sequence, pi, A, E.mu, E.sigma2] = HMMMaximizationContinuous(Y,N,T,E.mu, E.sigma2,post_latent, post_transit);
     %pi
     %A 
     %E.mu
-    %E.sigma2
+    E.sigma2
 end
 
 pi;

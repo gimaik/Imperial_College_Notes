@@ -4,8 +4,8 @@ clc;
 %%%%%%%%%%%%%%%%%%%
 % DATA GENERATION %
 %%%%%%%%%%%%%%%%%%%
-N  = 10;      % number of sequences
-T  = 5;       % length of the sequence
+N  = 250;      % number of sequences
+T  = 10;       % length of the sequence
 
 % Initial probability at time 1
 pi = [0.50; 0.50];  
