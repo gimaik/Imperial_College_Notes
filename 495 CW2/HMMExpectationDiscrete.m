@@ -67,7 +67,5 @@ function [post_latent, post_transit] = HMMExpectationDiscreteDebug (Y,N,T,pi,A,E
         end
     end
         
-   
-    
     
 end

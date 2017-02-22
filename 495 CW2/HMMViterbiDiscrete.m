@@ -5,6 +5,8 @@ function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
     delta =  zeros(NbLatent, N, T);
     delta_i = zeros(NbLatent, N);
     
+    
+    % Taking log for all the sequences
     pi = log2(pi);
     A = log2(A);
     E=log2(E);
@@ -12,7 +14,7 @@ function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
     % Initializing the delta
     delta (:,:,1) = repmat(pi, 1,N) + E(:, Y(:,1));
     
-    
+    % Filling up the delta for time t=2:T
     for k = 1: NbLatent
        for t=2: T
            for n= 1: N
@@ -22,6 +24,7 @@ function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
        end
     end
 
+    % Decoding the delta array.
     for t=1:T
         [M, I] = max(delta(:,:,t));
         decode(:,t) = I.';

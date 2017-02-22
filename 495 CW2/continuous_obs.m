@@ -30,10 +30,10 @@ pi = [0.4; 0.6];
 A  = [0.7 0.3 ; 0.7 0.3 ];       
 
 % One Dimensional Gaussians 
-E.mu    =[2 20]; %%the means of each of the Gaussians
-E.sigma2=[3.5 2.5]; %%the variances
+E.mu    =[5 25]; %%the means of each of the Gaussians
+E.sigma2=[6 8]; %%the variances
 
 % Running EM Algorithm
-[pi_e, A_e, E_e, decode] = HMM(Y,N,T,pi,A,E, 1e-6, 100, 'continuous');
+[pi_e, A_e, E_e, decode] = HMM(Y,N,T,pi,A,E, 1e-6, 1000, 'continuous');
 accuracy = sum(sum(decode==S))/(N*T);
 
