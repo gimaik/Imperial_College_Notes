@@ -343,7 +343,7 @@ The implication of the two fund theorem is that investors seeking efficient port
 
 	\item Properties of a utility function relating to its derivatives
 		\begin{itemize}
-			\item $U^\prime(x) 0$ because people are greedy, more will be better
+			\item $U^\prime(x)>0$ because people are greedy bastards, so more will be better
 			\item $U^{\prime\prime}(x) < 0$  because people are risk-averse
 		\end{itemize}
 
@@ -426,16 +426,67 @@ The implication of the two fund theorem is that investors seeking efficient port
 	Consider instead a simplified problem 
 		\begin{align*}
 			\max_{\theta \in \mathbb{R}^n} 	& \text{ }\mathbb{E} \left[U\left(\sum_{i=1}^n \theta_id_i\right)	 \right]\\
-			\text{subject to }							& \sum_{i=1}^n \theta_iP_i = W\\
+			\text{subject to }							& \sum_{i=1}^n \theta_iP_i = W
 		\end{align*}
 	
 	We can write the Lagrangian as 
 		\begin{align*}
 			L(\theta, \lambda) = \mathbb{E}\left[U\left(\sum_{i=1}^n \theta_id_i\right) \right] - \lambda \left(\sum_{i=1}^n \theta_i P_i - W\right)
 		\end{align*}
+		
+	Differentiating $L$ w.r.t $\theta_i$
+		\begin{align*}
+			\mathbb{E} \left[U^\prime (x^*)d_i\right] &= \lambda P_i, \forall i =1,\ldots,n\\
+			x^* & = \sum_{i=1}^n \theta_i^*d_i			
+		\end{align*}
+
+\item If $x^* = \sum_{i=1}^n \theta_i^* d_i $ solve $\mathcal{P}$ then
+	\begin{align*}
+		\mathbb{E} \left[U^\prime (x^*) d_i \right] = \lambda P_i
+	\end{align*}
+	
+		If there is a risk-free asset with total return $R$ 
+	\begin{align*}
+		\frac{U^\prime(x^*)d_i}{R \mathbb{E}\left[U^\prime(x^*)\right]}= P_i
+	\end{align*}		
+		
+	
+\end{enumerate}
+
+
+\section{Asset Price Dynamics}
+
+\begin{enumerate}
+	\item Additive Model:
+		\begin{align*}
+			S_(t+1)	 &= a S(t) + z(t), \forall t=0,1,\ldots, N\\
+			\mathbb{E}\left[S(t+k) \right] & = a^kS(t), \forall z(t) \sim \mathcal{N} (0, \sigma^2)
+		\end{align*}			
+		
+		Deficiencies of the model:
+		\begin{itemize}
+			\item For $a>0$ the expected value of the stock increase exponentially over time.
+			\item The model can give negative stock prices
+			\item The volatility $\sigma$ is not scaled to the stock price level. Price shocks are tend to be proportional to the stock price.
+		\end{itemize}
+	
+	\item Multiplicative Model:
+		\begin{align*}
+			\ln S(t+1) - \ln S(t) 	& = z(t), \z(t)\sim \mathcal{\mu, \sigma^2} \\
+			S(t+k) 						& = S(t) exp\left(\sum_{j=1}^k z(j)\right)
+		\end{align*}
+	
+	\item Multiplicative Model:
+
+
 
 \end{enumerate}
 
+
+
+
+
+\section{Binomial Pricing Model}
 
 
 

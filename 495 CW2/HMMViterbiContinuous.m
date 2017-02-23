@@ -18,9 +18,9 @@ function [decode] = HMMViterbiContinuous(Y,N,T,pi, A, mu, sigma2)
     
     % Filling up the delta table for time t=2:T
     for k = 1: NbLatent
-       for t=2: T
+       for t=2: 2
            for n= 1: N
-               delta_i(k,n) = max(A(:,k) + delta(:,n,t-1));      
+               delta_i(k,n) = max(A(:,k)+ delta(:,n,t-1));    
            end
            delta(:,:,t) =  delta_i+z(:,:,t);
        end

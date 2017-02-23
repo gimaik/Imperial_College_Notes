@@ -24,6 +24,8 @@ function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
        end
     end
 
+    delta
+    
     % Decoding the delta array.
     for t=1:T
         [M, I] = max(delta(:,:,t));
