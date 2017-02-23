@@ -517,14 +517,83 @@ The implication of the two fund theorem is that investors seeking efficient port
 			\item $z(0) =1$ almost surely.
 		\end{itemize}			
 
+	\item To calibrate the Binomial model to the geometric Brownian motion model, we match the expectation and the variance of the Brownian motion to that of the binomial model.
+		
+		\begin{align*}
+			S(t+\Delta t) &= S(t)e^{\Delta z(t)} , \Delta z(t) \sim \mathcal{N} (\nu\Delta t, \sigma^2\Delta t) \\
+			\mathbb{E}\left[ \ln \left(\frac{S(t+\Delta t)}{S(t)}\right)\right] & = p \ln u + (1-p) \ln d = \nu \Delta t\\
+			\mathbb{V}\left[\ln \left(\frac{S(t+\Delta t)}{S(t)}\right)\right] & = p (\ln u)^2 +  (1-p)(\ln d)^2 -  [p \ln u + (1-p) \ln d ]^2\\
+			& = p(1-p)(\ln u - \ln d)^2\\
+			& = \sigma^2 \Delta t
+		\end{align*}
+
+		Setting $u = 1/d$, 
+		\begin{align*}
+			p		& \approx \frac{1}{2} + \frac{1}{2} \left(\frac{\nu}{\sigma}\right)\sqrt{\Delta t}\\
+			\ln u	&  \approx \sigma\sqrt{\Delta t}\\
+			\ln d & 	\approx -\sigma\sqrt{\Delta t}
+		\end{align*}
 
 \end{enumerate}
 
 
+\section{Basic Options Theory}
+\subsection{General Options Related Theory}
+\begin{enumerate}
+
+	\item Put Call Parity 
+		\begin{align*}
+			C - P = S - Ke^{-T }
+		\end{align*}
+	
+	\end{enumerate}
+	
+\subsection{Binomial Pricing}
+
+\begin{enumerate}
+	\item Consider a single period binomial model, we have the following
+	\begin{align*}
+		S(t+1) = \begin{cases}
+		uS(t)\\
+		dS(t)
+		\end{cases}
+		&
+		C(t+1) = \begin{cases}
+		\max\left(uS(t)-K, 0\right)\\
+		\max\left(dS(t)-K, 0\right)
+		\end{cases}
+	\end{align*}
+
+	\item Construct a portfolio, $\Pi$ that buys $x$ units of underlying and $b$ amount in risk free bond
+	\begin{align*}
+		\Pi(t) 		& = xS(t) + b\\
+		\Pi(t+1)	& = \begin{cases}
+		xuS(t) + b(1+r)\\
+		xdS(t) + b(1+r)
+		\end{cases}
+	\end{align*}
+
+	We need the replicating portfolio to match the payoff of the derivative
+	\begin{align*}
+		C_u(t+1) &= xuS(t) + b(1+r) \\
+		C_d(t+1) &= xdS(t) + b(1+r)\\
+		x & = \frac{C_u(t+1) - C_d(t+1)}{uS(t) - dS(t)}\\
+		b &= \frac{uC_d - dC_u}{(1+r)(u-d)}
+	\end{align*}		
+
+	\begin{align*}
+		C(t) 	&= \Pi(t)  \\
+				& = \left(\frac{C_u(t+1) - C_d(t+1)}{uS(t) - dS(t)}\right)S(t) + \frac{uC_d(t+1) - dC_u(t+1)}{(1+r)(u-d)}\\
+				& = \frac{1}{1+r}\left[\frac{(1+r)-u}{u-d} C_u(t+1) + \frac{u-(1+r)}{u-d} C_d(t+1)\right]\\
+				& = \frac{1}{1+r}\left[\tilde{p} C_u(t+1) + (1-\tilde{p}) C_d(t+1)\right]\\
+	\end{align*}
 
 
+	
 
-\section{Binomial Pricing Model}
+\end{enumerate}
+
+	
 
 
 
