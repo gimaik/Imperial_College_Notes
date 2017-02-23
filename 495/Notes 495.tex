@@ -938,11 +938,18 @@ We define the probability of ending in a state $j$ at time $n$, given that we ta
 	a_n(j)& = \text{arg } \max_i p(\vec{x}_n\vert \vec{z}_{n,j} =1) \delta_{n-1}(i)p(\vec{z}_{n,j}=1 \vert \vec{z}_{n-1,i}=1)
 \end{align*}
 
-
 \end{enumerate}
 
 
 \section{Linear Dynamical System (Kalman Filter)}
+
+\subsection{Definition of a Linear Dynamical System}
+\begin{align*}
+	\vec{x}_n 		& = \vec{Cz}_n +\vec{v}_n\\
+	\vec{z}_n 		& = \vec{Az}_{n-1} + \vec{w}_n\\
+	\vec{z}_1		& = \vec{\mu}_0 + \vec{u}\\
+	\vec{w} 		& \sim \mathcal{N}(\vec{w} \vert \vec{0}, \vec{\Gamma}) 
+\end{align*}
 
 
 \section{Useful Identities:}

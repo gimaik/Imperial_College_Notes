@@ -330,11 +330,125 @@ The implication of the two fund theorem is that investors seeking efficient port
 		U(x) & = x - bx^2, \forall b>0
 	\end{align*}
 	
-
-
 \end{enumerate}
 
 \subsection{Risk Aversion}
+\begin{enumerate}
+	\item \textbf{Definition.} A function $U: [a,b] \rightarrow \mathbb{R}$ is concave if for any $\alpha \in [0,1]$ and for any $x$ and $y$ in $[a,b]$ there holds 
+	\begin{align*}
+		U\left(\alpha x + (1-\alpha) y\right) \geq \alpha U(x)  + (1-\alpha) U(y)
+	\end{align*}
+
+	\item A utility is risk averse if it is concave on $[a,b]$
+
+	\item Properties of a utility function relating to its derivatives
+		\begin{itemize}
+			\item $U^\prime(x) 0$ because people are greedy, more will be better
+			\item $U^{\prime\prime}(x) < 0$  because people are risk-averse
+		\end{itemize}
+
+	\item Arrow-Pratt absolute risk aversion 
+	\begin{align*}
+		a(x) = - \frac{U^{\prime\prime}(x)}{U^\prime(x)}
+	\end{align*}
+	
+		\begin{itemize}
+			\item $a(x)$ shows how risk-aversion changes with wealth
+			\item Risk aversion decreases as wealth grows
+			\item $a(x)$ is the same for all equivalent utility funcitons
+		\end{itemize}
+		
+	\item Certainty Equivalent: The certainty equivalent $C$ of a random wealth variable $x$ is the amount of certain (deterministic) wealth that has a utility level equal to the expected utility of $x$.
+	\begin{align*}
+		U(C) 	& = \mathbb{E}[U(x)]
+	\end{align*}
+	
+	\item Measurement of utility functions
+		\begin{enumerate}
+			\item Method I
+				\begin{itemize}
+					\item Select fixed wealth levels $A$ and $B$.
+					\item Propose a lottery that has outcome $A$ with probability $p$ and outcome $B$ with probability $1-p$.
+					\item For $p\in [0,1]$ the investor is asked how much certain wealth $C$ he or she would accept in place of the lottery
+				\end{itemize}
+										
+			\item Method II
+				\begin{itemize}
+					\item Select a parameterized family of utility functions
+					\item Then determine the parameter using the lottery as per Method I
+				\end{itemize}
+		\end{enumerate}			
+
+	\item Connection of Utility Function to Markowitz Model
+		\begin{align*}
+			U(x) 						& = ax -\frac{b}{2}x^2, \forall a,b,>0, x\leq \frac{a}{b}\\
+			\mathbb{E} [U(x)] & = a\mathbb{E}[x] -\frac{b}{2} \mathbb{E}[x^2]\\
+										& = a\mathbb{E}[x] -\frac{b}{2} \mathbb{V}[x] - \frac{b}{2} \mathbb{E}[x]^2
+		\end{align*}
+
+\end{enumerate}
+
+\subsection{Arbitrage}
+\begin{enumerate}
+\item Definition: A security is a random payoff variable $d$. The payoff is revealed and obtained at the end of the period. Associated with the security is a price P.
+
+\item Ideal Market:
+	\begin{itemize}
+		\item Securities can be arbitrarily divided
+		\item There are no transaction costs
+		\item Short sales is allowed
+	\end{itemize}
+
+\item Definition of Arbitrage:
+	\begin{itemize}
+	 	\item Type A: $P < 0$ and $d=0$
+	 	\item Type B: $P \leq 0$, $d \geq 0$ and $P(d>0)>0$
+	\end{itemize}
+
+\item Linearity of pricing
+	\begin{itemize}
+		\item The price of the sum of two securities is the sum of their prices.
+		\item The price of the multiple of an asset is the same multiple of the price. 
+	\end{itemize}
+
+\item Portfolio Problem
+	\begin{align*}
+		\max_{\theta \in \mathbb{R}^n} \text{  }		& \mathbb{E} [U(x)]\\
+		\text{subject to }											& \sum_{i=1}^n \theta_id_i = x\\
+																			& \sum_{i=1}^n \theta_iP_i \leq W. 
+	\end{align*}
+
+	Assume that $U(x)$ is continuous , $U(x) \rightarrow  +\infty$ as $x \rightarrow +\infty$, and there is a portfolio $\theta^0$ such that $\sum_{i=1}^n \theta_i^0 d_i >0$. Then:
+	\begin{align*}
+		\mathcal{P} \text{ has a solution} \Leftrightarrow \text{ there is no arbitrage possibility.}
+	\end{align*}
+
+	Consider instead a simplified problem 
+		\begin{align*}
+			\max_{\theta \in \mathbb{R}^n} 	& \text{ }\mathbb{E} \left[U\left(\sum_{i=1}^n \theta_id_i\right)	 \right]\\
+			\text{subject to }							& \sum_{i=1}^n \theta_iP_i = W\\
+		\end{align*}
+	
+	We can write the Lagrangian as 
+		\begin{align*}
+			L(\theta, \lambda) = \mathbb{E}\left[U\left(\sum_{i=1}^n \theta_id_i\right) \right] - \lambda \left(\sum_{i=1}^n \theta_i P_i - W\right)
+		\end{align*}
+
+\end{enumerate}
+
+
+
+
+\section{Other Identities}
+\begin{enumerate}
+	\item Log-normal distribution: 
+	\begin{align*}
+		X \sim \ln \mathcal{N}(\mu, \sigma^2) & \Rightarrow \ln X \sim \mathcal{N}(\mu, \sigma^2) \\
+		\mathbb{E}[X] 	& = \exp\left(\mu+ \frac{\sigma^2}{2} \right)\\
+		\mathbb{V}[X] 	& =\left(\exp(\sigma^2) - 1\right) \exp\left(2\mu+ \sigma^2 \right)
+	\end{align*}
+
+\end{enumerate}
 
 
 
