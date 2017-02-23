@@ -32,12 +32,11 @@ A  =    [0.30   0.70;
          0.30   0.70];
 E = [   1/6    1/6    1/6    1/6    1/6    1/6;      
         1/10   1/10   1/20   1/10   1/10    1/2];
-
-[post_latent, post_transit] = HMMExpectationDiscreteDebug (Y,N,T,pi,A,E)    
+    
     
 % Running EM Algorithm
-%[pi_e, A_e, E_e, decode] = HMM(Y,N,T,pi,A,E, 1e-5, 10, 'discrete');
-%accuracy = sum(sum(decode==S))/(N*T);
+[pi_e, A_e, E_e, decode] = HMM(Y,N,T,pi,A,E, 1e-5, 10, 'discrete');
+accuracy = sum(sum(decode==S))/(N*T);
 
 
 [ESTTR,ESTEMIT] = hmmtrain(Y,A,E);

@@ -23,8 +23,6 @@ function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
            delta(:,:,t) =  delta_i+E(:, Y(:,t));
        end
     end
-
-    delta
     
     % Decoding the delta array.
     for t=1:T

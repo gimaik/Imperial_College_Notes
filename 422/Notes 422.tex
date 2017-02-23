@@ -472,12 +472,50 @@ The implication of the two fund theorem is that investors seeking efficient port
 	
 	\item Multiplicative Model:
 		\begin{align*}
-			\ln S(t+1) - \ln S(t) 	& = z(t), \z(t)\sim \mathcal{\mu, \sigma^2} \\
-			S(t+k) 						& = S(t) exp\left(\sum_{j=1}^k z(j)\right)
+			\ln \frac{S(t+1)}{S(t)}	& = z(t)\\
+			S(t+k) 							& = S(t) \exp\left(\sum_{j=1}^k z(j)\right)\\
+			z(t)								& \sim \mathcal{N}(\mu, \sigma^2) \\
+			\ln S(t+k)						& \sim \mathcal{N} \left(S(t) + k\mu, k\sigma^2\right)
 		\end{align*}
+		
+		Properties and Justification of the log normal price model
+		\begin{itemize}
+			\item The expected value of the log returns increase linearly with time and the stock price is log-normally distributed
+			\item The prices cannot become negative.
+			\item The noise are i.i.d. and subject to finite variance.
+		\end{itemize}
 	
-	\item Multiplicative Model:
+	\item Properties of Log Normal Distribution
+	\begin{align*}
+		X \sim \ln \mathcal{N}(\mu, \sigma^2) & \Rightarrow \ln X \sim \mathcal{N}(\mu, \sigma^2) \\
+		\mathbb{E}[X] 	& = \exp\left(\mu+ \frac{\sigma^2}{2} \right)\\
+		\mathbb{V}[X] 	& =\left(\exp(\sigma^2) - 1\right) \exp\left(2\mu+ \sigma^2 \right)
+	\end{align*}
 
+	\item Random walk
+		\begin{align*}
+			z(t_{k+1}) - z(t_{k}) &= \epsilon (t_k) \sqrt{\Delta t}\\
+			t_{k+1} &= t_k +\Delta t, 0 \leq k <N \\
+			\epsilon (t_k) &\sim \mathcal{N}(0,1)\\
+		\end{align*}
+		
+		For $j<k$, we have
+		\begin{align*}
+			z(t_k) - z(t_{k-1}) &= \sum_{i=j}^{k-1} \epsilon (t_i)\sqrt{\Delta t}\\
+			z(t_k) - z(t_{k-1}) &\sim \mathcal{N} \left(0, t_k-t_j\right)
+		\end{align*}
+		
+	\item As $\Delta t \rightarrow 0$, we have Brownian motion
+		\begin{align*}
+			dz(t) & = \epsilon (t) \sqrt{dt}
+		\end{align*}
+		
+	\item Properties of Brownian Motion
+		\begin{itemize}
+			\item For all $s<t$, $z(t) - z(s) \sim \mathcal{N}(0, t-s)$
+			\item For all $t_1<t_2 \leq t_3 <t_e$, $z(t_2)-z(t_1)$ and $z(t_4)-z(t_3)$ are independent.
+			\item $z(0) =1$ almost surely.
+		\end{itemize}			
 
 
 \end{enumerate}
@@ -489,17 +527,6 @@ The implication of the two fund theorem is that investors seeking efficient port
 \section{Binomial Pricing Model}
 
 
-
-\section{Other Identities}
-\begin{enumerate}
-	\item Log-normal distribution: 
-	\begin{align*}
-		X \sim \ln \mathcal{N}(\mu, \sigma^2) & \Rightarrow \ln X \sim \mathcal{N}(\mu, \sigma^2) \\
-		\mathbb{E}[X] 	& = \exp\left(\mu+ \frac{\sigma^2}{2} \right)\\
-		\mathbb{V}[X] 	& =\left(\exp(\sigma^2) - 1\right) \exp\left(2\mu+ \sigma^2 \right)
-	\end{align*}
-
-\end{enumerate}
 
 
 
