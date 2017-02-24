@@ -965,7 +965,7 @@ The emission probability and the transition probability is given by
 	p(\vec{z}_1) 									& = \mathcal{N} (\vec{z}_1 \vert \vec{\mu}_0, \vec{V}_0)
 \end{align*}
 
-\subsection{Inference for Linear Dynamical System}
+\subsection{Inference for LDS}
 \subsubsection{Filtering}
 
 We can denote the probability $ p(\vec{z}_n \vert \vec{x}_{1:n})$ as below:
@@ -1015,10 +1015,60 @@ The initial condition for the recursion is given by
 
 \subsubsection{Smoothing}
 \begin{align*}
-	\gamma(\vec{z}_n) = p(\vec{z}_n \vert \vec{x}_{1:T})
+	\gamma(\vec{z}_n) = p(\vec{z}_n \vert \vec{x}_{1:T}) = \hat{\alpha}(\vec{z}_n)\hat{\beta}(\vec{z}_n) = \mathcal{N}(\vec{z}_n\vert \hat{\vec{\mu}}_n, \hat{\vec{V}}_n)
 \end{align*}
 
+\begin{align*}
+	c_{n+1}\hat{\beta}(\vec{z}_n) = \int_{z_{n+1}}\hat{\beta}(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1})p(\vec{z}_{n+1}\vert \vec{z}_n)d\vec{z}_{n+1}
+\end{align*}
 
+\begin{align*}
+	\hat{\vec{\mu}}	&= \vec{\mu}_n + \vec{J}_n(\hat{\vec{\mu}}_{t+1}- \vec{A\mu}_n)\\
+	\hat{\vec{V}}_n	&=\vec{V}_n + \vec{J}_n (\hat{\vec{V}}_{n+1}- \vec{P}_n)\vec{J}_n^\top\\
+	\vec{J}_n 				&= \vec{V}_n \vec{A}^\top \vec{P}_n^{-1} 
+\end{align*}
+
+\begin{align*}
+	\xi(\vec{z}_{n-1}, \vec{z}_n)
+		&= P(\vec{z}_n, \vec{z}_{n-1}\vert \vec{x}_{1:T}) = c_n^{-1} \hat{\alpha}(\vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)P(\vec{z}_n\vert \vec{z}_{n-1})\hat{\beta}(\vec{z}_n)\\
+		&= \frac{\mathcal{N}(\vec{z}_{n-1}\vert \vec{\mu}_{n-1}, \vec{V}_{n-1})\mathcal{N}(\vec{z}_n \vert \vec{Az}_{n-1}, \vec{\Gamma})\mathcal{N}(\vec{x}_n \vert \vec{Cz}_n, \vec{\Sigma}) \mathcal{N}(\vec{z}_n \vert \hat{\vec{\mu}}_n, \hat{\vec{V}}_n )}{c_n\hat{\alpha}(\vec{z}_n)}\\
+		& = \mathcal{N} \left(\left.
+		\begin{bmatrix}
+			\vec{z}_{n-1}\\ \vec{z}_n
+		\end{bmatrix}
+		\right\vert
+		\begin{bmatrix}
+			\hat{\vec{\mu}}_{n-1}\\
+			\hat{\vec{\mu}}_n			
+		\end{bmatrix}
+		,
+		\begin{bmatrix}
+			\hat{\vec{V}}_{n-1}								&	\vec{J}_{n-1}\hat{\vec{V}_n}\\
+			(\vec{J}_{n-1}\hat{\vec{V}_n})^\top	&	\hat{\vec{V}}_{n}
+		\end{bmatrix}\right)
+\end{align*}
+
+\subsection{EM Algorithm}
+First, we can compute the expectations that we will need in the EM algorithm
+\begin{align*}
+	\mathbb{E} [\vec{z}_n] 								& = 	\hat{\vec{\mu}}_n\\
+	\mathbb{E} [\vec{z}_n \vec{z}_{n-1}^\top]	& = \vec{J}_{n-1}\hat{\vec{V}}_n + \hat{\vec{\mu}}_n\hat{\vec{\mu}}_{n-1}^\top\\
+	\mathbb{E} [\vec{z}_n\vec{z}_n^\top]			& = \hat{\vec{V}}_n + \hat{\vec{\mu}}_n \hat{\vec{\mu}}_n ^\top
+\end{align*}
+
+Deriving the log joint likelihood
+\begin{align*}
+	p(\vec{X}, \vec{Z}\vert \vec{\theta}) 
+	& = p(\vec{x}_{1:N},\vec{z}_{1:N}\vert \vec{\theta} )\\
+	& = \prod_{n=1}^N p(\vec{x}_n \vert \vec{z}_n) p(\vec{z}_1) \prod_{n=2}^N p(\vec{z}_n \vert \vec{z}_{n-1})
+\end{align*}
+
+\begin{align*}
+	\ln p(\vec{X}, \vec{Z}\vert \vec{\theta}) 
+	& = \ln p(\vec{z}_1\vert \vec{\mu}_0, \vec{V}_0) + \sum_{n=2}^N \ln p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A}, \vec{\Gamma}) + \sum_{n=1}^N p(\vec{x}_n \vert \vec{z}_n, \vec{C}, \vec{\Sigma}) \\
+	\mathbb{E}[	\ln p(\vec{X}, \vec{Z}\vert \vec{\theta}) ]
+	& = \mathbb{E}[\ln p(\vec{z}_1\vert \vec{\mu}_0, \vec{V}_0)] + \mathbb{E}\left[\sum_{n=2}^N \ln p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A}, \vec{\Gamma})\right] + \mathbb{E}\left[\sum_{n=1}^N p(\vec{x}_n \vert \vec{z}_n, \vec{C}, \vec{\Sigma}) \right]
+\end{align*}
 
 
 
