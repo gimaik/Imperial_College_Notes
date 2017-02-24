@@ -922,7 +922,7 @@ c_n\hat{\alpha}(\vec{z}_n) &= p(\vec{x}_n\vert \vec{z}_n) \sum_{\vec{z}_{n-1}}\h
 c_{n+1}\hat{\beta}(\vec{z}_n) & = \sum_{\vec{z}_{t+1}} \hat{\beta}(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1}) p(\vec{z}_{n+1}\vert \vec{z}_n)
 \end{align*}
 
-Hence, the posteriors become (PLEASE DOUBLE CHECK THE TRANSITION PROBABILITY)s
+Hence, the posteriors become:
 \begin{align*}
 	p(\vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_N) &= \hat{\alpha}(\vec{z}_n)\hat{\beta}(\vec{z}_n)\\
 	p(\vec{z}_{n-1}, \vec{z}_n \vert \vec{x}_1, \ldots, \vec{x}_N) &= c_n^{-1}\hat{\alpha}(\vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)p(\vec{z}_n\vert \vec{z}_{n-1})\hat{\beta}(\vec{z}_{n})
@@ -944,12 +944,83 @@ We define the probability of ending in a state $j$ at time $n$, given that we ta
 \section{Linear Dynamical System (Kalman Filter)}
 
 \subsection{Definition of a Linear Dynamical System}
+The model and the transition model are given as follows
 \begin{align*}
-	\vec{x}_n 		& = \vec{Cz}_n +\vec{v}_n\\
-	\vec{z}_n 		& = \vec{Az}_{n-1} + \vec{w}_n\\
-	\vec{z}_1		& = \vec{\mu}_0 + \vec{u}\\
-	\vec{w} 		& \sim \mathcal{N}(\vec{w} \vert \vec{0}, \vec{\Gamma}) 
+	\vec{x}_n 		 	&= \vec{Cz}_n +\vec{v}_n \\	
+	\vec{z}_n 			&= \vec{Az}_{n-1} + \vec{w}_n\\
+	\vec{z}_1			&= \vec{\mu}_0 + \vec{u}
 \end{align*}
+
+The distributions of the noise are given by
+\begin{align*}
+	\vec{v}				& \sim \mathcal{N}(\vec{v} \vert \vec{0},\vec{\Sigma}) \\
+	\vec{w}				&\sim \mathcal{N}(\vec{w} \vert \vec{0},\vec{\Gamma}) \\
+	\vec{u}				& \sim \mathcal{N}(\vec{u} \vert \vec{0}, \vec{V}_0)
+\end{align*}
+
+The emission probability and the transition probability is given by
+\begin{align*}
+	p(\vec{z}_n \vert \vec{z}_{n-1})		& = \mathcal{N} (\vec{z}_n \vert \vec{Az}_{n-1}, \vec{\Gamma})\\
+	p(\vec{x}_n \vert \vec{z}_n)				& = \mathcal{N} (\vec{x}_n \vert \vec{Cz}_n, \vec{\Sigma}) \\
+	p(\vec{z}_1) 									& = \mathcal{N} (\vec{z}_1 \vert \vec{\mu}_0, \vec{V}_0)
+\end{align*}
+
+\subsection{Inference for Linear Dynamical System}
+\subsubsection{Filtering}
+
+We can denote the probability $ p(\vec{z}_n \vert \vec{x}_{1:n})$ as below:
+\begin{align*}
+	\hat{\alpha} (\vec{z}_n)	& = p(\vec{z}_n \vert \vec{x}_{1:n}) = \mathcal{N} (\vec{z}_n\vert \vec{\mu}_n, \vec{V}_n)
+\end{align*}
+
+Deriving a recursive relation:
+\begin{align*}
+	c_n \hat{\alpha}(\vec{z}_n)	
+	&= p(\vec{x}_n \vert \vec{z}_n)\int_{\vec{z}_{n-1}} \hat{\alpha}(\vec{z}_{n-1}) p(\vec{z}_n \vert \vec{z}_{n-1})d\vec{z}_{n-1}\\
+	c_n \mathcal{N} (\vec{z}_n \vert \vec{\mu}_n, \vec{V}_n) 
+	& = \mathcal{N}(\vec{x}_n \vert \vec{Cz}_n, \vec{\Sigma})\int_{\vec{z}_{n-1}} \mathcal{N}(\vec{z}_n\vert \vec{Az}_{n-1}, \vec{\Gamma})\mathcal{N}(\vec{z}_{n-1}\vert \vec{\mu}_{n-1}, \vec{V}_{n-1})d\vec{z}_{n-1}\\
+\end{align*}
+
+We can then either complete the square or use the identity of Gaussian multiplication for the integral:
+\begin{align*}
+	\int_{\vec{z}_{n-1}} \mathcal{N} (\vec{z}_n \vert \vec{Az}_{n-1}, \vec{\Gamma})\mathcal{N}(\vec{z}_{n-1}\vert \vec{\mu}_{n-1}, \vec{V}_{n-1}) d\vec{z}_{n-1}
+	 = \mathcal{N} (\vec{z}_n \vert \vec{A\mu}_{n-1}, \vec{P}_{n-1})\\
+\end{align*}
+where,
+\begin{align*}
+	 \vec{P}_{n-1} = \vec{AV}_{n-1}\vec{A}^\top +\vec{\Gamma}
+\end{align*}
+
+Hence, we have 
+\begin{align*}
+	c_n \hat{\alpha}(\vec{z}_n)	& = \mathcal{N}(\vec{x}_n \vert \vec{Cz}_n, \vec{\Sigma})\mathcal{N} (\vec{z}_n \vert \vec{A\mu}_{n-1}, \vec{P}_{n-1})\\
+	c_n\mathcal{N} (\vec{z}_n\vert \vec{\mu}_n, \vec{V}_n)& = \mathcal{N}(\vec{x}_n \vert \vec{Cz}_n, \vec{\Sigma})\mathcal{N} (\vec{z}_n \vert \vec{A\mu}_{n-1}, \vec{P}_{n-1})
+\end{align*}
+
+We can then use the product of Gaussians identity and the Woodbury identity to derive the update rule
+\begin{align*}
+	\vec{\mu}_n		& = \vec{A\mu}_{n-1} + \vec{K}_n(\vec{x}_n- \vec{CA\mu}_{n-1})\\
+	\vec{V}_n			& = (\vec{I} - \vec{K}_n\vec{C})\vec{P}_{n-1}\\
+	c_n					& = \mathcal{N}(\vec{x}_n \vert \vec{CA\mu}_{n-1}, \vec{CP}_{n-1} \vec{C}^\top +\vec{\Sigma})\\
+	\vec{K}_n			& = \vec{P}_{n-1}\vec{C}^\top (\vec{CP}_{n-1}\vec{C}^\top + \vec{\Sigma})^{-1}
+\end{align*}
+
+The initial condition for the recursion is given by
+\begin{align*}
+	c_1\hat{\alpha}(\vec{z}_1)	& = p(\vec{z}_1) p(\vec{x}_1 \vert \vec{z}_1)\\
+	\vec{\mu}_1							& = \vec{\mu}_0 + \vec{K}_1(\vec{x}_1-\vec{C\mu}_0)\\
+	c_1										& = \mathcal{N}(\vec{x}_1\vert \vec{C\mu}_0, \vec{CV}_0\vec{C}^\top +\vec{\Sigma})\\
+	\vec{K_1}								& = \vec{V}_0 \vec{C}^\top(\vec{CV}_0\vec{C}^\top + \vec{\Sigma})^{-1}
+\end{align*}
+
+\subsubsection{Smoothing}
+\begin{align*}
+	\gamma(\vec{z}_n) = p(\vec{z}_n \vert \vec{x}_{1:T})
+\end{align*}
+
+
+
+
 
 
 \section{Useful Identities:}
@@ -957,7 +1028,13 @@ We define the probability of ending in a state $j$ at time $n$, given that we ta
 \begin{itemize}
 \item Woodbury Identity:
 	\begin{align*}
-		(\vec{A} + \vec{U}\vec{C}\vec{V})^{-1} = \vec{A}^{-1}-\vec{A}^{-1} \vec{U}(\vec{C}^{-1}+\vec{V}\vec{A}^{-1}\vec{U})\vec{V}\vec{A}^{-1}
+		(\vec{A} + \vec{U}\vec{C}\vec{V})^{-1} &= \vec{A}^{-1}-\vec{A}^{-1} \vec{U}(\vec{C}^{-1}+\vec{V}\vec{A}^{-1}\vec{U})^{-1}\vec{V}\vec{A}^{-1}\\
+			(\vec{A} + \vec{BC})^{-1}& = \vec{A}^{-1} - \vec{A}^{-1}\vec{B} (\vec{I} + \vec{CA}^{-1}\vec{B})^{-1}\vec{CA}^{-1} 
+	\end{align*}
+
+\item Matrix Inversion Identities:
+	\begin{align*}
+		(\vec{A}^{-1} + \vec{B}^{-1})^{-1} &= \vec{A}(\vec{A}+\vec{B})^{-1}\vec{B} =  \vec{B}(\vec{A}+\vec{B})^{-1}\vec{A}
 	\end{align*}
 
 \item Law of Total Expectation:
