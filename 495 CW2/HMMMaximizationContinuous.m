@@ -23,6 +23,10 @@ function [pi, A, mu, sigma2] = HMMMaximizationContinuous(Y,N,T, mu, sigma2,post_
     end
         
 
+    
+    
+    
+    
     for t =1:T
        
         secondMoment(:,:,t) = post_latent(:,:,t).*sequence2(:,:,t);

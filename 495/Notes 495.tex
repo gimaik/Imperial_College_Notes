@@ -1063,6 +1063,7 @@ Deriving the log joint likelihood
 	& = \prod_{n=1}^N p(\vec{x}_n \vert \vec{z}_n) p(\vec{z}_1) \prod_{n=2}^N p(\vec{z}_n \vert \vec{z}_{n-1})
 \end{align*}
 
+\subsubsection{Expectation Step}
 \begin{align*}
 	\ln p(\vec{X}, \vec{Z}\vert \vec{\theta}) 
 	& = \ln p(\vec{z}_1\vert \vec{\mu}_0, \vec{V}_0) + \sum_{n=2}^N \ln p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A}, \vec{\Gamma}) + \sum_{n=1}^N p(\vec{x}_n \vert \vec{z}_n, \vec{C}, \vec{\Sigma}) \\
@@ -1070,8 +1071,30 @@ Deriving the log joint likelihood
 	& = \mathbb{E}[\ln p(\vec{z}_1\vert \vec{\mu}_0, \vec{V}_0)] + \mathbb{E}\left[\sum_{n=2}^N \ln p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A}, \vec{\Gamma})\right] + \mathbb{E}\left[\sum_{n=1}^N p(\vec{x}_n \vert \vec{z}_n, \vec{C}, \vec{\Sigma}) \right]
 \end{align*}
 
+\subsubsection{Maximization Step}
+To find $\vec{\mu}_0$ and $\vec{V}_0$:
+\begin{align*}
+	\mathbb{E}[\ln p(\vec{z}_1\vert \vec{\mu}_0, \vec{V}_0)] 
+	&= -\frac{1}{2}\ln \vert \vec{V}_0\vert -\frac{1}{2}\mathbb{E}_{\vec{Z}\vert \vec{\theta}^{old}}\left[(\vec{z}_1-\vec{\mu}_0)^\top\vec{V}_0^{-1} (\vec{z}_1-\vec{\mu}_0)\right] + \text{const.}\\
+	\vec{\mu}_0^{new}	&= \mathbb{E}[\vec{z}_1]\\
+	\vec{V}_0^{new}		&= \mathbb{E}[\vec{z}_1\vec{z}_1^\top] - \mathbb{E}[\vec{z}_1]\mathbb{E}[\vec{z}_1]^\top
+\end{align*}
 
+To find $\vec{A}$ and $\vec{\Gamma}$:
+\begin{align*}
+	 \mathbb{E}\left[\sum_{n=2}^N \ln p(\vec{z}_n \vert \vec{z}_{n-1}, \vec{A}, \vec{\Gamma})\right]
+	 & = -\frac{N-1}{2}\ln \vert \vec{\Gamma} \vert -\frac{1}{2}\mathbb{E}_{\vec{Z}\vert \vec{\theta}^{old}} \left[\sum_{n=2}^N (\vec{z}_n - \vec{Az}_{n-1})^\top \vec{\Gamma}^{-1}(\vec{z}_n - \vec{Az}_{n-1})\right]\\
+	 \vec{A}^{new}				& = \left(\sum_{n=2}^N \mathbb{E}[\vec{z}_n\vec{z}_{n-1}^\top]\right)\left(\sum_{n=2}^N\mathbb{E}[\vec{z}_{n-1}\vec{z}_{n-1}^\top]\right)^{-1}\\
+	 \vec{\Gamma}^{new}	& = \frac{1}{N-1}\sum_{n=2}^N \left\lbrace \mathbb{E}[\vec{z}_n\vec{z}_n^\top] - \vec{A}^{new} \mathbb{E}[\vec{z}_{n-1}\vec{z}_n^\top]]\right\rbrace\\
+	 &-\frac{1}{N-1}\sum_{n=2}^N \left\lbrace\mathbb{E}[\vec{z}_n\vec{z}_{n-1}^\top]\vec{A}^{new} - \vec{A}^{new}\mathbb{E}[\vec{z}_{n-1}\vec{z}_{n-1}^\top (\vec{A}^{new})^\top]\right\rbrace
+\end{align*}
 
+To find $\vec{C}$ and $\vec{\Sigma}$
+\begin{align*}
+	\mathbb{E}\left[\sum_{n=1}^N p(\vec{x}_n \vert \vec{z}_n, \vec{C}, \vec{\Sigma}) \right]& = -\frac{N}{2} \ln \vert \vec{\Sigma}\vert - \frac{1}{2}\mathbb{E}_{\vec{Z}\vert \vec{\theta}^{old}}\left[\sum_{n=1}^N(\vec{x}_n - \vec{Cz}_n)^\top\vec{\Sigma}^{-1}(\vec{x}_n - \vec{Cz}_n)\right] + \text{const.}\\
+	\vec{C}^{new}			& = \left(\sum_{n=1}^N \vec{x}_n \mathbb{E}[\vec{z}_n^\top]\right)\left(\sum_{n=1}^N \vec{x}_n \mathbb{E}[\vec{z}_n\vec{z}_n^\top]\right)^{-1}\\
+	\vec{\Sigma}^{new}	& = \frac{1}{N}\sum_{n=1}^N \left\lbrace \vec{x}_n\vec{x}_n^\top - \vec{C}^{new}\mathbb{E}[\vec{z}_n]\vec{x}_n^\top - \vec{x}_n\mathbb{E}[\vec{z}_n^\top]\vec{C}^{new}+\vec{C}^{new}\mathbb{E}[\vec{z}_n\vec{z}_n^\top]\vec{C}^{new} \right\rbrace
+\end{align*}
 
 \section{Useful Identities:}
 
