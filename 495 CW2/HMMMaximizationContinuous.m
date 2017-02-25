@@ -22,10 +22,6 @@ function [pi, A, mu, sigma2] = HMMMaximizationContinuous(Y,N,T, mu, sigma2,post_
         firstMoment(:,:,t) = post_latent(:,:,t).*sequence(:,:,t);
     end
         
-
-    
-    
-    
     
     for t =1:T
        
