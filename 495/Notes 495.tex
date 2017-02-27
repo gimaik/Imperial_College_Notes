@@ -1100,6 +1100,41 @@ To find $\vec{C}$ and $\vec{\Sigma}$
 \section{Markov Random Fields}
 
 
+\begin{enumerate}
+	\item Pairwise Markovianity: $(n_i, n_j) \notin \mathcal{E} \Rightarrow x_i$ and $x_j$ are independent when conditioned on all other variables
+	\begin{align*}
+		p\left(x_i, x_j \vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right) = p\left(x_i\vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right)p \left(x_j\vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right) 
+	\end{align*}		
+	 
+	 \item Local Markovianity: 
+	 
+	 \item Global Markovianity:
+\end{enumerate}
+
+
+
+Given the set of nodes,
+\begin{align*}
+	A &= x_3\\
+	B &= x_2, x_5\\
+	C &= x_1,x_4, X_6\\
+\end{align*}
+
+
+
+Global Markovianity
+\begin{align*}
+	P(A,B\vert C) =
+	&= P(A\vert C)P (B \vert C) \text{     (Global Markovianity)}\\
+	& =P(x_1,x_4 \vert x_2, x3,x5, x6) = p(x_1\vert x_2, x_3, x_5, x_6)p(x_4\vert x_2, x_3, x_5, x_6)  \text{     (Pairwise Markovianity)}\\
+	& =p(x_1\vert x_2,  x_3,) p (x_4\vert x_2, x_3, x_6)   \text{     (Local Markovianity)}
+\end{align*}
+
+
+
+
+p(z_k \vert \mathbb{E} = \frac{ep(0.5beta zk^\top \sum)}{}
+E\left[z_{ik}\right] = p(z_{ik}=1\vertx_i , \mathbb{E}[z_j]_{j\in N(i)}) = \frac{p(x_i\vert z_{ik}=1)p(z_{ik}\vert \mathbb{E}[z_j])}{\sum_{j=1}^2 p(x_i\vert z_{ij}=1)p(z_i =1 \vert \mathbb{E}[z_j])}
 
 
 \section{Useful Identities:}

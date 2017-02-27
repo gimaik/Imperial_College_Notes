@@ -1,4 +1,4 @@
-function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
+function [decode, backtrack, delta] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
     
     NbLatent = size(A,1);
     decode = zeros(size(Y));
@@ -27,11 +27,13 @@ function [decode] = HMMViterbiDiscrete(Y,N,T,pi, A, E)
 
     
     [M,decode(:,T)] = max(delta(:,:,T));
-   
+    
+    
+
     % Decoding the delta array.
     for t=T-1:-1:1
         for n=1:N
-            decode(n,t) = backtrack(decode(n,t+1),n,t+1);
+            decode(:,n,t) = ;
         end
     end
     
