@@ -1099,42 +1099,62 @@ To find $\vec{C}$ and $\vec{\Sigma}$
 
 \section{Markov Random Fields}
 
+\subsection{Graph Preliminaries}
 
 \begin{enumerate}
-	\item Pairwise Markovianity: $(n_i, n_j) \notin \mathcal{E} \Rightarrow x_i$ and $x_j$ are independent when conditioned on all other variables
-	\begin{align*}
-		p\left(x_i, x_j \vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right) = p\left(x_i\vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right)p \left(x_j\vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right) 
-	\end{align*}		
-	 
-	 \item Local Markovianity: 
-	 
-	 \item Global Markovianity:
+
+	\item A graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ is a finite collection of nodes $\mathcal{V} = \lbrace n_1,\ldots, n_N\rbrace$ and set of edges $\mathcal{E} \subset \begin{bmatrix}
+	\mathcal{V} \\ 2
+	\end{bmatrix}$
+
+	\item Neighbor: Two nodes $n_i, n_j \in \mathcal{V}$ are neighbors $\Leftrightarrow (n_i,n_j)\in \mathcal{E}$. The neighbor of a node is denoted by $\mathcal{N}(n_i) = \lbrace n_j: (n_i,n_j)\in \mathcal{E}\rbrace$
+
+	\item Neighbor is a symmetric relation (undirected graph): $n_i \in \mathcal{N}(n_j) \Leftrightarrow n_j \in \mathcal{N}(n_i) $
+
+	\item Complete graph: $\forall n_i \in \mathcal{V}, \mathcal{N}(n_i) =\lbrace (n_i,n_j), j= \lbrace 1,\ldots, N\rbrace \backslash \lbrace i \rbrace\rbrace$
+
+	\item A clique is a complete subgraph of $\mathcal{G}$. Maximal clique is a clique with maximal number of nodes, i.e. cannot add any other node while still retaining complete connectedness.
 \end{enumerate}
 
 
 
-Given the set of nodes,
-\begin{align*}
-	A &= x_3\\
-	B &= x_2, x_5\\
-	C &= x_1,x_4, X_6\\
-\end{align*}
+\subsection{Definition and Properties}
+
+\begin{enumerate}
+
+	\item Markov Random Field: Undirected graphical model in which each node corresponds to a random variable or a collection of random variables, and the edges identify conditional dependencies
+	
+	\item Let $A,B,C$ be three disjoint subsets of  $\mathcal{V}$. Let $x_A$ denote the collection of random variables in $A$. Conditional independence is defined as
+	\begin{align*}
+		p(x_A,x_B \vert x_C) =p(x_A \vert x_C)p(x_B \vert x_C)
+	\end{align*}
+
+	\item Pairwise Markovianity: $(n_i, n_j) \notin \mathcal{E} \Rightarrow x_i$ and $x_j$ are independent when conditioned on all other variables
+		\begin{align*}
+			p\left(x_i, x_j \vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right) = p\left(x_i\vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right)p \left(x_j\vert \vec{x}_{\backslash\lbrace i, j\rbrace}\right) 
+		\end{align*}		
+	 
+	 \item Local Markovianity: Given its neighborhood, a variable is independent on the rest of the variables
+		\begin{align*}
+			p(x_i \vert \vec{x}_{\mathcal{V}\backslash \lbrace i \rbrace} = p(x_i \vert \vec{x}_{\mathcal{N}(i)})
+		\end{align*}		 	
+	 
+	 \item Global Markovianity: Let $\vec{A}, \vec{B}, \vec{C}$ be three disjoint subsets of $\mathcal{V}$. If $\vec{C}$ separates $\vec{A}$ from $\vec{B}$, $\Rightarrow p(x_A, x_B \vert x_C) = p(x_B \vert x_C)p(x_B \vert x_C) $, then $p(x_A, x_B \vert x_C)$ is global markov w.r.t to graph $\mathcal{G}$.
+	 
+	\item Consider a random field $\vec{x}$ on a graph $\mathcal{G}$, s.t. $p(\vec{x}>0)$. Let $\mathcal{C}$ denote the set of all maximal cliques of the graph.
+		\begin{itemize}
+			\item If the field has the local Markov property, then $p(\vec{x})$ can be written as a Gibbs distribution
+			\begin{align*}
+				p(\vec{x}) &= \frac{1}{Z} \prod_{\vec{C}} \Psi_{\vec{C}}(\vec{x_C}) = \frac{1}{Z} \exp\left(-\sum_{\vec{C}} V_C(\vec{x}_C)\right)\\
+				\Psi_{\vec{C}}(\vec{x_C}) & = \exp\left(-V_C(\vec{x}_C)\right) \text{ (potential functions)}\\
+				Z & = \sum_{\vec{x}} \prod_{\vec{C}} \Psi_{\vec{C}}(\vec{x_C})  \text{ (partition functions)}
+			\end{align*}
+		\end{itemize}
+		 If $p(\vec{x})$ can be written as Gibbs distribution for the cliques of some graph, then it has the global Markov property.	 
+	 
+\end{enumerate}
 
 
-
-Global Markovianity
-\begin{align*}
-	P(A,B\vert C) =
-	&= P(A\vert C)P (B \vert C) \text{     (Global Markovianity)}\\
-	& =P(x_1,x_4 \vert x_2, x3,x5, x6) = p(x_1\vert x_2, x_3, x_5, x_6)p(x_4\vert x_2, x_3, x_5, x_6)  \text{     (Pairwise Markovianity)}\\
-	& =p(x_1\vert x_2,  x_3,) p (x_4\vert x_2, x_3, x_6)   \text{     (Local Markovianity)}
-\end{align*}
-
-
-
-
-p(z_k \vert \mathbb{E} = \frac{ep(0.5beta zk^\top \sum)}{}
-E\left[z_{ik}\right] = p(z_{ik}=1\vertx_i , \mathbb{E}[z_j]_{j\in N(i)}) = \frac{p(x_i\vert z_{ik}=1)p(z_{ik}\vert \mathbb{E}[z_j])}{\sum_{j=1}^2 p(x_i\vert z_{ij}=1)p(z_i =1 \vert \mathbb{E}[z_j])}
 
 
 \section{Useful Identities:}
