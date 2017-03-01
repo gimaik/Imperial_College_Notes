@@ -1155,6 +1155,158 @@ To find $\vec{C}$ and $\vec{\Sigma}$
 \end{enumerate}
 
 
+\subsection{The Ising Model}
+\begin{enumerate}
+	\item The Ising model considers an idealized system of interacting particles, arranged onto a regular planar grid.
+	\item Each particle can have only two possible states and it interacts only with its nearest neighbors.
+	\item The contribution of each particle to the total energy of the system depends upon the orientation of its spin compared to its neighbors.
+	\item If $\vec{x}_i$ denotes the possible states of the particle, assuming no external force, the total energy of the system is given by
+		\begin{align*}
+			E(\vec{x}_1, \ldots, \vec{x}_N) = -\frac{\beta}{2} \sum_{k=1}^N \sum_{j\in N(k)} \vec{x}_k^\top \vec{x}_j
+		\end{align*}			
+	The probability of the configuration is given by
+		\begin{align*}
+			p(\vec{x}_1, \ldots, \vec{x}_N) = \frac{1}{Z(\beta)}\exp\left(-E(\vec{x}_1, \ldots, \vec{x}_N)\right)
+		\end{align*}			
+	
+	\item If there is external force
+		\begin{align*}
+			E(\vec{x}_1,\ldots, \vec{x}_N) &=  -\frac{\beta}{2} \sum_{k=1}^N \sum_{j\in N(k)}  \vec{x}_k^\top \vec{x}_j - \lambda \sum_{k=1}^N \vec{x}_k^\top \vec{v}_k\\
+			p(\vec{x}_1, \ldots, \vec{x}_N) &= \frac{1}{Z(\beta)}\exp\left(-E(\vec{x}_1, \ldots, \vec{x}_N)\right)			
+		\end{align*}
+	where $\vec{v}_k$ is a different constant per site.
+	
+\end{enumerate}
+
+
+
+\subsubsection{Application: Change Detection}
+
+Let $\vec{z}$ be the latent variable and $\vec{x}$ be the pixels,
+\begin{align*}
+	\vec{z} = \left\lbrace 
+	\begin{bmatrix}
+	1 \\
+	0
+	\end{bmatrix}
+	,
+		\begin{bmatrix}
+	0\\
+	1
+	\end{bmatrix}				
+	\right\rbrace
+\end{align*}
+
+The joint likelihood is given by
+\begin{align*}
+	p(\vec{x}_1, \ldots, \vec{x}_N,\vec{z}_1, \ldots, \vec{z}_N) 
+	& = p(\vec{x}_1, \ldots, \vec{x}_N \vert \vec{z}_1, \ldots, \vec{z}_N) p(\vec{z}_1, \ldots, \vec{z}_N)\\
+	& = \left(\prod_{i=1}^N p(\vec{x}_i \vert \vec{z}_i)\right)\left(\frac{1}{Z(\beta)} \exp\left(\frac{1}{2} \sum_{k=1}^N \sum_{j\in N(k)} \vec{z}_k^\top\vec{z}_j\right)\right)	
+\end{align*}
+
+Assuming the $p(\vec{x}\vert \vec{z})$ is Gaussian,
+\begin{align*}
+	p(\vec{x}_i\vert \vec{z}_{i,k}) 
+	&= \prod_{k=1}^K \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{\Sigma}_k)^{\vec{z}_{i,k}}\\
+	p(\vec{x}_1, \ldots, \vec{x}_N,\vec{z}_1, \ldots, \vec{z}_N) 
+	& = p(\vec{x}_1, \ldots, \vec{x}_N \vert \vec{z}_1, \ldots, \vec{z}_N) p(\vec{z}_1, \ldots, \vec{z}_N)\\
+	& = \left(\prod_{i=1}^N \prod_{k=1}^K \mathcal{N} (\vec{x}_i \vert \vec{\mu}_k, \vec{\Sigma}_k)^{\vec{z}_{i,k}}\right) \left(\frac{1}{Z(\beta)} \exp\left(\frac{1}{2} \sum_{k=1}^N \sum_{j\in N(k)} \vec{z}_k^\top\vec{z}_j\right)\right)	
+\end{align*}
+
+However, $Z(\beta)$ cannot be computed. Typical solution to resolve this is to use mean field approximation
+\begin{align*}
+	p(\vec{Z}) &= \frac{1}{Z(\beta)} \exp\left(\frac{1}{2} \beta \sum_{k=1}^N \sum_{j\in N(k)}\vec{z}_k^\top \vec{z}_j\right)\\
+					& \approx \prod_{k=1}^N p\left(\vec{z}_k \left\vert \mathbb{E} [\vec{z}_{j, \forall j\in N(k)}]\right.\right)\\
+	p\left(\vec{z}_k \left\vert \mathbb{E} [\vec{z}_{j, \forall j\in N(k)}]\right.\right)
+					& = \frac{\exp\left(\frac{1}{2}\beta \sum_{k=1}^N \sum_{j\in N(k)} \vec{z}_k^\top \mathbb{E}[\vec{z}_j]\right)}{\sum_{\vec{z}_k}\exp\left(\frac{1}{2}\beta \sum_{k=1}^N \sum_{j\in N(k)} \vec{z}_k^\top \mathbb{E}[\vec{z}_j]\right)}
+\end{align*}
+
+\subsection{Energy Minimization for MRFs}
+Generally we want to minimize the energy function
+\begin{align*}
+	p(\vec{x}_1,\ldots, \vec{x}_N, \vec{z}_1, \ldots, \vec{z}_N)
+	& = p(\vec{x}_1, \ldots, \vec{x}_N \vert \vec{z}_1, \ldots, \vec{z}_N) p(\vec{z}_1, \ldots, \vec{z}_N)\\
+	& = \left(\prod_{i=1}^N p(\vec{x}_i \vert \vec{z}_i)\right)\left(\frac{1}{Z(\beta)} \exp\left(\frac{1}{2} \sum_{k=1}^N \sum_{j\in N(k)} \vec{z}_k^\top\vec{z}_j\right)\right)	\\
+	& = \frac{1}{Z(\beta)} \exp\left(\frac{1}{2} \sum_{k=1}^N \sum_{j\in N(k)} \vec{z}_k^\top\vec{z}_j - \sum_{k=1}^N \ln p(\vec{x}_k \vert \vec{z}_k)\right)
+\end{align*}
+
+There are two constraints
+\begin{enumerate}
+	\item Data constraint: Labeling should reflect the observation
+	\item Smoothness constraint: Labeling should reflect spatial consistency
+\end{enumerate}
+
+
+\subsection{Gaussian Markov Random Fields}
+\begin{enumerate}
+	\item A Gaussian random field $\vec{x} \sim \mathcal{N}(\vec{\mu}, \vec{\Sigma})$ that satisfies
+		\begin{align*}
+			p(\vec{x}_i \vert \lbrace \vec{x}_j: j\neq i\rbrace) = p(\vec{x}_i \vert \lbrace \vec{x}_j: j \in N(i)\rbrace)
+		\end{align*}
+	is a Gaussian Markov random field.
+	
+	\item Another definition: A random vector $\vec{x} = (x_1, \ldots, x_N)^\top$ is called a Gaussian Markov random field with respect to graph $\mathcal{G} = \lbrace \mathcal{V}, \mathcal{E} \rbrace$ with mean $\vec{\mu}$ and a positive semi-definite precision matrix $\vec{Q}$ if its density has the form
+		\begin{align*}
+			p(\vec{x}) = (2\pi)^{-\frac{N}{2}} \vert \vec{Q} \vert \exp\left(-\frac{1}{2}(\vec{x}-\vec{\mu})^\top(\vec{x}-\vec{\mu})\right)
+		\end{align*}
+		and
+		\begin{align*}
+			q_{ij} \neq 0 &\Leftrightarrow n_i\in \mathcal{N}(n_j)\\
+			q_{ij}  =0 &\Leftrightarrow \vec{x}_i\bot \vec{x}_j \vert \vec{x}_{\backslash \lbrace i,j \rbrace}
+		\end{align*}
+
+	\item Construction of $\vec{Q}$: Let  $A$ be the adjacency matrix of the graph (we assume that there's a recurrent edge to each node) and $D$ is the degree matrix of the graph,
+		\begin{align*}
+			\vec{A} = [a_{ij}] &\Rightarrow
+			a_{ij}		 = \begin{cases}
+			1		& 			n_i \in \mathcal{N}(j)\\
+			1		&			i = j\\
+			0		&			\text{otherwise}
+			\end{cases}	\\
+			\vec{D} = [D_{ij}] &\Rightarrow
+			a_{ij}		 = \begin{cases}
+			\sum_j a_{ij}		& 		i=j\\
+			0		&			\text{otherwise}
+			\end{cases}\\
+			\vec{Q} = \vec{D} - \vec{A}		
+		\end{align*}		
+	Note that $\vec{Q}$ is a sparse matrix.
+	
+	\item We can also specify a Gaussian Markov random field via clique potentials:
+		\begin{align*}
+			V_C (\vec{x}_C) & = \frac{1}{2}\left(\sum_{i\in C} \alpha_i^C x_i\right)^2 = \frac{1}{2}\left(\sum_{i\in\mathcal{V}} \alpha_i^C x_i\right)^2			
+		\end{align*}	
+		where
+		\begin{align*}
+			i\notin C &\Rightarrow \alpha_i^C = 0
+		\end{align*}				
+	
+		Then the exponent of the GMRF density becomes
+		\begin{align*}
+			-\sum_{C\in\mathcal{C}} V_C(\vec{x}_C) 
+			& = -\frac{1}{2} \sum_{C\in\mathcal{C}} \left(\sum_{i\in\mathcal{V}} \alpha_i^C x_i\right)^2\\
+			& = -\frac{1}{2} \sum_{i\in\mathcal{V}}\sum_{j\in\mathcal{V}} \left(\sum_{C\in \mathcal{C}} \alpha_i^C \alpha_j^C\right)x_ix_j\\
+			& = -\frac{1}{2}\vec{x}^\top\vec{Q}\vec{x}
+		\end{align*}
+			
+\item Example of a GMRF: AR(1)
+	\begin{align*}
+		\vec{x}_1 & \sim \mathcal{N}\left(0, (1-\phi^2)^{-1} \right) \\
+		\vec{x}_t \vert \vec{x}_{1:t-1} &\sim\mathcal{N}\left(\phi \vec{x}_{t-1}, 1 \right) \\
+		\vec{Q}		& = \begin{bmatrix}
+		1				&			\phi			&		0			& \cdots	& 	0\\
+		-\phi			&		1+\phi^2		&		-\phi		&	\ddots	&	0\\
+		0				&		\ddots			&		\ddots	&	\ddots	& 	0\\
+		0				&		\cdots			&		0			& -\phi		&	1
+		\end{bmatrix}
+	\end{align*}
+
+
+
+\end{enumerate}
+
+
+
 
 
 \section{Useful Identities:}
@@ -1223,6 +1375,7 @@ We have
 		\frac{\partial \vert \vec{X}\vert}{\partial \vec{X}} & = \vert \vec{X}\vert \vec{X}^{-\top}
 	\end{align*}
 
+\item Matrix identities for trace
 	\begin{align*}
 		\vec{a}^\top \vec{a} = \text{tr }(\vec{a}\vec{a}^\top)
 	\end{align*}
