@@ -583,12 +583,32 @@ The implication of the two fund theorem is that investors seeking efficient port
 				& = \frac{1}{1+r}\left[\tilde{p} C_u(t+1) + (1-\tilde{p}) C_d(t+1)\right]\\
 	\end{align*}
 
+\end{enumerate}
+
+\subsection{American Option}	
+\begin{enumerate}
+	\item Recursion for American call options
+	\begin{align*}
+		C &= \max\left(S-K, \frac{qC_u + (1-q)C_d}{1+r}\right)\\
+		r & = \frac{(1+r)-d}{u-d}
+	\end{align*}
+
+	\item American call options on non-dividend paying stocks are never exercised early.
+	\begin{align*}
+		C_u 	& \geq S_u - K\\
+		C_d 	& \geq S_d - K\\
+		C		& \geq \frac{1}{1+r}\left(q(S_u-K) + (1-q)(S_d-K)\right)\\
+				& = \frac{1}{1+r}\left((qu +(1-q)d)S -K \right)\\
+				& = S - \frac{K}{R} \geq S-K
+	\end{align*}
 
 \end{enumerate}
 
-	
-
-
+\subsection{General Risk-Neutral Pricing}
+Let $S$ be the underlying asset, and $f$ is a security whose cash flow $f_k$ at any time $k$ is only a function of the node at time $k$. The arbitrage free price of the security is
+\begin{align*}
+	f_{val} = \mathbb{E}_{\mathbb{Q}} \left(\sum_{k=0}^N f_k d_f\right)
+\end{align*}
 
 
 
