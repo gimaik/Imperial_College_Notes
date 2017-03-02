@@ -139,14 +139,14 @@
 \begin{enumerate}
 \item A portfolio's total return and rate of return are
 	\begin{align*}
-		R &= \sum_i^n R_i\\
-		r  &= \sum_i^n r_i
+		R = \sum_i^n R_i	&&
+		r  = \sum_i^n r_i
 	\end{align*}
 
 \item Mean and variance of portfolio return
 \begin{align*}
-	\overline{r} 	& = \mathbb{E}(r) = \sum_{i=1}^n w_i \overline(r)_i\\
-	\sigma^2 		& = \mathbb{V}(r) = \sum_{i,j=1}^n w_iw_j\sigma_{ij}
+	\overline{r} 	= \mathbb{E}(r) = \sum_{i=1}^n w_i \overline(r)_i		&&
+	\sigma^2 		= \mathbb{V}(r) = \sum_{i,j=1}^n w_iw_j\sigma_{ij}
 \end{align*}
 
 \item Assumptions of the Markowitz model:
@@ -161,8 +161,8 @@
 \begin{itemize}
 	\item Assumed that there are $n$ risky assets with mean return $\lbrace \overline{r}_i\rbrace_{i=1}^n$ and covariances $\lbrace \sigma_{ij}\rbrace_{i,j=1}^n$, the portfolio has mean return and variance
 	\begin{align*}
-		\overline{r}_P	& = \sum_{i=1}^n w_i \overline{r}_i\\
-		\sigma_P^2		& = \sum_{i,j=1}^n w_iw_j\sigma_{ij}
+		\overline{r}_P	= \sum_{i=1}^n w_i \overline{r}_i	&&
+		\sigma_P^2		= \sum_{i,j=1}^n w_iw_j\sigma_{ij}
 	\end{align*}
 	
 	\item The Markowitz model is then an optimization problem to minimize the variance subject to a portfolio target returns. 
@@ -187,7 +187,6 @@
 	\end{align*}		
 \end{itemize}
 
-		
 	\item In vector notation:
 	\begin{align*}
 			\min_{\vec{w}}	\text{  }	& \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w}\\
@@ -196,11 +195,8 @@
 	\end{align*}
 	
 	\begin{align*}
-		L(\vec{w}, \lambda, \mu) = \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w} &- \lambda \left(\vec{w}^\top\overline{\vec{r}} - \overline{r}_P \right) - \mu (\vec{w}^\top \vec{1} -1)
-	\end{align*}
-	
-	\begin{align*}
-		\begin{bmatrix}
+		L(\vec{w}, \lambda, \mu) &= \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w} - \lambda \left(\vec{w}^\top\overline{\vec{r}} - \overline{r}_P \right) - \mu (\vec{w}^\top \vec{1} -1)\\
+		&\begin{bmatrix}
 			\vec{\Sigma}						& 	- \overline{\vec{r}}	& - \vec{1} \\
 		 	- \overline{\vec{r}}^\top	& 0 								& 0\\
 			\vec{1}^\top						& 0 								& 0
@@ -210,7 +206,7 @@
 		\lambda \\
 		\mu
 		\end{bmatrix}
-		&= \begin{bmatrix}
+		= \begin{bmatrix}
 		\vec{0}		\\
 		-\overline{r}_P\\
 		-1
@@ -225,8 +221,6 @@
 			\hat{\sigma^2}	& = \frac{1}{n-1}\sum_{i=1}^n (r_i-\hat{r})^2\\
 			\hat{\sigma}_{ab}& = \frac{1}{n-1} \sum_{i=1}^n (r_{a,i}-\hat{r}_a)(r_{b,i}-\hat{r}_b)
 		\end{align*}
-
-
 
 \end{enumerate}
 
@@ -277,7 +271,7 @@ The implication of the two fund theorem is that investors seeking efficient port
 	 \item Proof of only systematic loss would be relevant
 	 \begin{align*}
 	 	r_i 					& = r_f + \beta_i (r_M - r_f )+ \epsilon_i
-	 	\sigma_{iM}		& = \text{cov} \left(r_f + \beta_i (r_M - r_f )+ \ epsilon_i, r_M\right)\\
+	 	\sigma_{iM}		& = \text{cov} \left(r_f + \beta_i (r_M - r_f )+ \epsilon_i, r_M\right)\\
 	 							& = \beta_i \text{cov}(r_M, r_M) +  \text{cov}(\epsilon_i, r_M)
 	 \end{align*}
  		
@@ -536,6 +530,7 @@ The implication of the two fund theorem is that investors seeking efficient port
 
 \end{enumerate}
 
+\newpage
 
 \section{Basic Options Theory}
 \subsection{General Options Related Theory}
@@ -588,8 +583,6 @@ The implication of the two fund theorem is that investors seeking efficient port
 				& = \frac{1}{1+r}\left[\tilde{p} C_u(t+1) + (1-\tilde{p}) C_d(t+1)\right]\\
 	\end{align*}
 
-
-	
 
 \end{enumerate}
 

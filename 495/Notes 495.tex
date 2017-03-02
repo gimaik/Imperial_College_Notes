@@ -348,6 +348,7 @@ p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 
 \end{enumerate}
 
+\newpage
 
 \section{PPCA Mixture Model}
 
@@ -940,6 +941,7 @@ We define the probability of ending in a state $j$ at time $n$, given that we ta
 
 \end{enumerate}
 
+\newpage
 
 \section{Linear Dynamical System (Kalman Filter)}
 
@@ -1096,6 +1098,8 @@ To find $\vec{C}$ and $\vec{\Sigma}$
 	\vec{\Sigma}^{new}	& = \frac{1}{N}\sum_{n=1}^N \left\lbrace \vec{x}_n\vec{x}_n^\top - \vec{C}^{new}\mathbb{E}[\vec{z}_n]\vec{x}_n^\top - \vec{x}_n\mathbb{E}[\vec{z}_n^\top]\vec{C}^{new}+\vec{C}^{new}\mathbb{E}[\vec{z}_n\vec{z}_n^\top]\vec{C}^{new} \right\rbrace
 \end{align*}
 
+
+\newpage
 
 \section{Markov Random Fields}
 
@@ -1305,9 +1309,57 @@ There are two constraints
 
 \end{enumerate}
 
+\subsubsection{Application: Image Denoising}
+\begin{enumerate}
+	\item Consider an image to be a rectangular lattice with first-order pixel neighbourhoods:
+		\begin{itemize}
+			\item GMRF is used as the smoothing prior
+			\item Cliques: pairs of vertically or horizontally adjacent pixels
+			\item Clique potentials: squares of first-order differences
+			\begin{align*}
+				V_{\lbrace (i,j), (i, j-1) \rbrace} (x_{i,j}, x_{i,j-1}) = \frac{1}{2} \left(x_{i,j} - x_{i,j-1}\right)^2
+			\end{align*}
+			\item $\vec{Q}$ will be a matrix with tridiagonal blocks.
+		\end{itemize}
+
+	\item The model is given by
+		\begin{align*}
+			\vec{x} 						& = \vec{Hy} + \vec{u}, \vec{u} \sim \mathcal{N}(\vec{u}\vert \vec{0}, \sigma^2 \vec{I}) \text{     (observation model)}	\\
+			p(\vec{x})					& = (2\pi)^{-\frac{N}{2}} \vert \vec{Q}\vert \exp\left(-\frac{1}{2} \vec{x}^\top \vec{Qx} \right) \text{     (GMRF prior)}	\\
+			\mathbb{E}[\vec{y}]	& = [\sigma^2\vec{Q} + \vec{H}^\top \vec{H}]^{-1} \vec{H}^\top \vec{y}\text{     (posterior mean)}
+		\end{align*}
+
+	\item The model is good for deblurring. However, when it comes to denoising, it oversmooth the image as the edge discontinuities are smoothed out. Preservation of discontinuities can be solved by
+		\begin{itemize}
+			\item Other prior models
+			\item Hidden / latent binary random variables $v$ to turn off clique potentials
+				\begin{align*}
+					V(x_{i,j}, x_{i,j-1}, v_{i,j}) = \frac{1}{2}(1-v_{i,j})(x_{i,j} - x_{i,j-1})^2
+				\end{align*}
+			\item Robust potential functions ($L_2$ vs $L_1$ norm)
+		\end{itemize}
+		
+	\item Some other possible potentials
+	\begin{itemize}
+		\item Convex potentials
+
+		\begin{align*}
+			V(x) = \vert x ^p\vert , p\in[1,2]	&&\text{Generalized Gaussians}\\
+			V(x) = \begin{cases} x^2	& \vert x \vert <a \\ 2a\vert x\vert - a^2 & \vert x \vert \geq a \end{cases} 	&&\text{Stevenson}\\
+			V(x) = 2a^2 \log \cosh (x/a)			&&\text{Green}
+		\end{align*}
+		
+		\item Non-convex potentials
+		\begin{align*}
+			V(x) = \left[\min(\vert x \vert, a)\right]^2 		&&	\text{Blake, Zisserman}\\
+			V(x) = \frac{x^2}{x^2 + a^2}								&&	\text{Geman, McClure}			
+		\end{align*}			
+		
+	\end{itemize}
+\end{enumerate}
 
 
-
+\newpage
 
 \section{Useful Identities:}
 
@@ -1356,9 +1408,7 @@ We have
 
 \item Product of two Gaussians (note that the underlying random variable must be the same):
 	\begin{align*}
-		\mathcal{N}(\vec{x}\vert \vec{a}, \vec{A})\mathcal{N}(\vec{x}\vert \vec{b}, \vec{B})= c\mathcal{N}(\vec{x}\vert \vec{c}, \vec{C})
-	\end{align*}
-	\begin{align*}
+		\mathcal{N}(\vec{x}\vert \vec{a}, \vec{A})&\mathcal{N}(\vec{x}\vert \vec{b}, \vec{B})= c\mathcal{N}(\vec{x}\vert \vec{c}, \vec{C})\\
 		\vec{C} &= (\vec{A}^{-1}+\vec{B}^{-1})^{-1}\\
 		\vec{c} &= \vec{C}(\vec{A}^{-1}\vec{a}+\vec{B}^{-1}\vec{b})\\
 		c& = \mathcal{N}(\vec{a}\vert \vec{b}, \vec{A} + \vec{B}) = \mathcal{N}(\vec{b}\vert \vec{a}, \vec{A} + \vec{B})
