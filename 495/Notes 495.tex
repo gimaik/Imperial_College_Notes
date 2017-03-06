@@ -1420,6 +1420,13 @@ We have
 		\frac{\partial \vec{a}^\top\vec{X}^{-1}\vec{B}}{\partial \vec{X}} &= -\vec{X}^{-\top}\vec{ab}^\top\vec{X}^{-\top}
 	\end{align*}
 
+\item Derivative of trace
+\begin{align*}
+	\frac{\partial  \vec{XA}}{\partial \vec{X}} & = \vec{A}^\top\\
+	\frac{\partial  \vec{X^\top A}}{\partial \vec{X}} & = \vec{A}\\
+	\frac{\partial  \vec{AXB}}{\partial \vec{X}} & = \vec{A}^\top\vec{B}^\top\\
+\end{align*}
+
 \item Derivative of determinant
 	\begin{align*}
 		\frac{\partial \vert \vec{X}\vert}{\partial \vec{X}} & = \vert \vec{X}\vert \vec{X}^{-\top}
@@ -1427,7 +1434,8 @@ We have
 
 \item Matrix identities for trace
 	\begin{align*}
-		\vec{a}^\top \vec{a} = \text{tr }(\vec{a}\vec{a}^\top)
+		\vec{a}^\top \vec{a} &= \text{tr }(\vec{a}\vec{a}^\top)\\
+		\text{tr}(\vec{ABC}) &= \text{tr}(\vec{BCA}) = \text{tr}(\vec{CAB}) 
 	\end{align*}
 
 \end{itemize}

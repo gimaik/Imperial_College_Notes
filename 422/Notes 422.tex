@@ -116,7 +116,7 @@
 	\item \textbf{Convexity.} Convexity is defined as
 		\begin{align*}
 			C	&=\frac{1}{P(r_0)}\left.\frac{d^2P(r)}{dr^2}\right\vert_{r=r_0}
-				=\frac{1}{P(r_0)}\sum_{t=1}^n t^2PV_t
+				=\frac{1}{P(r_0)}\sum_{t=1}^n \frac{t^2PV_t}{(1+r_0)^2}
 		\end{align*}
 	
 	\item Estimation of bond price change
@@ -139,8 +139,8 @@
 \begin{enumerate}
 \item A portfolio's total return and rate of return are
 	\begin{align*}
-		R = \sum_i^n R_i	&&
-		r  = \sum_i^n r_i
+		R = \sum_i^n w_iR_i	&&
+		r  = \sum_i^n w_ir_i
 	\end{align*}
 
 \item Mean and variance of portfolio return
@@ -256,8 +256,19 @@ The implication of the two fund theorem is that investors seeking efficient port
 	 For the market portfolio $M$ is efficient, the expected return of $\overline{r}_i$ of any asset $i$ satisfies
 	 \begin{align*}
 	 	\overline{r}_i - r_F &= \beta_i (\overline{r}_M-r_f)\\
-	 	\beta_i &=\frac{\sigma_{iM}}{\sigma^2_M}
+	 	\beta_i &=\frac{\sigma_{iM}}{\sigma^2_M} = \frac{\sigma_{iM}}{\sigma_M\sigma_M}\frac{\sigma_i}{\sigma_i}= \left[\frac{\sigma_i}{\sigma_M}\right] \rho
 	 \end{align*}
+	 
+	Derivation of CAPM considers the following portfolio, where $\alpha$ will be set to 0
+	\begin{align*}
+		\bar{r}_\alpha 			&= \alpha\bar{r}_i + (1-\alpha) \bar{r}_M\\
+		\bar{\sigma}_\alpha	& = \left(\alpha^2 \sigma_i^2 +2\alpha (1-\alpha)\sigma_{iM} + (1-\alpha)^2 \sigma_M^2\right)^{\frac{1}{2}}
+	\end{align*}		
+		 
+	 Compute the following derivative and match it to the CML's slope $\frac{r_M -r_f}{\sigma_M}$
+	\begin{align*}
+		\frac{d\bar{r}_i}{d\sigma_i}= \frac{d \bar{r}_\alpha}{d \alpha}\frac{d\alpha}{d \sigma_\alpha}
+	\end{align*}
 	 
 	 Under equilibrium conditions assumed by CAPM, any assets should fall on the security market line.
 	 
@@ -270,9 +281,9 @@ The implication of the two fund theorem is that investors seeking efficient port
 	
 	 \item Proof of only systematic loss would be relevant
 	 \begin{align*}
-	 	r_i 					& = r_f + \beta_i (r_M - r_f )+ \epsilon_i
-	 	\sigma_{iM}		& = \text{cov} \left(r_f + \beta_i (r_M - r_f )+ \epsilon_i, r_M\right)\\
-	 							& = \beta_i \text{cov}(r_M, r_M) +  \text{cov}(\epsilon_i, r_M)
+	 	r_i 					& = r_f + \beta_i (r_M - r_f )+ \epsilon_i\\
+	 	\sigma_{i}^2		& = \text{cov} \left(r_f + \beta_i (r_M - r_f )+ \epsilon_i, r_i\right)\\
+	 							& = \beta_i^2 \sigma^2_M + \sigma_{\epsilon_i}^2
 	 \end{align*}
  		
 		\item CAPM can be used as a pricing formula
@@ -338,7 +349,7 @@ The implication of the two fund theorem is that investors seeking efficient port
 	\item Properties of a utility function relating to its derivatives
 		\begin{itemize}
 			\item $U^\prime(x)>0$ because people are greedy bastards, so more will be better
-			\item $U^{\prime\prime}(x) < 0$  because people are risk-averse
+			\item $U^{\prime\prime}(x) < 0$  because people are risk-averse (marginal utility is lower as if existing wealth is large)
 		\end{itemize}
 
 	\item Arrow-Pratt absolute risk aversion 
