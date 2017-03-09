@@ -312,7 +312,7 @@ p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x}_i \vert\vec{y}_i, \ve
 
 \item \textbf{E-Step:} Take the expectation on the log likelihood on the joint distribution:
 \begin{align*}
-\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu}) -\frac{1}{2}\vec{y}_i^\top\vec{y}_i-\frac{D}{2}\ln 2\pi\right]
+\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi-\frac{1}{2}\ln\sigma^2 -\frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu}) -\frac{1}{2}\vec{y}_i^\top\vec{y}_i-\frac{D}{2}\ln 2\pi\right]
 \end{align*}
 
 Expanding the above and use the identities $\text{tr}\left[\vec{y}_i^\top \vec{WW}^\top \vec{y}_i\right]=\text{tr}\left[\vec{y}_i\vec{y}_i^\top \vec{WW}^\top \right]$
