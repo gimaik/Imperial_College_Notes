@@ -306,7 +306,7 @@ p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 \begin{align*}
 p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x}_i \vert\vec{y}_i, \vec{\theta})p(\vec{y}_i)\\
 \ln p(\vec{X,Y} \vert \vec{\theta}) &= \sum_{i=1}^N \left(\ln p(\vec{x}_i \vert\vec{y}_i,\vec{\theta})+ \ln p(\vec{y}_i)\right)\\
-\ln p(\vec{x}_i \vert \vec{y}_i, \vec{\theta}) &= -\frac{F}{2}\ln (2\pi\sigma^2) - \frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu})\\
+\ln p(\vec{x}_i \vert \vec{y}_i, \vec{\theta}) &= -\frac{F}{2}\ln 2\pi -\frac{1}{2}\ln\sigma^2 - \frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu})\\
 \ln p(\vec{y}_i)&= -\frac{1}{2}\vec{y}_i^\top \vec{y}_i-\frac{D}{2}\ln 2\pi
 \end{align*}
 
@@ -318,7 +318,7 @@ p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x}_i \vert\vec{y}_i, \ve
 Expanding the above and use the identities $\text{tr}\left[\vec{y}_i^\top \vec{WW}^\top \vec{y}_i\right]=\text{tr}\left[\vec{y}_i\vec{y}_i^\top \vec{WW}^\top \right]$
 \begin{align*}
 \mathbb{E}_{p(\vec{Y\vert X})} [\ln p(\vec{X,Y} \vert \vec{\theta})]
-&=-\frac{NF}{2}\ln 2\pi\sigma^2 -\frac{ND}{2}\ln 2\pi\\
+&=-\frac{NF}{2}\ln 2\pi - \frac{N}{2}\ln\sigma^2 -\frac{ND}{2}\ln 2\pi\\
 & -\sum_{i=1}^N\left\lbrace\frac{1}{2\sigma^2}\left[(\vec{x}_i-\vec{\mu})^\top (\vec{x}_i-\vec{\mu}) -2 (\vec{x}_i-\vec{\mu})^\top \vec{W} \mathbb{E}[\vec{y}_i] \right.\right.\\
 &+\left.\left.\text{tr}\left[\mathbb{E}(\vec{y}_i\vec{y}_i^\top)\vec{W^\top W}\right]\right]+\frac{1}{2}\text{tr}\left[\mathbb{E}(\vec{y}_i^\top \vec{y}_i)\right]\right\rbrace
 \end{align*}
