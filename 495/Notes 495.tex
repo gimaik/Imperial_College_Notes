@@ -335,7 +335,7 @@ p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 \begin{align*}
 \vec{\mu}&= \frac{1}{N}\sum_{i=1}^N(\vec{x}_i - \vec{W}\mathbb{E}[\vec{y}_i])\\
 \vec{W}&=\left[\sum_{i=1}^N (\vec{x}_i - \vec{\mu})\mathbb{E}[\vec{y}_i]^\top]\right]\left[\sum_{i=1}^N \mathbb{E}[\vec{y}_i\vec{y}_i^\top]\right]^{-1}\\
-\sigma^2&=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y}_i]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y}_i\vec{y}_i^\top]\vec{W^\top W})\right\rbrace
+\sigma^2&=\frac{1}{N}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y}_i]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y}_i\vec{y}_i^\top]\vec{W^\top W})\right\rbrace
 \end{align*}
 
 
@@ -366,7 +366,7 @@ The model is given by:
 	\vec{x}_i &= \vec{\mu}_k + \vec{W}_k\vec{y}_{ik} + \vec{e}_{ik}\\
 	\vec{y}_{ik} &\sim \mathcal{N} (\vec{y}_{ik}\vert \vec{0,I})\\
 	\vec{e}_{ik} & \sim \mathcal{N} (\vec{e}_{ik}\vert \vec{0},\sigma^2_k\vec{I}), \forall k = 1,\dots, K\\
-	p(\vec{x}_i\vert  \vec{z}_{ik} &=1, \vec{y}_{ik}, \vec{\mu_k}, \vec{W_k}, \sigma^2_k \vec{I}) = \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k + \vec{W}_k\vec{y}_{ik})\\
+	p(\vec{x}_i\vert  \vec{z}_{ik} &=1, \vec{y}_{ik}, \vec{\mu_k}, \vec{W_k}, \sigma^2_k \vec{I}) = \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k + \vec{W}_k\vec{y}_{ik}, \sigma_k^2\vec{I})\\
 	p(\vec{x}_i\vert \vec{\theta})& = \sum_{k=1}^K \pi_k \mathcal{N}(\vec{x}_i \vert \vec{\mu}_k, \vec{D}_k)\\\
 	\vec{D}_k &= \vec{W}_k\vec{W}_k^\top + \sigma_k^2\vec{I}
 \end{align*}
@@ -462,7 +462,7 @@ Hence the log likelihood of the joint distribution:
 \begin{align*}
 \pi_k &= \frac{1}{N}\sum^N_{i=1} \mathbb{E}[z_{ik}]\\
 \vec{\mu}_k &= \frac{\sum_{i=1}^N \mathbb{E}[z_{ik}](\vec{x}_i - \vec{W}_k \mathbb{E}[\vec{y}_{ik}])} {\sum_{i=1}^N \mathbb{E}[z_{ik}]}\\
-\vec{W}_k & = \left[\sum_{i=1}^N\mathbb{E}[z_{ik}](\vec{x}_i - \vec{\mu})\mathbb{E}[\vec{y}_{ik}^\top]\right]\left[\sum_{i=1}^N\mathbb{E}[z_{ik}]\mathbb{E}[\vec{y_{ik}}\vec{y}_{ik}^\top])  \right]^{-1}\\
+\vec{W}_k & = \left[\sum_{i=1}^N\mathbb{E}[z_{ik}](\vec{x}_i - \vec{\mu})\mathbb{E}[\vec{y}_{ik}]^\top\right]\left[\sum_{i=1}^N\mathbb{E}[z_{ik}]\mathbb{E}[\vec{y_{ik}}\vec{y}_{ik}^\top])  \right]^{-1}\\
 \sigma_k^2 = \frac{1}{F\sum_{i=1}^N \mathbb{E}[z_{ik}]}&\sum_{i=1}^N \mathbb{E}[z_{ik}]\left[\parallel\vec{x}_i-\vec{\mu}_k\parallel^2 - \mathbb{E}[\vec{y}_{ik}]^\top \vec{W}^\top_k(\vec{x}_i-\vec{\mu}_k) + \text{tr}\left(\vec{W}_k^\top \vec{W}_k \mathbb{E}[\vec{y}_{ik}\vec{y}_{ik}^\top]\right)\right]
 \end{align*}
 
@@ -531,14 +531,14 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 		\begin{align*}
 			\ln p(\vec{X}, \vec{Y} \vert \vec{\theta})
 			&= -\frac{1}{2\sigma^2}\sum_{i=1}^N \left\lbrace\text{tr}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]-  2\text{tr} \left[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top \vec{W}\right]+\text{tr}\left[\vec{W}^\top\vec{Wy}_i\vec{y}_i^\top\right]\right\rbrace\\
-			&-\frac{1}{2}\sum_{i=1}^N \text{tr}[\vec{y}_i\vec{y}_i^\top]-\frac{NF}{2} \ln 2\pi - NF \ln \sigma - N \ln 2\pi
+			&-\frac{1}{2}\sum_{i=1}^N \text{tr}[\vec{y}_i\vec{y}_i^\top]-\frac{NF}{2} \ln 2\pi - \frac{N}{2} \ln \sigma^2 - N \ln 2\pi
 		\end{align*}
 	
 	\item Take the expectation with regards to the probability distribution $p(\vec{X}, \vec{Y} \vert \vec{X}^o)$
 		\begin{align*}
 			&\mathbb{E}_{p(\vec{x}_i,\vec{y}_i\vert \vec{x}_i^o)}\left[\ln p(\vec{X}, \vec{Y} \vert \vec{\theta})\right]\\
 			&= -\frac{1}{2\sigma^2}\sum_{i=1}^N \left\lbrace\text{tr}\left(\mathbb{E}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\right)-  2\text{tr} \left(\mathbb{E}\left[\vec{y}_i(\vec{x}_i-\vec{\mu})^\top\right] \vec{W}\right)+\text{tr}\left(\vec{W}^\top\vec{W}\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)\right\rbrace\\
-			&-\frac{1}{2}\sum_{i=1}^N \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)-\frac{NF}{2} \ln 2\pi - NF \ln \sigma - N \ln 2\pi
+			&-\frac{1}{2}\sum_{i=1}^N \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right)-\frac{NF}{2} \ln 2\pi - - \frac{N}{2} \ln \sigma^2 - N \ln 2\pi
 		\end{align*}
 		
 		\begin{align*}
@@ -559,7 +559,7 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 		\begin{align*}
 				\vec{\mu}	&=\frac{1}{N}\sum_{i=1}^N \vec{z}_i\\
 				\vec{W}	&=\left[\sum_{i=1}^N\mathbb{E}\left[(\vec{x}_i-\vec{\mu})\vec{y}_i^\top\right]\right]\left[\sum_{i=1}^N\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\right]^{-1}\\
-				\sigma^2 &=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \text{tr}\left(\mathbb{E}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\right) 
+				\sigma^2 &=\frac{1}{N}\sum_{i=1}^N\left\lbrace \text{tr}\left(\mathbb{E}\left[(\vec{x}_i-\vec{\mu})(\vec{x}_i-\vec{\mu})^\top\right]\right) 
 				-2 \text{tr}\left( \mathbb{E} \left[ \vec{y}_i (\vec{x}_i-\vec{\mu})^\top \right]\vec{W} \right)
 				+ \text{tr}\left(\mathbb{E}\left[\vec{y}_i\vec{y}_i^\top\right]\vec{W}^\top\vec{W}\right)	
 				\right\rbrace\\
@@ -663,9 +663,9 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 \end{enumerate}
 
 
-\subsection{Hidden Markov Model}
+\section{Hidden Markov Model}
 
-\subsubsection{Model Description and Important Properties}
+\subsection{Model Description and Important Properties}
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[width = 0.7\hsize]{./figures/HiddenMarkovModel.png} % this includes the figure and specifies that it should span 0.7 times the horizontal size of the 
@@ -710,7 +710,7 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 \end{enumerate}
 
 
-\subsubsection{Formulation (Discrete Case)}
+\subsection{Formulation (Discrete Case)}
 Let there be $K$ possible states for the latent variable $\vec{z}$ and $S$ possible states for the observed variable $\vec{x}$.
 \begin{align*}
 	p(\vec{z}_1\vert \vec{\pi}) 						&= \prod_{c=1}^K \pi_c^{z_{1,c}}\\
@@ -767,7 +767,7 @@ Taking the derivative w.r.t. to the parameters, we get
 \end{align*}
 
 
-\subsubsection{Formulation (Continuous Case)}
+\subsection{Formulation (Continuous Case)}
 Let there be $K$ possible states for the latent variable $\vec{z}$ and $p(\vec{x}_n \vert \vec{z}_n)$ is a normal distribution.
 \begin{align*}
 	p(\vec{z}_1\vert \vec{\pi}) 						&= \prod_{k=1}^K \pi_k^{z_{1,k}}\\
@@ -817,7 +817,7 @@ Taking the derivative w.r.t. to the parameters, we get
 
 
 
-\subsubsection{Inference}
+\subsection{Inference}
 \begin{enumerate}
 \item \textbf{Filtering and Smoothing: Forwards and Backwards Algorithm}
 
