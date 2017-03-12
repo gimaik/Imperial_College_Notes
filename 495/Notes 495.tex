@@ -306,19 +306,19 @@ p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 \begin{align*}
 p(\vec{X,Y} \vert \vec{\theta}) &= \prod_{i=1}^N p(\vec{x}_i \vert\vec{y}_i, \vec{\theta})p(\vec{y}_i)\\
 \ln p(\vec{X,Y} \vert \vec{\theta}) &= \sum_{i=1}^N \left(\ln p(\vec{x}_i \vert\vec{y}_i,\vec{\theta})+ \ln p(\vec{y}_i)\right)\\
-\ln p(\vec{x}_i \vert \vec{y}_i, \vec{\theta}) &= -\frac{F}{2}\ln 2\pi -\frac{1}{2}\ln\sigma^2 - \frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu})\\
+\ln p(\vec{x}_i \vert \vec{y}_i, \vec{\theta}) &= -\frac{F}{2}\ln (2\pi\sigma^2) - \frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu})\\
 \ln p(\vec{y}_i)&= -\frac{1}{2}\vec{y}_i^\top \vec{y}_i-\frac{D}{2}\ln 2\pi
 \end{align*}
 
 \item \textbf{E-Step:} Take the expectation on the log likelihood on the joint distribution:
 \begin{align*}
-\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi-\frac{1}{2}\ln\sigma^2 -\frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu}) -\frac{1}{2}\vec{y}_i^\top\vec{y}_i-\frac{D}{2}\ln 2\pi\right]
+\ln p(\vec{X,Y} \vert \vec{\theta}) &=\sum_{i=1}^N\left[-\frac{F}{2}\ln 2\pi\sigma^2 -\frac{1}{2\sigma^2}(\vec{x}_i-\vec{Wy}_i-\vec{\mu})^\top (\vec{x}_i-\vec{Wy}_i-\vec{\mu}) -\frac{1}{2}\vec{y}_i^\top\vec{y}_i-\frac{D}{2}\ln 2\pi\right]
 \end{align*}
 
 Expanding the above and use the identities $\text{tr}\left[\vec{y}_i^\top \vec{WW}^\top \vec{y}_i\right]=\text{tr}\left[\vec{y}_i\vec{y}_i^\top \vec{WW}^\top \right]$
 \begin{align*}
 \mathbb{E}_{p(\vec{Y\vert X})} [\ln p(\vec{X,Y} \vert \vec{\theta})]
-&=-\frac{NF}{2}\ln 2\pi - \frac{N}{2}\ln\sigma^2 -\frac{ND}{2}\ln 2\pi\\
+&=-\frac{NF}{2}\ln 2\pi\sigma^2 -\frac{ND}{2}\ln 2\pi\\
 & -\sum_{i=1}^N\left\lbrace\frac{1}{2\sigma^2}\left[(\vec{x}_i-\vec{\mu})^\top (\vec{x}_i-\vec{\mu}) -2 (\vec{x}_i-\vec{\mu})^\top \vec{W} \mathbb{E}[\vec{y}_i] \right.\right.\\
 &+\left.\left.\text{tr}\left[\mathbb{E}(\vec{y}_i\vec{y}_i^\top)\vec{W^\top W}\right]\right]+\frac{1}{2}\text{tr}\left[\mathbb{E}(\vec{y}_i^\top \vec{y}_i)\right]\right\rbrace
 \end{align*}
@@ -335,7 +335,7 @@ p(\vec{y}_i\vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2) & = \mathcal{N}(\vec{y
 \begin{align*}
 \vec{\mu}&= \frac{1}{N}\sum_{i=1}^N(\vec{x}_i - \vec{W}\mathbb{E}[\vec{y}_i])\\
 \vec{W}&=\left[\sum_{i=1}^N (\vec{x}_i - \vec{\mu})\mathbb{E}[\vec{y}_i]^\top]\right]\left[\sum_{i=1}^N \mathbb{E}[\vec{y}_i\vec{y}_i^\top]\right]^{-1}\\
-\sigma^2&=\frac{1}{N}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y}_i]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y}_i\vec{y}_i^\top]\vec{W^\top W})\right\rbrace
+\sigma^2&=\frac{1}{NF}\sum_{i=1}^N\left\lbrace \parallel \vec{x_i-\mu} \parallel^2 -2\mathbb{E}[\vec{y}_i]^\top\vec{W^\top (x_i-\mu)} +\text{tr}(\mathbb{E}[\vec{y}_i\vec{y}_i^\top]\vec{W^\top W})\right\rbrace
 \end{align*}
 
 
@@ -572,8 +572,7 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 \newpage
 
 
-\section {Hidden Markov Model}
-\subsection{Preliminary: Markov Chains}
+\section{Markov Model}
 
 \begin{enumerate}
 	\item Markov Property:
@@ -592,10 +591,9 @@ p(\vec{y}_i \vert \vec{x}_i, \vec{W}, \vec{\mu}, \sigma^2)&=\mathcal{N}(\vec{y}_
 		
 		\item Stationary distribution is the long term distribution over the states
 					\begin{align*}
-						\vec{\pi}^\top & = \vec{\pi}^\top  \vec{A}\\
+						\vec{\pi}^\top & = \vec{\pi}^\top  \vec{A}
 					\end{align*}
 				Solving for the stationary distribution is the same as eigenanalysis, where $\vec{\pi}$ is an eigenvector with eigenvalue 1.	
-				
 				\begin{align*}
 					\vec{\pi}^\top(\vec{I} - \vec{A}) = \vec{0}\\
 					\vec{\pi}^\top \vec{1} = \vec{1}	
@@ -1016,20 +1014,26 @@ The initial condition for the recursion is given by
 \end{align*}
 
 \subsubsection{Smoothing}
+
+Similar to the HMM, we denote the following:
 \begin{align*}
 	\gamma(\vec{z}_n) = p(\vec{z}_n \vert \vec{x}_{1:T}) = \hat{\alpha}(\vec{z}_n)\hat{\beta}(\vec{z}_n) = \mathcal{N}(\vec{z}_n\vert \hat{\vec{\mu}}_n, \hat{\vec{V}}_n)
 \end{align*}
 
+We develop the same recursive formula for the $\beta$:
 \begin{align*}
 	c_{n+1}\hat{\beta}(\vec{z}_n) = \int_{z_{n+1}}\hat{\beta}(\vec{z}_{n+1})p(\vec{x}_{n+1}\vert \vec{z}_{n+1})p(\vec{z}_{n+1}\vert \vec{z}_n)d\vec{z}_{n+1}
 \end{align*}
 
+By going through the same algebra manipulation as $\alpha$
 \begin{align*}
-	\hat{\vec{\mu}}	&= \vec{\mu}_n + \vec{J}_n(\hat{\vec{\mu}}_{t+1}- \vec{A\mu}_n)\\
-	\hat{\vec{V}}_n	&=\vec{V}_n + \vec{J}_n (\hat{\vec{V}}_{n+1}- \vec{P}_n)\vec{J}_n^\top\\
-	\vec{J}_n 				&= \vec{V}_n \vec{A}^\top \vec{P}_n^{-1} 
+	\gamma(\vec{z}_n) 	&= \hat{\alpha}(\vec{z}_n)\hat{\beta}(\vec{z}_n) = \mathcal{N}(\vec{z}_n\vert \hat{\vec{\mu}}_n, \hat{\vec{V}}_n)\\
+	\hat{\vec{\mu}}		&= \vec{\mu}_n + \vec{J}_n(\hat{\vec{\mu}}_{t+1}- \vec{A\mu}_n)\\
+	\hat{\vec{V}}_n		&=\vec{V}_n + \vec{J}_n (\hat{\vec{V}}_{n+1}- \vec{P}_n)\vec{J}_n^\top\\
+	\vec{J}_n 					&= \vec{V}_n \vec{A}^\top \vec{P}_n^{-1} 
 \end{align*}
 
+The smoothed transition probability is given by:
 \begin{align*}
 	\xi(\vec{z}_{n-1}, \vec{z}_n)
 		&= P(\vec{z}_n, \vec{z}_{n-1}\vert \vec{x}_{1:T}) = c_n^{-1} \hat{\alpha}(\vec{z}_{n-1})p(\vec{x}_n\vert \vec{z}_n)P(\vec{z}_n\vert \vec{z}_{n-1})\hat{\beta}(\vec{z}_n)\\
@@ -1140,7 +1144,7 @@ To find $\vec{C}$ and $\vec{\Sigma}$
 	 
 	 \item Local Markovianity: Given its neighborhood, a variable is independent on the rest of the variables
 		\begin{align*}
-			p(x_i \vert \vec{x}_{\mathcal{V}\backslash \lbrace i \rbrace} = p(x_i \vert \vec{x}_{\mathcal{N}(i)})
+			p(x_i \vert \vec{x}_{\mathcal{V}\backslash \lbrace i \rbrace}) = p(x_i \vert \vec{x}_{\mathcal{N}(i)})
 		\end{align*}		 	
 	 
 	 \item Global Markovianity: Let $\vec{A}, \vec{B}, \vec{C}$ be three disjoint subsets of $\mathcal{V}$. If $\vec{C}$ separates $\vec{A}$ from $\vec{B}$, $\Rightarrow p(x_A, x_B \vert x_C) = p(x_B \vert x_C)p(x_B \vert x_C) $, then $p(x_A, x_B \vert x_C)$ is global markov w.r.t to graph $\mathcal{G}$.
